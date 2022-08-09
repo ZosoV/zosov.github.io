@@ -1,0 +1,319 @@
+
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title>Embedding StyleGAN</title>
+
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- <base href="/"> -->
+
+        <!--FACEBOOK-->
+    <!-- <meta property="og:image" content="assets/CovNet_teaser.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="682">
+    <meta property="og:image:height" content="682">
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://jonbarron.info/mipnerf/"/>
+    <meta property="og:title" content="mip-NeRF" />
+    <meta property="og:description" content="Project page for Mip-NeRF: A Multiscale Representation for Anti-Aliasing Neural Radiance Fields." /> -->
+
+        <!--TWITTER-->
+    <!-- <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="mip-NeRF" />
+    <meta name="twitter:description" content="Project page for Mip-NeRF: A Multiscale Representation for Anti-Aliasing Neural Radiance Fields." />
+    <meta name="twitter:image" content="https://jonbarron.info/mipnerf/img/rays_square.png" /> -->
+
+
+<!--     <link rel="apple-touch-icon" href="apple-touch-icon.png"> -->
+  <!-- <link rel="icon" type="image/png" href="img/seal_icon.png"> -->
+    <!-- Place favicon.ico in the root directory -->
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.8.0/codemirror.min.css">
+    <link rel="stylesheet" href="css/app.css">
+	<link rel="icon" href="../../assets/icons/icon-192x192.png">
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.8.0/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.3/clipboard.min.js"></script>
+    
+    <script src="js/app.js"></script>
+</head>
+
+<body>
+    <div class="container-fluid" id="main">
+        <div class="row" id="header_project">
+            <h2 class="col-md-12 text-center">
+                <b>StyleGAN Embedding Algorithms</b>: Image2StyleGAN (I2S) <br>& ImprovedImage2StyleGAN (II2S) <br>
+                <small>
+                    EEML 2021 (Research Internship & Summer School)
+                </small>
+            </h2>
+        </div>
+        <div class="row" id="header_project">
+            <div class="col-md-12 text-center">
+                <ul class="list-inline" >
+                    <li>
+                        <a href="https://zosov.github.io/">
+                            Oscar Guarnizo
+                        </a>
+                        </br>Yachay Tech University
+                        </br>KAUST
+                    </li>
+                    <li>
+                        <a href="https://peterwonka.net/">
+                          Peter Wonka
+                        </a>
+                        </br>KAUST
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="row" id="header_project">
+                <div class="col-md-4 col-md-offset-4 text-center">
+                    <ul class="nav nav-pills nav-justified">
+                        <li>
+                            <a href="https://www.researchgate.net/publication/356491906_Reproduction_of_Image2StyleGAN_How_to_Embed_Images_Into_the_StyleGAN_Latent_Space">
+                            <image src="assets/mip_paper_image.jpg" height="60px">
+                                <h4><strong>Paper</strong></h4>
+                            </a>
+                        </li>                     
+                        <li>
+                            <a href="https://github.com/ZosoV/style-gan">
+                            <image src="assets/github.png" height="60px" style="filter: invert(1);">
+                                <h4><strong>Code</strong></h4>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://oscar-guarnizo.medium.com/review-image2stylegan-embedding-an-image-into-stylegan-c7989e345271">
+                            <image src="assets/medium.png" height="60px" style="filter: invert(1);">
+                                <h4><strong>Blog</strong></h4>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+        </div>
+
+
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Abstract
+                </h3>
+                <image src="assets/CovNet_teaser.png" class="img-responsive" alt="overview"><br>
+                <p class="text-justify">
+                    StyleGAN has demonstrated outstanding contributions due to 
+                    the high-quality generated images. As a result, it has 
+                    emerged a question, how to embed images into the StyleGAN 
+                    latent space? This work tries to answer this question by 
+                    studying and reproducing Image2StyleGAN (I2S) and 
+                    ImprovedImage2StyleGAN (II2S). These embedding algorithms 
+                    compute a latent code for a given input image by optimizing 
+                    the latent code that minimizes a loss function. This loss 
+                    function is based on perceptual metrics, which capture the 
+                    similarity between reference and generated images. Our 
+                    reproduction partially replaces the algorithm for further 
+                    experimentation of initializers and perceptual losses. 
+                    Additionally, we perform some post-image processing 
+                    operations such as inpainting, super-resolution, 
+                    colorization, morphing, style transfer, and expression 
+                    transfer. We verify the behavior of the studied components 
+                    and stand out particular concerns.           
+                </p>
+            </div>
+        </div>
+
+
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Video
+                </h3>
+                <div class="text-center">
+                    <div style="position:relative;padding-top:56.25%;">
+                        <iframe src="https://www.youtube.com/embed/0vH1tGhuZbY" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Covariance Tensor
+                </h3>
+                <p class="text-justify">
+                    The covariance tensor, also called n-mode cross-covariance,
+                    is calculated among different patches extracted from images
+                    in the training dataset. The covariance tensor is a 
+                    generalization of the covariance matrix. 
+                </p>
+                <p style="text-align:center;">
+                    <image src="assets/covariance_tensor.png" class="img-responsive">
+                    <image src="assets/cov_per_example.png" class="img-responsive">
+                    <br> <br>
+                    <image src="assets/cov_ten_process.png" class="img-responsive center">
+                </p>
+                
+                <!-- <video id="v0" width="100%" autoplay loop muted>
+                  <source src="img/pe_anim_horiz.mp4" type="video/mp4" />
+                </video> -->
+                <p class="text-justify">
+                    The next step involves getting the <strong>factor matrices (U’s)</strong>
+                    from the mean covariance tensor. Here, unlike the standard 
+                    tucker decomposition, we decide only to get the factor 
+                    matrices U1, U2, and U3. It is because the covariance 
+                    matrix is super symmetric so that we can get a good 
+                    approximation of the tensor core with only these three 
+                    matrices.
+                    <br><br>
+                    
+                    We got the factor matrices by unfolding and decomposing 
+                    (Singular Value Decomposition) the mean covariance tensor.
+                </p>
+                <p style="text-align:center;">
+                    <image src="assets/unfolding_formulas.png" height="30px" class="img-responsive">
+                    <image src="assets/svd_method.png" height="30px" class="img-responsive">
+                </p>
+            </div>
+        </div>
+            
+
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Tucker Decomposition
+                </h3>
+                <p class="text-justify">
+                    Once we have the factor matrices, we can get an 
+                    approximation of the core tensor by 
+                    <strong>Tucker Decomposition</strong>.
+                </p>
+                <p style="text-align:center;">
+                    <image src="assets/tucker_methods.png" class="img-responsive" alt="scales">
+                </p>
+                <p class="text-justify">
+                    The resulting core tensor dimensions are given by the first 
+                    dimension of each factor matrix U and the patches 
+                    dimensions.                
+                </p>
+                <p style="text-align:center;">
+                    <image src="assets/core_tensor_method.png" class="img-responsive" alt="scales">
+                </p>
+                <p>
+                    The core tensor encapsulates some relevant features of our 
+                    dataset. We propose rearranging these features into kernels 
+                    of size (patch height, patch width, channels) for 
+                    subsequently plugged into convolutional layers.
+                </p>
+                <p style="text-align:center;">
+                    <image src="assets/rearranged_tensor.png" class="img-responsive" alt="scales">
+                </p>
+            </div>
+        </div>
+            
+
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Results
+                </h3>
+                <p class="text-justify">
+                    We evaluated the discriminative and initializer 
+                    capabilities of the generated kernels. Among the results, 
+                    we noted different patterns by performing a visual sanity 
+                    check, a similarity check of the correlation between 
+                    kernels generated with different small subsets, 
+                    and a state-of-the-art comparison.                
+                </p>
+                <p style="text-align:center; align-items: center;">
+                    <image src="assets/visual_sanity_check.PNG" width="500px" class="img-responsive center" alt="scales">
+                </p>
+                <p class="text-justify">
+                    We study the correlation between generated kernels (per 
+                    layer) using different sizes of training sub-datasets.             
+                </p>
+                <p style="text-align:center;">
+                    <image src="assets/correlation_layer_0.png" class="img-responsive center" alt="scales">
+                </p>
+                <p class="text-justify">
+                    We compare our model with state-of-the-art architectures on
+                    CIFAR 10, CIFAR 100 and MNIST.             
+                </p>                             
+                <p style="text-align:center;">
+                    <image src="assets/state-of-the-art.PNG" width="500px" class="img-responsive center" alt="scales">
+                </p>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Related links
+                </h3>
+                <p class="text-justify">
+                    - The book <a href="https://www.routledge.com/Multilinear-Subspace-Learning-Dimensionality-Reduction-of-Multidimensional/Lu-Plataniotis-Venetsanopoulos/p/book/9781439857243">Multilinear Subspace Learning Dimensionality Reduction of Multidimensional Data</a> 
+                    provides an excellent introduction to tensor operations: unfolding, n-mode product,
+                    n-mode cross-covariance (Covariance Tensor), and Tucker Decomposition.
+                </p>
+                <p class="text-justify">
+                    - To understand Tucker Decomposition with R, explore 
+                    <a href="https://www.alexejgossmann.com/tensor_decomposition_tucker/">Understanding the Tucker decomposition, and compressing tensor-valued data (with R code)</a>
+                </p>
+                <p class="text-justify">
+                    - To know more about the cascade style used in our work, check
+                    <a href="https://link.springer.com/chapter/10.1007/978-981-15-7205-0_7">PCA Based Kernel Initialization for Convolutional Neural Networks.</a>                
+                </p>
+
+            </div>
+        </div>
+        
+            
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Citation
+                </h3>
+                <div class="form-group col-md-10 col-md-offset-1">
+                    <textarea id="bibtex" class="form-control" readonly>
+@article{fonseca2021convolutional,
+    title={Convolutional Neural Network Feature Extraction Using Covariance Tensor Decomposition},
+    author={Fonseca, Ricardo and Guarnizo, Oscar and Suntaxi, Diego and Cadiz, Alfonso and Creixell, Werner},
+    journal={IEEE Access},
+    volume={9},
+    pages={66646--66660},
+    year={2021},
+    publisher={IEEE}
+}</textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <p style="text-align: right">
+                The website template (with some modifications) was borrowed from <a href="https://jonbarron.info/">Jon Barron</a> and <a href="http://mgharbi.com/">Michaël Gharbi</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
