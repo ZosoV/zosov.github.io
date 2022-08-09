@@ -64,7 +64,7 @@
 }
 
 a {
-  color: #1772d0;
+  color: #48ddff;
   text-decoration: none;
 }
 
@@ -92,6 +92,7 @@ strong {
 heading {
   font-family: 'Lato', Verdana, Helvetica, sans-serif;
   font-size: 22px;
+  color: #6a97d1;
 }
 
 papertitle {
@@ -102,7 +103,8 @@ papertitle {
 
 name {
   font-family: 'Lato', Verdana, Helvetica, sans-serif;
-  font-size: 32px;
+  font-size: 35px;
+  color: #6a97d1;
 }
 
 .one {
@@ -127,5 +129,52 @@ name {
 }
 
 span.highlight {
-  background-color: #ffffd0;
+  background-color: #638bc0; 
+}
+
+body {
+  background-color: #293241;
+  color: aliceblue;
+}
+
+special-color {
+  font-weight: bold; 
+  color:burlywood
+}
+
+special-color2 {
+  font-weight: bold; 
+  color: #43eb4b
+}
+
+special-color3 {
+  color: #638bc0
+}
+
+td .left-card {
+  padding-left: 25px;
+  padding-right: 0;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  width: 25%;
+  vertical-align: middle;
+}
+
+td .right-card {
+  padding-left: 0;
+  padding-right: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  width: 75%;
+  vertical-align: middle;
+}
+
+/* table.dotted td {
+  border-bottom: 1px dashed #cccccc;
+} */
+
+.fa {
+  font-size: 30px;
+  width: 15px;
+  text-decoration: none;
 }
