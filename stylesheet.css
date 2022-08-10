@@ -153,7 +153,7 @@ special-color3 {
 
 td .left-card {
   padding-left: 25px;
-  padding-right: 0;
+  padding-right: 7px;
   padding-top: 20px;
   padding-bottom: 20px;
   width: 25%;
@@ -161,8 +161,8 @@ td .left-card {
 }
 
 td .right-card {
-  padding-left: 0;
-  padding-right: 20px;
+  padding-left: 10px;
+  padding-right: 7px;
   padding-top: 20px;
   padding-bottom: 20px;
   width: 75%;
