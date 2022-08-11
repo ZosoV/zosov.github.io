@@ -1,0 +1,344 @@
+
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title>ACO Path Planning</title>
+
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- <base href="/"> -->
+
+        <!--FACEBOOK-->
+    <!-- <meta property="og:image" content="assets/CovNet_teaser.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="682">
+    <meta property="og:image:height" content="682">
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://jonbarron.info/mipnerf/"/>
+    <meta property="og:title" content="mip-NeRF" />
+    <meta property="og:description" content="Project page for Mip-NeRF: A Multiscale Representation for Anti-Aliasing Neural Radiance Fields." /> -->
+
+        <!--TWITTER-->
+    <!-- <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="mip-NeRF" />
+    <meta name="twitter:description" content="Project page for Mip-NeRF: A Multiscale Representation for Anti-Aliasing Neural Radiance Fields." />
+    <meta name="twitter:image" content="https://jonbarron.info/mipnerf/img/rays_square.png" /> -->
+
+
+<!--     <link rel="apple-touch-icon" href="apple-touch-icon.png"> -->
+  <!-- <link rel="icon" type="image/png" href="img/seal_icon.png"> -->
+    <!-- Place favicon.ico in the root directory -->
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.8.0/codemirror.min.css">
+    <link rel="stylesheet" href="css/app.css">
+	<link rel="icon" href="../../assets/icons/icon-192x192.png">
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.8.0/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.3/clipboard.min.js"></script>
+    
+    <script src="js/app.js"></script>
+</head>
+
+<body>
+    <div class="container-fluid" id="main">
+        <div class="row" id="header_project">
+            <h2 class="col-md-12 text-center">
+                Three Dimensional Adaptive Path Planning Simulation <br> Based On Ant Colony Optimization <br>
+                <small>
+                    LA-CCI 2019 (Oral Presentation, Unity3D Simulation)
+                </small>
+            </h2>
+        </div>
+        <div class="row" id="header_project">
+            <div class="col-md-12 text-center">
+                <ul class="list-inline" >
+                    <li>
+                        <a href="https://zosov.github.io/">
+                            Oscar Guarnizo
+                        </a>
+                        </br>Yachay Tech University
+                    </li>
+                    <li>
+                        <a href="https://www.linkedin.com/in/israel-pineda/">
+                          Israel Pineda
+                        </a>
+                        </br>Yachay Tech University
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="row" id="header_project">
+                <div class="col-md-4 col-md-offset-4 text-center">
+                    <ul class="nav nav-pills nav-justified">
+                        <li>
+                            <a href="https://ieeexplore.ieee.org/document/9037049">
+                            <image src="assets/icons/mip_paper_image.jpg" height="60px">
+                                <h4><strong>Paper</strong></h4>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://repositorio.yachaytech.edu.ec/handle/123456789/210">
+                            <image src="assets/icons/mip_paper_image.jpg" height="60px">
+                                <h4><strong>Thesis</strong></h4>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://youtu.be/c0dzv3qGqrs">
+                            <image src="assets/icons/youtube_icon.png" height="60px">
+                                <h4><strong>Video</strong></h4>
+                            </a>
+                        </li>                
+                        <li>
+                            <a href="https://github.com/ZosoV/PathPlanningACO">
+                            <image src="assets/icons/github.png" height="60px" style="filter: invert(1);">
+                                <h4><strong>Code</strong></h4>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://github.com/ZosoV/aco_random_walk">
+                            <image src="assets/icons/github.png" height="60px" style="filter: invert(1);">
+                                <h4><strong>Extended Code</strong></h4>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+        </div>
+
+
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Abstract
+                </h3>
+                <image src="assets/images/teaser_image.png" class="img-responsive" alt="overview"><br>
+                <p class="text-justify">
+                    Path Planning is a widely studied issue due to its several applications in robotics, relief planning, trade route
+                    planning, and even in the video game industry. The path planning techniques are therefore diverse, seeking to solve
+                    problems in unknown environments until finding a trail with the smoothest navigation. Unfortunately, this diversity
+                    provokes that some methods overlook certain aspects by attending to a specific-purpose problem, limiting characteristics
+                    such as execution time, adaptability behavior, and environment representations. The current project aims to design a
+                    path planning algorithm based on Ant Colony Optimization (ACO), which considers improvements for these limitations. The
+                    experiments followed an incremental style. Starting from a basic algorithm, we add some global and local interventions.
+                    Then, we selected the configurations with the best performance to define our final proposal and compare it with other
+                    already known methods. Finally, we display some results in a graphic simulation (using Unity3D) to showcase its adaptive behavior. The
+                    algorithm generates promising results with an accuracy of around 95%, proving to solve the limitations mentioned above.
+                </p>
+            </div>
+        </div>
+
+
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Video (Unity3D)
+                </h3>
+                <div class="text-center">
+                    <div style="position:relative;padding-top:56.25%;">
+                        <iframe src="https://www.youtube.com/embed/c0dzv3qGqrs" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Global Interventions (Random Walks)
+                </h3>
+                <p class="text-justify">
+                    We perform global interventions known as <strong>Random Walks</strong>, impacting the whole pheromones distributions. These random walks
+                    are proposed as pheromones initialization techniques to provide an advantage at the beginning of the algorithm. <br> <br> Indeed,
+                    a random walk enables initial controlled randomness, which helps to encourage a controlled trade-off between exploration
+                    and exploitation in the early steps of the algorithm. Furthermore, we hypothesized that these methods would reduce the
+                    convergence time and produce solutions closer to the optimal.
+                </p>
+                <p style="text-align:center;">
+                    <image src="assets/images/algorithm.PNG" class="img-responsive">
+                </p>
+                
+                <!-- <video id="v0" width="100%" autoplay loop muted>
+                  <source src="img/pe_anim_horiz.mp4" type="video/mp4" />
+                </video> -->
+                <p class="text-justify">
+                    We proposed two different tendency random walks: Proximity Random Walk (PRW)
+                    and Random Nodes Walk (RNW).
+                    <br> <br>
+                    <strong>Proximity Random Walk</strong> is purely based on a distance heuristic to the target called <em>proximity</em>
+                    to choose the next node with a probability (<strong><em>r<sub>ij</sub></em></strong>).
+                </p>
+                <p style="text-align:center;">
+                    <image src="assets/images/prw_equation.PNG" class="img-responsive">
+                    <br>
+                </p>
+                <p style="text-align:center;">
+                    <image src="assets/images/prw_representation.png" class="img-responsive">
+                </p>
+                <p class="text-justify">
+                    <strong>Random Nodes Walk</strong> is a two-step 
+                    process based on a random nodes selection and the
+                    proximity random walk mentioned above. The idea is to randomly select nodes
+                    with probability (<strong><em>s<sub>i</sub></em></strong>) and connect
+                    the floating nodes by PRW.
+                </p>
+                <p style="text-align:center;">
+                    <image src="assets/images/rnw_equation.png" class="img-responsive">
+                </p>
+                <p style="text-align:center;">
+                    <image src="assets/images/rnw_representation.png" class="img-responsive">
+                </p>
+            </div>
+        </div>
+            
+
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Local Interventions
+                </h3>
+                <p class="text-justify">
+                    The local interventions help us to control ants' behavior when confronted with obstacles during execution time. The
+                    principal problem of adding many obstacles is that it can generate several stuck conditions that delay the algorithm and
+                    even prevent it from converging. We proposed three interventions: local search, partial path decay, and neighbour decay.
+                </p>
+                <p class="text-justify">
+                    <strong>Local Search</strong> <br>
+                    We perform a local search to find nodes that produce a stuck condition and prevent access to these positions (or, as we called, forbid the given nodes).
+                </p>
+                <p style="text-align:center;">
+                    <image src="assets/images/local_search.PNG" class="img-responsive" alt="scales">
+                </p>
+                <p class="text-justify">
+                    <strong>Partial Path Decay</strong> <br>
+                    We perform an uneven pheromone decay on a portion of the path each time an ant gets stuck. As a result, we promote roads of less exploration in the long run.                </p>
+                <p style="text-align:center;">
+                    <image src="assets/images/partial_path_decay.PNG" class="img-responsive" alt="scales">
+                </p>
+                <p class="text-justify">
+                    <strong>Neighbor Decay</strong> <br>
+                    We perform an uneven pheromone decay on neighbor nodes around the stuck node each time an ant gets stuck. As a result, we promote regions of less exploration in the long run.                </p>
+                <p style="text-align:center;">
+                    <image src="assets/images/neighbor_decay.PNG" class="img-responsive" alt="scales">
+                </p>
+            </div>
+        </div>
+            
+
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Results
+                </h3>
+                <p class="text-justify">
+                    Our algorithm works in a graph representation, so it is easy to extrapolate the two behavior previously mentioned into a
+                    three-dimensional environment. Particularly, we experimented with four different topographic instances: mountain, valley, double
+                    valley, and Perlin noise graphs
+                </p>
+                <p style="text-align:center;">
+                    <image src="assets/images/test_environments.png" class="img-responsive" alt="scales">
+                    <figcaption style="text-align:right;">From left to right, the terrains are double valley, mountain,
+                        perlin noise, and valley.
+                        </figcaption>
+
+                </p>
+                <p class="text-justify">
+                    We evaluated the performance of the algorithms using a <strong>PCA mechanism</strong> and defining the following evaluation metrics:
+                    <ul>
+
+                    </ul>
+                    <li>Execution Time (ET)</li>
+                    <li>Total Iterations (TI)</li>
+                    <li>Ground Truth Percent (GT)</li>
+                    <li>Stuck Roads (SR)</li>
+                    <li>Nodes Exploration (NE)</li>
+                    <li>Edges Exploration (EE)</li>
+                    <li>Useful Exploration (UE)</li>
+                </p>
+                <p style="text-align:center;">
+                    <image src="assets/images/biplot_rw_groups.png" class="img-responsive center" alt="scales">
+                </p>
+                <p class="text-justify">
+                    Additionally, we explored some evaluation metrics in isolation to confirm PCA results.
+                </p>
+                <p style="text-align:center;">
+                    <image src="assets/images/per_metric_plot.png" class="img-responsive" alt="scales">
+                </p>
+                <p class="text-justify">
+                    <strong>Graphic Simulation</strong>
+                    <br>
+                    Finally, we perform a graphical simulation using <a href="https://unity.com/">Unity3D</a> to verify 
+                    our findings. Specifically, we examined how our algorithm would perform when obstacles suddenly appear.
+                </p>
+                <p style="text-align:center;">
+                    <image src="assets/images/graphic_simulation.PNG" class="img-responsive" alt="scales">
+                </p>
+                <p style="text-align:center;">
+                    <image src="assets/images/experiment_01_graph_simulation.PNG" class="img-responsive" alt="scales">
+                </p>          
+            </div>
+        </div>
+     
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Related links
+                </h3>
+                <p class="text-justify">
+                    
+                    - The Ant Colony System algorithm (basic algorithm) used in this work is defined in 
+                    <a href="https://ieeexplore.ieee.org/abstract/document/4129846/">"Ant colony optimization." by Dorigo M. et al.</a>.
+                    <br>
+                    - Review <a href="assets/ECMC0032.pdf">Path Planning Simulation in Controlled Environments using the
+                        Ant Colony Optimization Algorithm</a> for an overview of path planning problems and multiple ways to solve them.
+                </p>
+            </div>
+        </div>
+        
+            
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Citations
+                </h3>
+                <div class="form-group col-md-12 col-md-offset-1">
+                    <p><strong>Paper</strong></p>
+                    <textarea id="bibtex" class="form-control" readonly>
+@inproceedings{guarnizo2019three,
+    title={Three dimensional adaptive path planning simulation based on ant colony optimization algorithm},
+    author={Guarnizo, Oscar and Pineda, Israel},
+    booktitle={2019 IEEE Latin American Conference on Computational Intelligence (LA-CCI)},
+    pages={1--6},
+    year={2019},
+    organization={IEEE}
+}</textarea>
+                </div>
+                
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <p style="text-align: right">
+                Powered by <a href="https://jonbarron.info/">Jon Barron</a> and <a href="http://mgharbi.com/">Michaël Gharbi</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
