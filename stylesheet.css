@@ -188,7 +188,7 @@ td .right-card {
   list-style-type : none;
   margin : 0;
   padding : 0;
-  width : 7%;
+  width : 90px;
   background-color : #f1f1f1;
   position : fixed; /* Make it stick, even on scroll */
 
