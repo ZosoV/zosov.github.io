@@ -1,0 +1,286 @@
+
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title>Embedding StyleGAN</title>
+
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- <base href="/"> -->
+
+        <!--FACEBOOK-->
+    <!-- <meta property="og:image" content="assets/CovNet_teaser.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="682">
+    <meta property="og:image:height" content="682">
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://jonbarron.info/mipnerf/"/>
+    <meta property="og:title" content="mip-NeRF" />
+    <meta property="og:description" content="Project page for Mip-NeRF: A Multiscale Representation for Anti-Aliasing Neural Radiance Fields." /> -->
+
+        <!--TWITTER-->
+    <!-- <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="mip-NeRF" />
+    <meta name="twitter:description" content="Project page for Mip-NeRF: A Multiscale Representation for Anti-Aliasing Neural Radiance Fields." />
+    <meta name="twitter:image" content="https://jonbarron.info/mipnerf/img/rays_square.png" /> -->
+
+
+<!--     <link rel="apple-touch-icon" href="apple-touch-icon.png"> -->
+  <!-- <link rel="icon" type="image/png" href="img/seal_icon.png"> -->
+    <!-- Place favicon.ico in the root directory -->
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.8.0/codemirror.min.css">
+    <link rel="stylesheet" href="css/app.css">
+	<link rel="icon" href="../../assets/icons/icon-192x192.png">
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.8.0/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.3/clipboard.min.js"></script>
+    
+    <script src="js/app.js"></script>
+</head>
+
+<body>
+    <div class="container-fluid" id="main">
+        <div class="row" id="header_project">
+            <h2 class="col-md-12 text-center">
+                Automatic License Plate Recognition <br> (Nvidia TAO + Deepstream Application + Python Bindings) <br>
+                <small>
+                    Mobia Latin America (Start-up)
+                </small>
+            </h2>
+        </div>
+        <div class="row" id="header_project">
+            <div class="col-md-12 text-center">
+                <ul class="list-inline" >
+                    <li>
+                        <a href="https://zosov.github.io/">
+                            Oscar Guarnizo
+                        </a>
+                        </br>Mobia Latam
+                    </li>
+                    <li>
+                        <a href="https://www.linkedin.com/in/pepeleduin/">
+                          Leduin Cuenca
+                        </a>
+                        </br>Mobia Latam
+                    </li>
+                    <li>
+                        <a href="https://www.linkedin.com/in/tubaher/">
+                          Diego Suntaxi
+                        </a>
+                        </br>Digevo
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="row" id="header_project">
+                <div class="col-md-4 col-md-offset-4 text-center">
+                    <ul class="nav nav-pills nav-justified">
+                        <!-- <li>
+                            <a href="https://www.researchgate.net/publication/356491906_Reproduction_of_Image2StyleGAN_How_to_Embed_Images_Into_the_StyleGAN_Latent_Space">
+                            <image src="assets/icons/mip_paper_image.jpg" height="60px">
+                                <h4><strong>Paper</strong></h4>
+                            </a>
+                        </li>                      -->
+                        <li>
+                            <a href="https://github.com/ZosoV/mobia-project">
+                            <image src="assets/icons/github.png" height="60px" style="filter: invert(1);">
+                                <h4><strong>Code</strong></h4>
+                            </a>
+                        </li>
+                        <!-- <li>
+                            <a href="https://oscar-guarnizo.medium.com/review-image2stylegan-embedding-an-image-into-stylegan-c7989e345271">
+                            <image src="assets/icons/medium.png" height="60px" style="filter: invert(1);">
+                                <h4><strong>Blog</strong></h4>
+                            </a>
+                        </li> -->
+                    </ul>
+                </div>
+        </div>
+
+
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Description
+                </h3>
+                <image src="assets/images/teaser_image.png" class="img-responsive" alt="overview"><br>
+                <p class="text-justify">
+                    This project contains an entire process for developing a multistream Automatic License Plate Recognition (ALPR) system 
+                    using mainly <a href="https://developer.nvidia.com/tao-toolkit">Nvidia TAO Toolkit</a> and <a href="https://developer.nvidia.com/deepstream-sdk">Nvidia Deepstream SDK</a> using the <a href="https://github.com/NVIDIA-AI-IOT/deepstream_python_apps">Python Bindings</a>. The computer vision pipeline
+                    consists of 3+ deep learning models and plugins to treat and periodically send metadata streams to a <a href="https://kafka.apache.org/">Kafka Apache</a>
+                    cluster for further use-cases. <br> <br>
+
+                    <strong>Skills</strong>: <br>
+                    Python, C/C++, Nvidia Deepstream, Nvidia Tao Toolkit, TensorFlow, and Kafka Apache (Connectivity Skills).
+                </p>
+            </div>
+        </div>
+
+
+        <!-- <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Video
+                </h3>
+                <div class="text-center">
+                    <div style="position:relative;padding-top:56.25%;">
+                        <iframe src="https://www.youtube.com/embed/0vH1tGhuZbY" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+
+
+
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Video Streaming Pipeline
+                </h3>
+                <p class="text-justify">
+                    The pipeline was developed using Nvidia Deepstream and allows us to perform the following actions:
+                    <ol>
+                        <li>Accept multi-sources inputs of two types: videos (in mp4) and video streaming.</li>
+                        <li>Contains 4 deep learning models (trained with Nvidia TAO Toolkit) working in a cascade style.</li>                        
+                        <li>Accept two sink outputs (at the same time): video MP4 sink and streaming RTSP sink. </li>
+                        <li>Send message payload to a topic in Kafka broker by using two additional plugins (nvdsmsgconv , nvdsmsgbroker), which can be customized.</li>
+                    </ol>
+
+                    In the following picture, you see our pipeline. Note that the end of the pipeline contains three tails. Each tail allows
+                    us to return a possible output: Video MP4, streaming RTSP, or sending messages to Kafka broker. These three components
+                    can work in isolation or all together.
+                </p>
+                <p style="text-align:center;">
+                    <image src="assets/images/pipeline.png" class="img-responsive">
+                </p>
+                
+                <!-- <video id="v0" width="100%" autoplay loop muted>
+                  <source src="img/pe_anim_horiz.mp4" type="video/mp4" />
+                </video> -->
+
+            </div>
+        </div>
+            
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Cascade Style
+                </h3>
+                <p class="text-justify">
+                The cascade style means the output detection of a previous model is used as input to the next model.
+                Particularly in this project we use the following models and cascade style:
+                <ul>
+                    <li><strong>tcnet</strong> detects cars.</li>
+                    <li><strong>lpdnet</strong> detects plates on the previously detected car.</li> 
+                    <li><strong>lprnet</strong> recognizes characters on the previously detected plate.</li>
+                    <li><strong>colornet</strong> recognizes the car color on the previous car detection (from tcnet).</li>
+                </ul>
+                </p>
+                <p style="text-align:center;">
+                    <image src="assets/images/cascade_style.png" class="img-responsive">
+                </p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Car and Plate Detection
+                </h3>
+                <p class="text-justify">
+                    The primary model is called <strong>TrafficCamNet (tcnet)</strong>, which helps us to detect cars. Then, the bounding box detections are
+                    accepted as input to a <strong>LicensePlateDetectionNet (lpdnet)</strong>.
+                </p>
+                <p style="text-align:center;">
+                <video id="v0" width="100%" autoplay loop muted>
+                  <source src="assets/car_detection.mp4" type="video/mp4" />
+                </video>
+                </p>
+                <p style="text-align:center;">
+                    <video id="v0" width="100%" autoplay loop muted>
+                      <source src="assets/car_detection2.mp4" type="video/mp4" />
+                    </video>
+                </p>
+                <p style="text-align:center;">
+                    <video id="v0" width="100%" autoplay loop muted>
+                      <source src="assets/car_plate_detection_malteria.mp4" type="video/mp4" />
+                    </video>
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Character Recognition
+                </h3>
+                <p class="text-justify">
+                    After getting the plate detection, we will use them as input to 
+                    <strong>LicensePlateRecognition (lprnet),</strong> which returns the characters in the plate.          
+                </p>
+                <p style="text-align:center;">
+                    <video id="v0" width="100%" autoplay loop muted>
+                      <source src="assets/lpr_x1.mp4" type="video/mp4" />
+                    </video>
+                    <figcaption style="text-align:right;">ALPR system speed x1</figcaption>
+                </p>
+                <p style="text-align:center;">
+                    <video id="v0" width="100%" autoplay loop muted>
+                      <source src="assets/lpr_x0.5.mp4" type="video/mp4" />
+                    </video>
+                    <figcaption style="text-align:right;">ALPR system speed x0.5</figcaption>
+                </p>
+            </div>
+        </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                Metadata
+                </h3>
+                <p class="text-justify">
+                Internally, we developed a system to collect information about detection and character recognition. Then, we created a
+                message (.json) using this information and sent it directly to a Kafka broker for other use cases. The message structure
+                is the following:
+                </p>
+                <script src="https://gist.github.com/ZosoV/eb6aecf474cdd783065680cb21d26ec4.js"></script>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Related links
+                </h3>
+                <p class="text-justify">
+                    - Check <a href="https://github.com/NVIDIA-AI-IOT/deepstream_lpr_app">Sample For Car License Recognization
+                    </a> if you want a basic implementation of ALPR without Python Bindings and Kafka message support.
+                </p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <p style="text-align: right">
+                Powered by <a href="https://jonbarron.info/">Jon Barron</a> and <a href="http://mgharbi.com/">Michaël Gharbi</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
