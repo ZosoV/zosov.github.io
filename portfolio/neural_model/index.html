@@ -1,0 +1,304 @@
+
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title>Neural Model</title>
+
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- <base href="/"> -->
+
+        <!--FACEBOOK-->
+    <!-- <meta property="og:image" content="assets/CovNet_teaser.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="682">
+    <meta property="og:image:height" content="682">
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://jonbarron.info/mipnerf/"/>
+    <meta property="og:title" content="mip-NeRF" />
+    <meta property="og:description" content="Project page for Mip-NeRF: A Multiscale Representation for Anti-Aliasing Neural Radiance Fields." /> -->
+
+        <!--TWITTER-->
+    <!-- <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="mip-NeRF" />
+    <meta name="twitter:description" content="Project page for Mip-NeRF: A Multiscale Representation for Anti-Aliasing Neural Radiance Fields." />
+    <meta name="twitter:image" content="https://jonbarron.info/mipnerf/img/rays_square.png" /> -->
+
+
+<!--     <link rel="apple-touch-icon" href="apple-touch-icon.png"> -->
+  <!-- <link rel="icon" type="image/png" href="img/seal_icon.png"> -->
+    <!-- Place favicon.ico in the root directory -->
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.8.0/codemirror.min.css">
+    <link rel="stylesheet" href="css/app.css">
+	<link rel="icon" href="../../assets/icons/icon-192x192.png">
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.8.0/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.3/clipboard.min.js"></script>
+    
+    <script src="js/app.js"></script>
+</head>
+
+<body>
+    <div class="container-fluid" id="main">
+        <div class="row" id="header_project">
+            <h2 class="col-md-12 text-center">
+                Successive Adaptive Linear Neural Modeling for <br> Equidistant Real Roots Finding <br>
+                <small>
+                    ETCM 2018 (Oral Presentation)
+                </small>
+            </h2>
+        </div>
+        <div class="row" id="header_project">
+            <div class="col-md-12 text-center">
+                <ul class="list-inline" >
+                    <li>
+                        <a href="https://www.linkedin.com/in/josephrgonzalezn/">
+                            Joseph Gonzalez
+                        </a>
+                        </br>Yachay Tech University
+                    </li>
+                    <li>
+                        <a href="https://www.linkedin.com/in/ferzcam/">
+                            Fernando Zhapa
+                        </a>
+                        </br>Yachay Tech University
+                    </li>
+                    <li>
+                        <a href="https://zosov.github.io/">
+                            Oscar Guarnizo
+                        </a>
+                        </br>Yachay Tech University
+                    </li><br>
+                    <li>
+                        <a href="https://www.linkedin.com/in/francisco-ortega-zamorano-56bb8788/">
+                          Francisco Ortega-Zamorano
+                        </a>
+                        </br>Yachay Tech University
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="row" id="header_project">
+                <div class="col-md-4 col-md-offset-4 text-center">
+                    <ul class="nav nav-pills nav-justified">
+                        <li>
+                            <a href="https://ieeexplore.ieee.org/document/8580280">
+                            <image src="assets/icons/mip_paper_image.jpg" height="60px">
+                                <h4><strong>Paper</strong></h4>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.youtube.com/watch?v=gJ-oAOBfijI&ab_channel=OscarGuarnizo">
+                            <image src="assets/icons/youtube_icon.png" height="60px">
+                                <h4><strong>Video</strong></h4>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://github.com/ferzcam/Root-finder">
+                            <image src="assets/icons/github.png" height="60px" style="filter: invert(1);">
+                                <h4><strong>Code</strong></h4>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+        </div>
+
+
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Abstract
+                </h3>
+                <image src="assets/images/teaser_image.png" class="img-responsive" alt="overview"><br>
+                <p class="text-justify">
+                    This work aims to implement a model to find equidistant real roots using a Successive Adaptive Linear Neural Modeling,
+                    consisting of two models: a Self Organized Map (SOM) and an Adaptative Linear Neuron (Adaline). A SOM model has been
+                    used with a new neighborhood function and a physical distance. The SOM model can delimit the areas where a single root
+                    exists, dividing the task at hand into sub-processes and reducing the complexity. Then, we defined a neural model based
+                    on single Adaline neurons with a pocket. This model is applied sequentially to each pair of regions to find the real
+                    root values with reduced precision. Finally, several experiments were done considering CPU time, relative error, the
+                    distance between the roots, and polynomial degrees. The results show that the time complexity grows in a logarithmic
+                    way. Also, the error does not increase at a higher rate than the polynomial degree or the root distance.
+                </p>
+            </div>
+        </div>
+
+
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Video
+                </h3>
+                <div class="text-center">
+                    <div style="position:relative;padding-top:56.25%;">
+                        <iframe src="https://www.youtube.com/embed/gJ-oAOBfijI" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Self Organized Map (SOM)
+                </h3>
+                <p class="text-justify">
+                    The random samples from a given function (which represents a given equation) are taken as initial patterns. Then, a
+                    self-organized map will receive the patterns and classify them into regions of possible roots.
+
+                    The topology of the SOM is simply linear because the patterns are distributed around the x-axis. There are n + 1 neurons
+                    because there are n roots dividing a whole space, which will produce n + 1 regions (one region per neuron).
+
+                </p>
+                <p style="text-align:center;">
+                    <image src="assets/images/som_topology.PNG" class="img-responsive center">
+                </p>
+                
+                <!-- <video id="v0" width="100%" autoplay loop muted>
+                  <source src="img/pe_anim_horiz.mp4" type="video/mp4" />
+                </video> -->
+                <p class="text-justify">
+                    We used a neighborhood function during the training in order to update five neurons, the winning neuron and the closest
+                    neurons on both sides, two on the left and two on the right. Then, the neurons are multiplied by 1, 0.5, or 0.1
+                    depending on the topological distance (0 winning neuron, 1 the first closest, and 2 the second closes).
+                </p>
+                <p style="text-align:center;">
+                    <image src="assets/images/neighbor_function.PNG" class="img-responsive center">
+                </p>
+                <p class="text-justify">
+                    Then, the training used the following equation
+                </p>
+                <p style="text-align:center;">
+                    <image src="assets/images/training_update.PNG" class="img-responsive center">
+                </p>
+            </div>
+        </div>
+            
+
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Adaline
+                </h3>
+                <p class="text-justify">
+                    After finding the regions with SOM, a dimension is added into the ouput patterns 
+                    given the regions distribution.
+                    Then, an Adaptive Linear Neuron (Adaline) is launched n times (per pair of regions) to
+                    find the n respective roots. Additionally, Adaline used a pocket to store the weight of neurons with the best accuracy
+                    for improving performance.
+                </p>
+                <p style="text-align:center;">
+                    <image src="assets/images/adaline.PNG" class="img-responsive center" alt="scales">
+                    <figcaption style="text-align:right;">Fig: Adalines per pair of regions after training.</figcaption>
+                </p>
+                <p class="text-justify">
+                    <strong>Equidistan Roots</strong> <br>
+
+                    This modeling only works for real equidistant roots because the SOM allows us to divide the space into (quasi) equally
+                    distributed regions.
+                </p>
+                <p style="text-align:center;">
+                    <image src="assets/images/polynomial_equation.PNG" class="img-responsive center" alt="scales">
+                </p>
+                <p class="text-justify">
+                    It can also be written as
+                </p>
+                <p style="text-align:center;">
+                    <image src="assets/images/polynomial_equation2.PNG" class="img-responsive center" alt="scales">
+                </p>
+                <p class="text-justify">
+                    with a root constraint
+                </p>
+                <p style="text-align:center;">
+                    <image src="assets/images/root_constraint.PNG" class="img-responsive center-mini" alt="scales">
+                </p>
+            </div>
+        </div>
+            
+
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Results
+                </h3>
+                <p class="text-justify">
+                    This model is a two-process and we check their behavior visually as bellow or in the following <a
+                        href="https://youtu.be/gJ-oAOBfijI">video</a>.
+                </p>
+                <p style="text-align:center;">
+                    <image src="assets/images/steps_1.PNG" class="img-responsive" alt="scales">
+                </p>
+                <p style="text-align:center;">
+                    <image src="assets/images/steps2.PNG" class="img-responsive" alt="scales">
+                </p>
+                <p class="text-justify">
+                    We evaluated our method with polynomials of different degrees from 2 to 10, calculating its root approximation, CPU
+                    time, and relative error.
+                </p>
+                <p style="text-align:center;">
+                    <image src="assets/images/experiments01.png" class="img-responsive" alt="scales">
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Related links
+                </h3>
+                <p class="text-justify">
+                    - For more elaborated approaches for finding roots in polynomials, check <a href="https://ieeexplore.ieee.org/abstract/document/6790351"> A Neural Root Finder of Polynomials Based on Root Moments
+                    </a> and <a href="https://ieeexplore.ieee.org/abstract/document/1288251/">A constructive approach for finding arbitrary roots of polynomials by neural networks</a> by De-Shuang Huan et al.
+                    <br>
+                </p>
+            </div>
+        </div>
+        
+            
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Citation
+                </h3>
+                <div class="form-group col-md-12 col-md-offset-1">
+                    <textarea id="bibtex" class="form-control" readonly>
+@inproceedings{gonzalez2018successive,
+    title={Successive Adaptive Linear Neural Modeling for Equidistant Real Roots Finding},
+    author={Gonz{\'a}lez, Joseph R and Zhapa, Fernando P and Guarnizo, Oscar V and Ortega-Zamorano, Francisco},
+    booktitle={2018 IEEE Third Ecuador Technical Chapters Meeting (ETCM)},
+    pages={1--6},
+    year={2018},
+    organization={IEEE}
+}</textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <p style="text-align: right">
+                Powered by <a href="https://jonbarron.info/">Jon Barron</a> and <a href="http://mgharbi.com/">Michaël Gharbi</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
