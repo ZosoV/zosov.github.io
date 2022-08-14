@@ -64,7 +64,7 @@
 }
 
 a {
-  color: #48ddff;
+  color: #1772d0;
   text-decoration: none;
 }
 
@@ -81,18 +81,17 @@ tr,
 p,
 a {
   font-family: 'Lato', Verdana, Helvetica, sans-serif;
-  font-size: 14px
+  font-size: 16px
 }
 
 strong {
   font-family: 'Lato', Verdana, Helvetica, sans-serif;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 heading {
   font-family: 'Lato', Verdana, Helvetica, sans-serif;
   font-size: 22px;
-  color: #58f45d;
 }
 
 papertitle {
@@ -101,15 +100,9 @@ papertitle {
   font-weight: 700
 }
 
-lastname {
-  font-family: 'Lato', Verdana, Helvetica, sans-serif;
-  font-size: 35px;
-  color: #afcef7;
-}
 name {
   font-family: 'Lato', Verdana, Helvetica, sans-serif;
-  font-size: 35px;
-  color: #58f45d;
+  font-size: 32px;
 }
 
 .one {
@@ -134,93 +127,62 @@ name {
 }
 
 span.highlight {
-  background-color: #638bc0; 
+  background-color: #ffffd0;
 }
 
-body {
+.CodeMirror {
+    font-size: .8em;
+    height: auto;
+}
+
+.CodeMirror-scroll {
+    overflow-y: hidden;
+    overflow-x: auto;
+}
+
+#header_img {
+    margin-top: 2em;
+    margin-bottom: 1em;
+}
+
+.list-inline {
+	list-style: none;
+	margin-left: -0.5em;
+	margin-right: -0.5em;
+	padding-left: 0;
+}
+
+.list-inline > li {
+	display: inline-block;
+	margin-left: 0.5em;
+	margin-right: 0.5em;
+  vertical-align:text-top;
+}
+
+#header_project {
   background-color: #293241;
   color: aliceblue;
+
+  
 }
 
-special-color {
-  font-weight: bold; 
-  color:burlywood
-}
-
-special-color2 {
-  font-weight: bold; 
-  color: #f5f577
-}
-
-special-color3 {
-  color: #638bc0
-}
-
-td .left-card {
-  padding-left: 25px;
-  padding-right: 7px;
-  padding-top: 20px;
-  padding-bottom: 20px;
-  width: 25%;
-  vertical-align: middle;
-}
-
-td .right-card {
-  padding-left: 10px;
-  padding-right: 7px;
-  padding-top: 20px;
-  padding-bottom: 20px;
-  width: 75%;
-  vertical-align: middle;
-}
-
-/* table.dotted td {
-  border-bottom: 1px dashed #cccccc;
-} */
-
-.fa {
-  font-size: 30px;
-  width: 15px;
+#header_project a {
+  color: #48ddff;
   text-decoration: none;
 }
 
-.nav-bar ul {
-  list-style-type : none;
-  margin : 0;
-  padding : 0;
-  width : 90px;
-  background-color : #f1f1f1;
-  position : fixed; /* Make it stick, even on scroll */
+ul.nav a:hover { background-color: #696867 !important; }
 
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 70%;
 }
 
-.nav-bar li a {
-  display : block;
-  color: #000;
-  padding : 8px 16px;
-  text-decoration: none;
-}
-
-/* Change the link color on hover */
-/* .nav-bar li a:hover {
-  background-color: #4CAF50;
-  color : white;
-} */
-
-.sec {
-  height: 500px;
-}
-
-nav {
-  position: fixed;
-  width: 100%;
-  top: 0;
-  left: 0;
-  z-index: 10;
-  background-color: #fff;
-}
-
-.active a {
-  background-color : #4CAF50;
-  color : white;
+.center-mini {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 28%;
 }
