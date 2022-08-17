@@ -1,0 +1,332 @@
+
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title>Mask RCNN</title>
+
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- <base href="/"> -->
+
+        <!--FACEBOOK-->
+    <!-- <meta property="og:image" content="assets/CovNet_teaser.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="682">
+    <meta property="og:image:height" content="682">
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://jonbarron.info/mipnerf/"/>
+    <meta property="og:title" content="mip-NeRF" />
+    <meta property="og:description" content="Project page for Mip-NeRF: A Multiscale Representation for Anti-Aliasing Neural Radiance Fields." /> -->
+
+        <!--TWITTER-->
+    <!-- <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="mip-NeRF" />
+    <meta name="twitter:description" content="Project page for Mip-NeRF: A Multiscale Representation for Anti-Aliasing Neural Radiance Fields." />
+    <meta name="twitter:image" content="https://jonbarron.info/mipnerf/img/rays_square.png" /> -->
+
+
+<!--     <link rel="apple-touch-icon" href="apple-touch-icon.png"> -->
+  <!-- <link rel="icon" type="image/png" href="img/seal_icon.png"> -->
+    <!-- Place favicon.ico in the root directory -->
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.8.0/codemirror.min.css">
+    <link rel="stylesheet" href="css/app.css">
+	<link rel="icon" href="../../assets/icons/icon-192x192.png">
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.8.0/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.3/clipboard.min.js"></script>
+    
+    <script src="js/app.js"></script>
+</head>
+
+<body>
+    <div class="container-fluid" id="main">
+        <div class="row" id="header_project">
+            <h2 class="col-md-12 text-center">
+                Segmentating and Counting Grapes Bunches <br> using MaskRCNN + Tracker DeepSort <br>
+                <small>
+                    Divego (Omia AI Group)
+                </small>
+            </h2>
+        </div>
+        <div class="row" id="header_project">
+            <div class="col-md-12 text-center">
+                <ul class="list-inline" >
+                    <li>
+                        <a href="https://zosov.github.io/">
+                            Oscar Guarnizo
+                        </a>
+                        </br>Digevo
+                        </br>Yachay Tech University
+                    </li>
+                    <li>
+                        <a href="https://www.linkedin.com/in/tubaher/">
+                          Diego Suntaxi
+                        </a>
+                        </br>Digevo
+                        </br>Yachay Tech University
+                    </li>
+                    <li>
+                        <a href="https://www.linkedin.com/in/fabricio-crespo-114864207/">
+                          Fabricio Crespo
+                        </a>
+                        </br>Digevo
+                        </br>Yachay Tech University
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="row" id="header_project">
+                <div class="col-md-4 col-md-offset-4 text-center">
+                    <ul class="nav nav-pills nav-justified">
+                        <!-- <li>
+                            <a href="https://www.researchgate.net/publication/356491906_Reproduction_of_Image2StyleGAN_How_to_Embed_Images_Into_the_StyleGAN_Latent_Space">
+                            <image src="assets/icons/mip_paper_image.jpg" height="60px">
+                                <h4><strong>Paper</strong></h4>
+                            </a>
+                        </li>                      -->
+                        <li>
+                            <a href="https://github.com/Tubaher/grapes_project">
+                            <image src="assets/icons/github.png" height="60px" style="filter: invert(1);">
+                                <h4><strong>Code</strong></h4>
+                            </a>
+                        </li>
+                        <!-- <li>
+                            <a href="https://oscar-guarnizo.medium.com/review-image2stylegan-embedding-an-image-into-stylegan-c7989e345271">
+                            <image src="assets/icons/medium.png" height="60px" style="filter: invert(1);">
+                                <h4><strong>Blog</strong></h4>
+                            </a>
+                        </li> -->
+                    </ul>
+                </div>
+        </div>
+
+
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Description
+                </h3>
+                <image src="assets/images/teaser_image.png" class="img-responsive" alt="overview"><br>
+                <p class="text-justify">
+                    This project is an additional implementation of <a href="https://arxiv.org/abs/1703.06870">Mask R-CNN</a> for grapes mask detection, grapes bunches counting, and heat
+                    maps generation. We based this work on the implementation from GitHub <a href="https://github.com/matterport/Mask_RCNN">matterport/Mask_RCNN</a> and 
+                    <a href="https://github.com/johncuicui/grapeMRCNN">johncuicui/grapeMRCNN</a> for grape sample detection. Our work's
+                    main contributions are the addition of a DeepSort Tracker (programmed with Pytorch) and heat maps generation. This
+                    implementation helps us to count the number of bunches without repetitions detected in a specific video. After that, we
+                    extrapolate the counting information to satellite images to generate heat maps that show the number of grapes per parcel
+                    in a yield. These images comprise the visual interpretability of the grapes bunches in an area.
+                    <br> <br>
+
+                    <strong>Skills</strong>: <br>
+                    Python, TensorFlow, PyTorch, OpenCV, Pandas and Matplotlib.
+                </p>
+            </div>
+        </div>
+
+
+        <!-- <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Video
+                </h3>
+                <div class="text-center">
+                    <div style="position:relative;padding-top:56.25%;">
+                        <iframe src="https://www.youtube.com/embed/0vH1tGhuZbY" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+
+
+
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Mask RCNN
+                </h3>
+                <p class="text-justify">
+                    <a href="https://arxiv.org/abs/1703.06870">Mask R-CNN, introduced by Kaiming He et al.</a>, is a two-step approach that is the continuation of <a href="https://arxiv.org/abs/1506.01497">Fast R-CNN</a>.
+                    <ol>
+                        <li>
+                            The first step (Region Proposal Network) scans the image and generates proposals (areas likely to contain an object). 
+                        </li>
+                        <li>
+                            The second step (RoI Classification & Bounding Box Regressor) classifies the proposals and generates bounding boxes and masks.
+                        </li>
+                    </ol>
+                </p>
+                <p style="text-align:center;">
+                    <image src="assets/images/mas_rcnn.png" class="img-responsive center">
+                    <figcaption style="text-align:right;">Mask R-CNN (2017) by Kaiming He et al.</figcaption>
+                </p>
+
+                <p class="text-justify">
+                    <strong>Region Proposal Network </strong> <br>
+                    During the first step, a sliding window approach is implemented to extract the regions of interest (RoI). However, this
+                    sliding window approach is powered by convolutions to get all predictions in one step forward. The convolutional neural
+                    network uses a backbone based on a <a href="https://arxiv.org/abs/1612.03144">Feature Pyramid Network (FPN)</a>. 
+                    The sliding window approach is repeated with different
+                    window sizes. Finally, overlapping regions are refined through Non-max Suppression.
+                </p>
+                
+                <!-- <video id="v0" width="100%" autoplay loop muted>
+                  <source src="img/pe_anim_horiz.mp4" type="video/mp4" />
+                </video> -->
+
+                <p style="text-align:center;">
+                    <image src="assets/images/roi_grapes.png" class="img-responsive center">
+                    <figcaption style="text-align:right;">Overlapping Regions</figcaption>
+                </p>
+
+                <p class="text-justify">
+                    <strong>RoI Classification & Mask Generation </strong> <br>
+                    During the second stage, another convolutional network is applied to each region of interest (RoI). The network
+                    generates two outputs: the object class and the respective bounding box.
+                </p>
+
+                <p style="text-align:center;">
+                    <image src="assets/images/roi_network.png" class="img-responsive center">
+                    <figcaption style="text-align:right;">Fast R-CNN (2015) by Ross Girshick</figcaption>
+                </p>
+
+                <p class="text-justify">
+                    Until this point, we have similar behavior to Faster R-CNN. Then, Mask R-CNN adds additional convolutions to generate a
+                    mask in the bounding boxes already detected.
+                </p>
+
+                <p style="text-align:center;">
+                    <image src="assets/images/bounding_boxes_mask.jpg" class="img-responsive center">
+                </p>
+            </div>
+        </div>
+            
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    DeepSort Tracker
+                </h3>
+                <p class="text-justify">
+                    <a href="https://arxiv.org/abs/1703.07402">DeepSORT by Nicolai Wojke et al.</a> is built upon the <a href="https://arxiv.org/abs/1602.00763">SORT</a> implementation but integrates appearance information to improve
+                    the performance. This extension enables tracking objects through longer periods of occlusion, reducing identity
+                    switching. It is worth mentioning that we don't work much at this stage. Instead, we used an already code implementation
+                    from <a href="https://github.com/nwojke/deep_sort">nwojke/deep_sort</a>, and we adjusted it to our work case.
+                </p>
+                <p style="text-align:center;">
+                    <video id="v0" width="100%" autoplay loop muted>
+                        <source src="assets/images/uvas3.mp4" type="video/mp4" />
+                    </video>                
+                </p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Heat Map Generation
+                </h3>
+                <p class="text-justify">
+                    We generate heat maps using a pragmatic (practical) approach. We take a satellite image from our objective parcel and
+                    record several metadata detections per row in a parcel. Per each parcel, we perform the following:
+                    <br> <br>
+                    1. Collect polygonal coordinates (including diagonal and rows angle) from the parcel satellite image. These coordinates
+                    are called <code>COORDINADAS_POLY</code>.
+                </p>
+                <p style="text-align:center;">
+                    <image src="assets/images/coordinates_poly1.png" class="img-responsive">
+                </p>
+                <p style="text-align:center;">
+                    <image src="assets/images/coordinates_poly.png" class="img-responsive">
+                </p>
+                <p class="text-justify">
+                    2. Then, perform a model that automatically finds each row's start and endpoints.
+                    <ol>
+                        <li>
+                            Use the rows angle to divide rows (with points) along the diagonal.
+                        </li>
+                        <li>
+                            Intersect the dotted lines with the polygonal boundaries to get the start and endpoints per each row.
+                        </li>
+                    </ol>
+                </p>
+                <p style="text-align:center;">
+                    <image src="assets/images/intersection.png" class="img-responsive">
+                </p>
+                <p class="text-justify">
+                    3. Divide (in rectangular shapes) each row automatically based on the grapes' distribution along the row.
+                </p>
+                <p style="text-align:center;">
+                    <image src="assets/images/rows_heatmap.png" class="img-responsive">
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Additional Results
+                </h3>
+                <p style="text-align:center;">
+                    <video id="v0" width="100%" autoplay loop muted>
+                        <source src="assets/images/uvas4.mp4" type="video/mp4" />
+                    </video>                
+                </p>
+                <p style="text-align:center;">
+                    <video id="v0" width="100%" autoplay loop muted>
+                        <source src="assets/images/uvas5_counting.mp4" type="video/mp4" />
+                    </video>
+                    <figcaption style="text-align:right;">Counting Grape Bunches</figcaption>                
+                </p>
+            </div>
+        </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Related links
+                </h3>
+                <p class="text-justify">
+                    <ul>
+                        <li>
+                            Check  <a
+                            href="https://engineering.matterport.com/splash-of-color-instance-segmentation-with-mask-r-cnn-and-tensorflow-7c761e238b46">Splash
+                            of Color: Instance Segmentation with Mask R-CNN and TensorFlow</a>
+                            for a high-level explanation about Mask RCNN.
+                        </li>
+                        <li>
+                            Check <a href="https://arxiv.org/abs/1602.00763">Simple Online and Realtime Tracking (2016) by Alex Bewley et al.</a> to a more in deep understanding of SORT algorithm.
+                        </li>
+                        <li>
+                            Check <a href="https://arxiv.org/abs/1703.07402">Simple Online and Realtime Tracking with a Deep Association Metric
+                                (2017) by Nicolai Wojke et al.</a> to a more in deep understanding of DeepSORT algorithm.
+                        </li>
+                    </ul>
+                </p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <p style="text-align: right">
+                Powered by <a href="https://jonbarron.info/">Jon Barron</a> and <a href="http://mgharbi.com/">Michaël Gharbi</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
