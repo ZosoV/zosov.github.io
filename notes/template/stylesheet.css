@@ -1,0 +1,55 @@
+body {
+    font-family: 'Courier New', monospace; /* Set the font to Courier New or another monospaced font */
+    font-size: large;
+    margin: 0;
+    box-sizing: border-box;
+    background-color: #1F242A; /* Set the background color to dark gray */
+    color: white; /* Set the default text color to white */
+}
+
+.center-container {
+    text-align: center;
+    padding: 10px;
+}
+
+h1, h3 {
+    color: #F382B0; /* Set the title and topic color to pink */
+}
+
+.note-block {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 10px;
+    border: 0.5px solid #969090;
+    border-radius: 7px;
+    overflow: hidden;
+}
+
+.column {
+    flex: 1;
+    padding: 10px;
+}
+
+.img-container img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin-top: 10px;
+}
+
+.topic-column {
+    margin-left: 2px;
+    flex: 2.5%;
+    color: #ff66b2; /* Set the topic color to pink */
+}
+
+.content-column {
+    flex: 55%;
+    padding: 10px;
+}
+
+.comment-column {
+    flex: 15%;
+    color: #F4B937; /* Set the comment column background color to yellow */
+    padding: 10px;
+}
