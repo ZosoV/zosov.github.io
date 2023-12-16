@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Load and Save JSON from File</title>
+</head>
+<body>
+    <form id="dataForm">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name">
+
+        <label for="email">Email:</label>
+        <input type="text" id="email" name="email">
+
+        <button type="button" onclick="saveData()">Save Data</button>
+        <input type="file" id="fileInput" onchange="loadData()">
+    </form>
+
+    <script>
+        function saveData() {
+            const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value
+            };
+
+            // Convert data to JSON string
+            const jsonString = JSON.stringify(formData);
+
+            // Create a Blob with the data
+            const blob = new Blob([jsonString], { type: 'application/json' });
+
+            // Create a link element
+            const a = document.createElement('a');
+
+            // Set the link's href to the Blob URL
+            a.href = URL.createObjectURL(blob);
+
+            // Set the download attribute to specify the file name
+            a.download = './data.json';
+
+            // Append the link to the document and trigger a click event to start the download
+            document.body.appendChild(a);
+            a.click();
+
+            // Remove the link from the document
+            document.body.removeChild(a);
+        }
+
+        function loadData() {
+            const fileInput = document.getElementById('fileInput');
+            const file = fileInput.files[0];
+
+            if (file) {
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    // Parse the JSON data
+                    const jsonData = JSON.parse(e.target.result);
+
+                    // Populate the form with loaded data
+                    document.getElementById('name').value = jsonData.name;
+                    document.getElementById('email').value = jsonData.email;
+                };
+
+                // Read the file as text
+                reader.readAsText(file);
+            }
+        }
+    </script>
+</body>
+</html>

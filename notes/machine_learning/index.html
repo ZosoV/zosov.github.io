@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Note-taking Page</title>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({ tex2jax: { inlineMath: [['$', '$'], ['\\(', '\\)']] } });
+      </script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+    <script src="app.js" defer></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            box-sizing: border-box;
+        }
+
+        .center-container {
+            text-align: center; /* Center-align the content within this container */
+        }
+
+        #main-title-input {
+            width: 65%;
+            font-size:  x-large;
+            text-align: center; /* Center-align the title */
+            margin-top: 10px; /* Add some space below the title */
+            margin-bottom: 10px; /* Add some space below the title */
+
+        }
+
+        .note-block {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .column {
+            flex: 1;
+            padding: 10px;
+        }
+
+        .remove-button {
+            cursor: pointer;
+            background-color: #ff5252;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+        }
+
+        .add-image-button, .add-text-button {
+            cursor: pointer;
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            margin-bottom: 5px;
+            margin-right: 5px;
+        }
+
+        .img-container {
+            max-width: 100%;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin-top: 10px;
+        }
+
+        .full-width-textarea {
+            width: 90%;
+            min-height: 10px; /* Set the minimum height */
+            resize: none; /* Disable manual resizing */
+            overflow-y: hidden; /* Hide vertical scrollbar */
+        }
+
+        .topic-column {
+            flex: 5%;
+        }
+
+        .content-column {
+            flex: 35%;
+        }
+        .comment-column {
+            flex: 35%;
+        }
+
+        .remove-input-button {
+            cursor: pointer;
+            background-color: #ff5252;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            margin-left: 5px;
+        }
+
+        .add-main-button {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="center-container">
+        <input type="text" id="main-title-input" placeholder="Enter your main title">
+        <br>
+
+
+        <button class="add-main-button" onclick="addNoteBlock()">Add Note Block</button>
+        <button class="save-data-button" onclick="saveData()">Save Data</button>
+
+    </div>
+
+    <div id="note-container"></div>
+</body>
+</html>
