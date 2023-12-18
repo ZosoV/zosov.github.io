@@ -7,11 +7,10 @@
     <!-- Link to the external style sheet -->
     <link rel="stylesheet" type="text/css" href="stylesheet.css">
     <script type="text/x-mathjax-config">
-        MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+        MathJax.Hub.Config({ tex2jax: { inlineMath: [['$', '$'], ['\\(', '\\)']] } });
       </script>
-      <script type="text/javascript"
-        src="http://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-      </script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <script src="app.js" defer></script>
 
@@ -68,8 +67,8 @@
         <div class="comment">
           <!-- Add your comment content here -->
             <p> A Generalization Bound is other way to understand if 
-                Learning is feasible or not, we will came up to similar conclusion
-                as only analyzing Hoeffding Inequality.
+                Learning is feasible or not, we will came up to similar conclusions
+                as with Hoeffding Inequality.
             </p>
         </div>
     </div>
@@ -196,5 +195,26 @@
             </div>
         </div>
         <!--  END BLOCK NOTE CONTAINER -->
+
+                <!--  MAIN BLOCK NOTE CONTAINER -->
+                <div class="note-container">
+                    <div class="topic">
+                        <p>Finete Hypothesis Set Assumption</p>
+                        
+                    </div>
+                    <div class="content">
+                        <p>Notice the whole derivation is possible because we assume
+                            a finite set $H$. However, our ML algorithm usually have 
+                            infinite hypothesis sets. 
+                        </p>
+            
+                    </div>
+            
+                    <div class="comment">
+                      <!-- Add your comment content here -->
+        
+                    </div>
+                </div>
+                <!--  END BLOCK NOTE CONTAINER -->
 </body>
 </html>

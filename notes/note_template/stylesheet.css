@@ -47,7 +47,17 @@ h1 {
 }
 
 .img-container img {
-    max-width: 75%;
+    max-width: 80%;
+    height: auto;
+    margin-top: 5px;
+}
+
+.small-img-container {
+    text-align: center;
+}
+
+.small-img-container img {
+    max-width: 18%;
     height: auto;
     margin-top: 5px;
 }
