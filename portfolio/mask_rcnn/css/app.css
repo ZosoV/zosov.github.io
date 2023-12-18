@@ -194,3 +194,17 @@ pre {
   white-space: pre;
   margin: 1em 0;
 }
+
+.fixed-button {
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: 10px;
+  background-color: #3498db; /* Change this to your desired background color */
+  color: #fff; /* Change this to your desired text color */
+  cursor: pointer;
+  border-radius: 9px;
+  margin: 10px;
+  z-index: 1000; /* Set a high z-index value to ensure it's on top */
+
+}

@@ -30,7 +30,7 @@ function formatText(text) {
 
     // Your list of links
     // TODO: When you create a new note you have to edit this
-    var currentIndex = 0;
+    var currentIndex = 2;
 
     var linksList = [
         { text: 'Hoeffding Inequality', url: '../hoeffding_ineq/index.html' },
