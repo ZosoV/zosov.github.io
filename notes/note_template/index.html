@@ -10,17 +10,21 @@
         MathJax.Hub.Config({ tex2jax: { inlineMath: [['$', '$'], ['\\(', '\\)']] } });
       </script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
     <script src="app.js" defer></script>
 
 
 </head>
 <body>
     <nav>
-        <a href="#" id="prevLink">Previous</a>
-        <a href="#" id="nextLink">Next</a>
+        <!-- TODO: Change this when you create other project -->
+        <a href="../../uob_first_semester/index.html"><i class="fas fa-home"></i></a>
+        <a href="#" id="prevLink"><i class="fas fa-arrow-left"></i></a>
+        <a href="#" id="nextLink"><i class="fas fa-arrow-right"></i></a>
     
         <div class="dropdown">
-          <a href="#">Dropdown</a>
+          <a href="#"><i class="fas fa-caret-down"></i></a>
           <div class="dropdown-content" id="dropdownContent">
             <!-- Links will be dynamically added here using JavaScript -->
           </div>
