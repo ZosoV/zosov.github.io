@@ -14,14 +14,14 @@ function formatText(text) {
     // Replace ==word== with <span style="color: lightblue;">word</span> for highlighting
     text = text.replace(/==(.*?)==/g, '<span style="color: #48ddff;">$1</span>');
     // Replace ==word== with <span style="color: lightblue;">word</span> for highlighting
-    text = text.replace(/--(.*?)--/g, '<span style="color: #EF6943;">$1</span>');            
+    text = text.replace(/--(.*?)--/g, '<span style="color: #EF6943;">$1</span>');
     
     return text;
     }
 
-    // Apply formatText to the paragraphs
+    // Apply formatText to the paragraphs, and list
     document.addEventListener("DOMContentLoaded", function () {
-        const paragraphs = document.querySelectorAll(".note-container p");
+        const paragraphs = document.querySelectorAll(".note-container p, ul, ol");
         paragraphs.forEach(function (paragraph) {
             paragraph.innerHTML = formatText(paragraph.innerHTML);
         });

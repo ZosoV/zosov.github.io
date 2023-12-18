@@ -1,5 +1,6 @@
 body {
     font-family: 'Courier New', monospace; /* Set the font to Courier New or another monospaced font */
+    /* font-family: Arial, sans-serif; Change the font family to Arial or a preferred sans-serif font */
     font-size: large;
     margin: 0;
     box-sizing: border-box;
@@ -48,6 +49,16 @@ h1 {
 
 .img-container img {
     max-width: 75%;
+    height: auto;
+    margin-top: 5px;
+}
+
+.small-img-container {
+    text-align: center;
+}
+
+.small-img-container img {
+    max-width: 18%;
     height: auto;
     margin-top: 5px;
 }

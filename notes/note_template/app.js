@@ -21,7 +21,7 @@ function formatText(text) {
 
     // Apply formatText to the paragraphs
     document.addEventListener("DOMContentLoaded", function () {
-        const paragraphs = document.querySelectorAll(".note-container p");
+        const paragraphs = document.querySelectorAll(".note-container p, ul, ol");
         paragraphs.forEach(function (paragraph) {
             paragraph.innerHTML = formatText(paragraph.innerHTML);
         });

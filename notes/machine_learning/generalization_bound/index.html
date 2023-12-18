@@ -7,10 +7,12 @@
     <!-- Link to the external style sheet -->
     <link rel="stylesheet" type="text/css" href="stylesheet.css">
     <script type="text/x-mathjax-config">
-        MathJax.Hub.Config({ tex2jax: { inlineMath: [['$', '$'], ['\\(', '\\)']] } });
+        MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
       </script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+      <script type="text/javascript"
+        src="http://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+      </script>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <script src="app.js" defer></script>
 
 
@@ -37,35 +39,38 @@
     <!--  MAIN BLOCK NOTE CONTAINER -->
     <div class="note-container">
         <div class="topic">
-            <p> Title </p>
+            <p> Generalization Bound Idea  </p>
             <!-- Add your title content here -->
         </div>
         <div class="content">
-            <p> Lorem ipsum $H_5$ dolor sit amet, **consectetur** adipiscing elit, 
-                sed do eiusmod tempor incididunt ut labore et dolore 
-                magna aliqua. $$E(X) = 12312$$ Ut enim ad minim veniam, quis nostrud 
-                exercitation ullamco laboris ==nisi ut aliquip ex== ea commodo 
-                consequat. Duis __aute irure dolor__ in reprehenderit in 
-                voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-                Excepteur sint occaecat cupidatat non proident, sunt in culpa 
-                qui officia deserunt mollit anim id est laborum.
+            <p> 
+                A ==Generalization bound== help us to understand how the Generalization
+                Error $E_{out}$ could be, even though we cannot compute it. <br><br>
+                In order to understand that, the bound is defined in terms of the
+                training error $E_{in}$, which we can compute. <br> <br>
+
+                Starting from ==Hoeffding Inequality==, we can derive two possible
+                escenarios, which defined
+                <ol>
+                    <li>==Maximum Bound==: What is the **maximum** possible value for $E_{out}$</li>
+                    <li>==Minimum Bound==: What is the **minimum** possible value for $E_{out}$</li>
+                </ol>
+
+                The first one is of more interest because it could explain how well
+                our $E_{in}$ can estimate $E_{out}$. The following image depicts this derivation
             </p>
     
             <div class="img-container">
-                <img src="assets/image844.png" alt="test">
+                <img src="assets/rewrite_hoeff.jpg" alt="test">
             </div>
         </div>
 
         <div class="comment">
           <!-- Add your comment content here -->
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-                sed do eiusmod tempor incididunt ut labore et dolore 
-                --magna aliqua. Ut enim ad minim veniam--, quis nostrud 
-                exercitation ullamco laboris nisi ut aliquip ex ea commodo 
-                consequat. $$H_\phi$$</p>
-            <div class="img-container">
-                <img src="assets/image844.png" alt="test">
-            </div>
+            <p> A Generalization Bound is other way to understand if 
+                Learning is feasible or not, we will came up to similar conclusion
+                as only analyzing Hoeffding Inequality.
+            </p>
         </div>
     </div>
     <!--  END BLOCK NOTE CONTAINER -->
@@ -76,33 +81,120 @@
             <!-- Add your title content here -->
         </div>
         <div class="content">
-            <p> Lorem ipsum $H_5$ dolor sit amet, **consectetur** adipiscing elit, 
-                sed do eiusmod tempor incididunt ut labore et dolore 
-                magna aliqua. $$E(X) = 12312$$ Ut enim ad minim veniam, quis nostrud 
-                exercitation ullamco laboris ==nisi ut aliquip ex== ea commodo 
-                consequat. Duis __aute irure dolor__ in reprehenderit in 
-                voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-                Excepteur sint occaecat cupidatat non proident, sunt in culpa 
-                qui officia deserunt mollit anim id est laborum.
+            <p>
+                In order to have a better expression of $\epsilon$, we use
+                assume that the right term of Hoeffding Inequality is a term $\delta$
+                that we, as users, defined beforehand.                 
             </p>
-    
-            <div class="img-container">
-                <img src="assets/image844.png" alt="test">
+            <div class="small-img-container">
+                <img src="assets/delta.png" alt="test">
             </div>
+            <p>
+                and we can isolate $\epsilon$ to get
+
+                $$\epsilon = \sqrt{\frac{1}{2N}ln\left(\frac{2M}{\delta}\right)}$$
+
+                Notice that by replacing $\epsilon$ in any of our two previous cases
+                we have an expression in terms of $N$ (==training set size==) 
+                and $M$ (==model complexity==). <br><br>
+                Now we define $\delta$ instead of $\epsilon$.
+            </p>
+
+            <p>
+                ==Maximum Bound==
+
+                $$E_{out}(g) \leq E_{in}(g) + \sqrt{\frac{1}{2N}ln\left(\frac{2M}{\delta}\right)}$$
+
+                == Minimal Bound==
+
+                $$E_{out}(g) \geq E_{in}(g) - \sqrt{\frac{1}{2N}ln\left(\frac{2M}{\delta}\right)}$$
+            </p>
+
         </div>
 
         <div class="comment">
           <!-- Add your comment content here -->
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-                sed do eiusmod tempor incididunt ut labore et dolore 
-                --magna aliqua. Ut enim ad minim veniam--, quis nostrud 
-                exercitation ullamco laboris nisi ut aliquip ex ea commodo 
-                consequat. $$H_\phi$$</p>
+            <p>Notice the isolation $\epsilon$ from $\delta$ is
+            </p>
             <div class="img-container">
-                <img src="assets/image844.png" alt="test">
+                <img src="assets/delta.png" alt="test">
             </div>
+            <p>
+                $$\text{ln}\left(\frac{\delta}{2M}\right) = -2N\epsilon^2$$
+                $$\epsilon^2 = - \frac{1}{2N} \text{ln}\left(\frac{\delta}{2M}\right)$$
+                $$\epsilon = \sqrt{\frac{1}{2N}ln\left(\frac{2M}{\delta}\right)}$$
+            </p>
         </div>
     </div>
     <!--  END BLOCK NOTE CONTAINER -->
+
+        <!--  MAIN BLOCK NOTE CONTAINER -->
+        <div class="note-container">
+            <div class="topic">
+               <p>Maximum Bound (First Case)</p> 
+            </div>
+            <div class="content">
+                <p>
+                    The following is the definition of the maximum bound
+                
+                    $$E_{out}(g) \leq E_{in}(g) + \sqrt{\frac{1}{2N}ln\left(\frac{2M}{\delta}\right)}$$
+
+                    Notice, here we can conclude
+                </p>
+                    <ol>
+                        <li>$\downarrow E_{in} \quad \downarrow E_{out} \Rightarrow$ 
+                            limits the generalization error by a smaller training error $E_{in}$</li>
+                        <li>$\uparrow N \quad \downarrow E_{out} \Rightarrow$ more training size less generalization error</li>
+                        <li>$\uparrow M \quad \uparrow E_{out} \Rightarrow$ more model complexity more generalization</li>
+                    </ol>
+                <p>    
+                    **==Trade-off M, $E_{in}$, $E_{out}$==**
+                    <br>
+
+                    Additionally, we can note again that there exists a complex relation
+                    between $M$, $E_{in}$, and $E_{out}$
+                </p>
+    
+            </div>
+    
+            <div class="comment">
+              <!-- Add your comment content here -->
+                <p>Notice that although the generalization error increases with
+                    the model complexity, it doesn't increase too much due to the
+                    square root and logarithm. <br><br>
+
+                    --Regularization can account for this trade-off by minimizing $E_{in}$ and at the same time trying to minimize the complexity of the model M--
+                </p>
+
+            </div>
+        </div>
+        <!--  END BLOCK NOTE CONTAINER -->
+
+        <!--  MAIN BLOCK NOTE CONTAINER -->
+        <div class="note-container">
+            <div class="topic">
+                <p>Minimum Bound (Second Case)</p>
+                
+            </div>
+            <div class="content">
+                <p>The following is the definition of the minimum bound
+                
+                    $$E_{out}(g) \geq E_{in}(g) - \sqrt{\frac{1}{2N}ln\left(\frac{2M}{\delta}\right)}$$
+
+                    Notice, here we can conclude $\uparrow E_{in} \quad \uparrow E_{out}$. <br><br>
+                    
+                    Then, this bound effectively provides a kind of
+                    minimum bound that our generalization error can achieve. It can not necesarily
+                    be an absolute zero generalization error. It is limited again by the $E_{in}$
+                </p>
+    
+            </div>
+    
+            <div class="comment">
+              <!-- Add your comment content here -->
+
+            </div>
+        </div>
+        <!--  END BLOCK NOTE CONTAINER -->
 </body>
 </html>
