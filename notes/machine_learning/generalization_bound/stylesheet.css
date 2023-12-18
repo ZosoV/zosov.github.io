@@ -2,7 +2,7 @@ body {
     font-family: 'Courier New', monospace; /* Set the font to Courier New or another monospaced font */
     /* font-family: Arial, sans-serif; Change the font family to Arial or a preferred sans-serif font */
     font-size: large;
-    margin: 0;
+    margin: 0 0 0;
     box-sizing: border-box;
     background-color: #293241; /* Set the background color to dark gray */
     color: white; /* Set the default text color to white */
@@ -71,6 +71,7 @@ nav {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     position : fixed; /* Make it stick, even on scroll */
     width: 100%;
+    z-index: 100;
 }
 
 nav a {
