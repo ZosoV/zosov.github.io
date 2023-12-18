@@ -49,14 +49,14 @@
                 training error $E_{in}$, which we can compute. <br> <br>
 
                 Starting from ==Hoeffding Inequality==, we can derive two possible
-                escenarios, which defined
+                escenarios:
                 <ol>
                     <li>==Maximum Bound==: What is the **maximum** possible value for $E_{out}$</li>
                     <li>==Minimum Bound==: What is the **minimum** possible value for $E_{out}$</li>
                 </ol>
 
                 The first one is of more interest because it could explain how well
-                our $E_{in}$ can estimate $E_{out}$. The following image depicts this derivation
+                our $E_{in}$ can estimate $E_{out}$ by providing a small maximum bound. The following image depicts this derivation
             </p>
     
             <div class="img-container">
@@ -91,22 +91,22 @@
             <p>
                 and we can isolate $\epsilon$ to get
 
-                $$\epsilon = \sqrt{\frac{1}{2N}ln\left(\frac{2M}{\delta}\right)}$$
+                $$\epsilon = \sqrt{\frac{1}{2N}\text{ln}\left(\frac{2M}{\delta}\right)}$$
 
                 Notice that by replacing $\epsilon$ in any of our two previous cases
                 we have an expression in terms of $N$ (==training set size==) 
                 and $M$ (==model complexity==). <br><br>
-                Now we define $\delta$ instead of $\epsilon$.
+                Now we, as users, will define $\delta$ instead of $\epsilon$.
             </p>
 
             <p>
                 ==Maximum Bound==
 
-                $$E_{out}(g) \leq E_{in}(g) + \sqrt{\frac{1}{2N}ln\left(\frac{2M}{\delta}\right)}$$
+                $$E_{out}(g) \leq E_{in}(g) + \sqrt{\frac{1}{2N}\text{ln}\left(\frac{2M}{\delta}\right)}$$
 
                 == Minimal Bound==
 
-                $$E_{out}(g) \geq E_{in}(g) - \sqrt{\frac{1}{2N}ln\left(\frac{2M}{\delta}\right)}$$
+                $$E_{out}(g) \geq E_{in}(g) - \sqrt{\frac{1}{2N}\text{ln}\left(\frac{2M}{\delta}\right)}$$
             </p>
 
         </div>
@@ -136,9 +136,9 @@
                 <p>
                     The following is the definition of the maximum bound
                 
-                    $$E_{out}(g) \leq E_{in}(g) + \sqrt{\frac{1}{2N}ln\left(\frac{2M}{\delta}\right)}$$
+                    $$E_{out}(g) \leq E_{in}(g) + \sqrt{\frac{1}{2N}\text{ln}\left(\frac{2M}{\delta}\right)}$$
 
-                    Notice, here we can conclude
+                    Notice we can conclude
                 </p>
                     <ol>
                         <li>$\downarrow E_{in} \quad \downarrow E_{out} \Rightarrow$ 
@@ -151,9 +151,10 @@
                     <br>
 
                     Additionally, we can note again that there exists a complex relation
-                    between $M$, $E_{in}$, and $E_{out}$
+                    between $M$, $E_{in}$, and $E_{out}$ similar to what happened with the Uniform Hoeffnig Inequality 
                 </p>
-    
+                        <!-- (TODO: I could add a link) -->
+
             </div>
     
             <div class="comment">
@@ -178,9 +179,9 @@
             <div class="content">
                 <p>The following is the definition of the minimum bound
                 
-                    $$E_{out}(g) \geq E_{in}(g) - \sqrt{\frac{1}{2N}ln\left(\frac{2M}{\delta}\right)}$$
+                    $$E_{out}(g) \geq E_{in}(g) - \sqrt{\frac{1}{2N}\text{ln}\left(\frac{2M}{\delta}\right)}$$
 
-                    Notice, here we can conclude $\uparrow E_{in} \quad \uparrow E_{out}$. <br><br>
+                    Notice we can conclude $\uparrow E_{in} \quad \uparrow E_{out}$. <br><br>
                     
                     Then, this bound effectively provides a kind of
                     minimum bound that our generalization error can achieve. It can not necesarily
