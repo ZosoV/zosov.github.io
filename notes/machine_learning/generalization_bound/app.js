@@ -13,8 +13,8 @@ function formatText(text) {
     text = text.replace(/~(.*?)~/g, '<sub>$1</sub>');
     // Replace ==word== with <span style="color: lightblue;">word</span> for highlighting
     text = text.replace(/==(.*?)==/g, '<span style="color: #48ddff;">$1</span>');
-    // Replace ==word== with <span style="color: lightblue;">word</span> for highlighting
-    text = text.replace(/--(.*?)--/g, '<span style="color: #EF6943;">$1</span>');
+    // Replace ==word== with <span style="color: pink;">word</span> for highlighting
+    text = text.replace(/--(.*?)--/g, '<span style="color: #ff66b2;">$1</span>');
     
     return text;
     }
