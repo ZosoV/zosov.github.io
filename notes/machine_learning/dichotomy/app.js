@@ -4,7 +4,7 @@ function formatText(text) {
     // Replace *word* with <em>word</em>
     text = text.replace(/\*(.*?)\*/g, '<em>$1</em>');
     // Replace __word__ with <u>word</u>
-    text = text.replace(/__(.*?)__/g, '<span style="color: #4CAF50;"><u>$1</u></span>');
+    text = text.replace(/__(.*?)__/g, '<span style="color: #ff66b2;">$1</span>');
     // Replace ~~word~~ with <s>word</s> for strikethrough
     text = text.replace(/~~(.*?)~~/g, '<s>$1</s>');
     // Replace ^word^ with <sup>word</sup> for superscript
@@ -14,7 +14,7 @@ function formatText(text) {
     // Replace ==word== with <span style="color: lightblue;">word</span> for highlighting
     text = text.replace(/==(.*?)==/g, '<span style="color: #48ddff;">$1</span>');
     // Replace ==word== with <span style="color: pink;">word</span> for highlighting
-    text = text.replace(/--(.*?)--/g, '<span style="color: #ff66b2;">$1</span>');        
+    text = text.replace(/--(.*?)--/g, '<span style="color: #EF6943;">$1</span>');
     
     return text;
     }
