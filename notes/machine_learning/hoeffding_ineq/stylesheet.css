@@ -58,6 +58,16 @@ h1 {
     margin-top: 5px;
 }
 
+.small-img-container {
+    text-align: center;
+}
+
+.small-img-container img {
+    max-width: 65%;
+    height: auto;
+    margin-top: 5px;
+}
+
 nav {
     background-color: #3498db;
     color: #fff;

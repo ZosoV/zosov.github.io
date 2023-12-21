@@ -34,6 +34,209 @@
         <h1>Is Learning Feasible?: Hoeffding Inequality</h1>
     </div>
 
-    TBD
+      <!--  MAIN BLOCK NOTE CONTAINER -->
+      <div class="note-container">
+        <div class="topic">
+
+            <br><br><br><br>
+            <p> Learning Intuition  </p>
+            <!-- Add your title content here -->
+        </div>
+        <div class="content">
+            <p> 
+                The goal of these notes is answering the question: Is Learning Feasible?
+                To do that, we first developed an intuition and then use the Hoeffding Inequality
+                to formarly explain our inution. <br> <br>
+
+                The learner $\mathcal{A}$, in principle, only have limited data (==training set==) to pindown
+                the theorical entire target function $f(x)$. However, this limited data set could reveal enough
+                information or not depending of the prespective (discrete or ==probabilitic==), and 
+                we will describe these prespectives later. <br> <br>
+
+                First, it's important to define what we understand for feasible learning. Our notion of learning
+                in this context is the following:
+                <ul>
+                  <li>==Learning:== A learner is learning if it is able to tell us __anything outside of training set ($\mathcal{T}$)__.</li>
+                  <li>==Memorization:== A learner is only memorizing if it only knows the target $f$ for all points in our training set.</li>
+                </ul>
+              </p>
+        </div>
+
+        <div class="comment">
+          <!-- Add your comment content here -->
+            <p>
+            </p>
+        </div>
+    </div>
+    <!--  END BLOCK NOTE CONTAINER -->
+
+        <!--  MAIN BLOCK NOTE CONTAINER -->
+        <div class="note-container">
+          <div class="topic">
+              <p> Discrete Perspective </p>
+              <!-- Add your title content here -->
+          </div>
+          <div class="content">
+              <p> ==**Why learning something outside $\mathcal{T}$ is challenging in a discrete perspective?**== <br><br>
+
+                In a discrete prespective, we expect that our learner is able to learn all the in-samples and out-samples.
+                However, that is not practically possible because our limited training set cannot tell us something ==concrete (or certain)== 
+                about something outside our training set. <br><br>
+
+                Illustrated with an example, using the following training set, we are interested in learning an optimal function
+                $g$, such that $g = f$; or in other words $g$ must be able to correctly predict **all** in-samples and out-samples.
+              </p>
+      
+              <div class="img-container">
+                  <img src="assets/image844.png" alt="test">
+              </div>
+
+              <p>
+                Picking any of those candidates ($f_1, f_2, \cdots, f_8$) could be a possible optimal $g$ because they predict
+                correctly our in-samples. <br><br>
+
+                However, these candidates don't give us a concrete (certain) information outside the dataset (out-samples).
+                Any possible value in ==**?**=='s can be acceptable in theory because we don't know what is actually happening outside
+                the dataset.
+              </p>
+          </div>
+  
+          <div class="comment">
+            <!-- Add your comment content here -->
+              <p>
+  
+              </p>
+          </div>
+      </div>
+      <!--  END BLOCK NOTE CONTAINER -->
+
+    <!--  MAIN BLOCK NOTE CONTAINER -->
+    <div class="note-container">
+      <div class="topic">
+          <p> Probabilistic Perpective </p>
+          <!-- Add your title content here -->
+      </div>
+      <div class="content">
+          <p>
+            Nevertheless, although the discrete case is not possible, the training set can still give us 
+            a probabilitic approximation. We are able to ==infer== something outside $\mathcal{T}$ using only
+            $\mathcal{T}$, but in a probabilitic way using __**Hoeffding Inequality**__.
+          </p>
+
+          <p>
+   
+      </div>
+
+      <div class="comment">
+        <!-- Add your comment content here -->
+          <!-- <p>
+            **Intuition** <br>
+            The intuition behind the Hoeffding Inequality can be grasped by envisioning a bin containing 
+            red and blue balls. Suppose you can randomly sample (with replacement) a ball from the bin 
+            with a probability $p = 0.8$ of it being red. <br><br>
+            
+            Here, $p = 0.8$ represents the fraction of red balls in the entire population (the bin), and 
+            since the distribution is implicitly Bernoulli, the mean of the population is $\mu = p = 0.8$. <br><br>
+  
+            When we draw a sample of, let's say, 10 balls from this population, we anticipate having more 
+            red balls in our sample due to the $p = 0.8$. While it's possible to select more blue balls 
+            in specific instances, generally, the probability of obtaining red balls in our sample is 
+            higher because it aligns with the natural behavior dictated by the probability $p = 0.8$. 
+            The Hoeffding Inequality quantifies this behavior.
+            </p>
+            <div class="img-container">
+              <img src="assets/image844.png" alt="test">
+          </div>
+          </p> -->
+      </div>
+  </div>
+  <!--  END BLOCK NOTE CONTAINER -->
+
+   <!--  MAIN BLOCK NOTE CONTAINER -->
+   <div class="note-container">
+    <div class="topic">
+        <p> Hoeffding Inequality </p>
+        <!-- Add your title content here -->
+    </div>
+    <div class="content">
+        <p>
+          Hoeffding Inequality is a ==concentration inequality==, which provides an exponential bound
+          on the probability that the ==sample mean== deviates significantly from the ==true expected value==. <br><br>
+          
+          Let $z_1, \cdots, z_N$ be random independent indentically distributed random variables, 
+          such that $0 \leq z_i \leq 1$.
+          <div class="small-img-container">
+            <img src="assets/hoeff_ineq.png" alt="test">
+        </div>
+        </p>
+
+        <p>
+          where,
+          <ul>
+            <li>$\nu = \frac{1}{N}\sum^N_{i=1}z_i$ is the sample mean</li>
+            <li>$\mu = E_{z\sim p}[z]$ is the expected value (or population value)</li>
+          </ul>
+        </p>
+        <p>
+          ==Important Takeways==
+          <ol>
+            <li>It is ==not a tight bound== because is bounded by 2, and probability can't be greater than 1.</li>
+            <li>The only quantity that is random is $\eta$, $u$ is unknown but not random.</li>
+            <li>The size of the population (bin) doesn't matter. The population could be small or large, finite or infinite.</li>
+            <li>__**iid condition**__: The fact that the sample is iid draw from the population is a necessary condition to apply 
+              Hoeffding Inequality.
+            </li>
+          </ol>
+
+        </p>
+     
+        
+      </div>
+
+    <div class="comment">
+      <!-- Add your comment content here -->
+        <p>
+          In the general case, we use a bound on $a_i \leq z_i \leq b_i$, where $a_i$ and $b_i$ are constant
+          per each $z_i$. Then, the RHS exponent changes to 
+          <div class="small-img-container">
+            <img src="assets/generalRHS.png" alt="test">
+        </div>
+          <br> <br>
+          Intuitively, to understand the Hoeffding Inequality, thing about a bin with read and blue balls, 
+          and an iid sample from this bin. Then, by the law of large numbers, it makes sense that the mean 
+          sample $\nu$ can tell us something about the expected value (or population mean) $\mu$. Hoeffding
+          Inequality only quantifies this behavior.
+          <br> <br> <br>
+
+          There are others takeways on $\epsilon$ and $N$, which are better explained when Hoeffning 
+          is applied to machine learning later. 
+        </p>
+    </div>
+</div>
+<!--  END BLOCK NOTE CONTAINER -->
+
+    <!--  MAIN BLOCK NOTE CONTAINER -->
+    <div class="note-container">
+      <div class="topic">
+          <p> Title </p>
+          <!-- Add your title content here -->
+      </div>
+      <div class="content">
+          <p> 
+          </p>
+  
+          <div class="img-container">
+              <img src="assets/image844.png" alt="test">
+          </div>
+      </div>
+
+      <div class="comment">
+        <!-- Add your comment content here -->
+          <p>
+
+          </p>
+      </div>
+  </div>
+  <!--  END BLOCK NOTE CONTAINER -->
 </body>
 </html>
