@@ -100,6 +100,9 @@
             </p>
 
             <p>
+                In such way, we say that starting from the Hoeffding Inequality with probability ==$1 - \delta$==,
+                the following bounds are true 
+
                 ==Maximum Bound==
 
                 $$E_{out}(g) \leq E_{in}(g) + \sqrt{\frac{1}{2N}\text{ln}\left(\frac{2M}{\delta}\right)}$$
@@ -146,13 +149,40 @@
                         <li>$\uparrow N \quad \downarrow E_{out} \Rightarrow$ more training size less generalization error</li>
                         <li>$\uparrow M \quad \uparrow E_{out} \Rightarrow$ more model complexity more generalization</li>
                     </ol>
-                <p class="callout">    
-                    **__Trade-off M, $E_{in}$, $E_{out}$__**
-                    <br>
 
-                    Additionally, we can note again that there exists a complex relation
-                    between $M$, $E_{in}$, and $E_{out}$ similar to what happened with the Uniform Hoeffnig Inequality 
-                </p>
+                <div class="callout">
+                    <p >    
+                        **__Trade-off M, $E_{in}$, $E_{out}$__**
+                        <br>
+    
+                        Additionally, we can note again that there exists a complex relation
+                        between $M$, $E_{in}$, and $E_{out}$ similar to what happened with the Uniform Hoeffnig Inequality 
+                    </p>
+                    <p >
+                        By focusing in the complex relation that exists between $M$, $E_{in}$, and $E_{out}$,
+                        we can split the learning in two central questions:
+            
+                        <div class="img-container">
+                          <img src="assets/trade_off1.jpg" alt="test">
+                        </div>
+                        <ol>
+                          <li>
+                            can we make sure that $E_{out}(g)$ is close enough to $E_{in}(g)$
+                          </li>
+                          <li>
+                            can we make $E_{in}(g)$ small enough?
+                          </li>
+                        </ol>
+                      
+                      
+                      <div class="img-container">
+                        <img src="assets/trade_off.jpg" alt="test">
+                      </div>
+            
+                      Then, using the right $M$ (or $\mathcal{H}$) is important.
+                        </p>
+                </div>
+
                         <!-- (TODO: I could add a link) -->
 
             </div>
