@@ -88,7 +88,7 @@
               </p>
       
               <div class="img-container">
-                  <img src="assets/image844.png" alt="test">
+                  <img src="assets/discrete_intuition.png.jpg" alt="test">
               </div>
 
               <p>
@@ -181,7 +181,7 @@
           ==Important Takeways==
           <ol>
             <li>It is ==not a tight bound== because is bounded by 2, and probability can't be greater than 1.</li>
-            <li>The only quantity that is random is $\eta$, $u$ is unknown but not random.</li>
+            <li>The only quantity that is random is $\nu$ (it a random variable), $u$ is unknown but not random.</li>
             <li>The size of the population (bin) doesn't matter. The population could be small or large, finite or infinite.</li>
             <li>__**iid condition**__: The fact that the sample is iid draw from the population is a necessary condition to apply 
               Hoeffding Inequality.
@@ -215,19 +215,343 @@
 </div>
 <!--  END BLOCK NOTE CONTAINER -->
 
+
     <!--  MAIN BLOCK NOTE CONTAINER -->
     <div class="note-container">
       <div class="topic">
-          <p> Title </p>
+          <p>  </p>
           <!-- Add your title content here -->
       </div>
       <div class="content">
-          <p> 
+          <p>
+            In order to use our Hoeffding Inequality in Machine Learning, we focused in the simple Supervised 
+            Learning Framework, where we try to predict $g: \mathcal{X} \rightarrow \mathcal{Y}$,
+            such that $g$ approximates the true target function $f: \mathcal{X} \rightarrow \mathcal{Y}$.
           </p>
   
-          <div class="img-container">
-              <img src="assets/image844.png" alt="test">
+          <div class="small-img-container">
+            <img src="assets/supervised_learning.jpg" alt="test">
+        </div>
+          <p>
+            In this framework, we can additionally distinguish in-sample and out-sample examples, which will 
+            be consider to calculate the errors:
+            <ul>
+              <li>in-sample examples are the training examples.</li>
+              <li>out-sample examples are ==**all**== the other examples that are not training examples, but belongs to $\mathcal{X}$.
+              </li>
+            </ul>
+          </p>
+      </div>
+
+      <div class="comment">
+        <!-- Add your comment content here -->
+          <p>
+
+          </p>
+      </div>
+  </div>
+  <!--  END BLOCK NOTE CONTAINER -->
+      <!--  MAIN BLOCK NOTE CONTAINER -->
+      <div class="note-container">
+        <div class="topic">
+            <p> Hoeffding in Machine Learning </p>
+            <!-- Add your title content here -->
+        </div>
+        <div class="content">
+              <p>
+                We can replace the respective sample mean and expected value from Hoeffding Inequality 
+                with our equivalence in Machine Learning, where
+                <ol>
+                  <li>==$\nu = E_{in}$== is our in-sample error (or ==training error==).</li>
+                  <ul>
+                    <li>It is our ==random variable== because it depends on a training set.</li>
+                    <li>We can calculate this error because we know $f(x^{(i)})$ (our label from training set).</li>
+                  </ul>
+
+                  <li>==$\mu = E_{out}$== is our out-sample error (or ==generalization error==) calculated across all possible examples.</li>
+                  <ul>
+                    <li>It is unknown but not random.</li>
+                    <li>We can't calculate it because we don't known $f(x)$</li>
+                  </ul>
+                </ol>
+
+                <div class="small-img-container">
+                  <img src="assets/hoeff_in_ml.jpg" alt="test">
+              </div>
+                
+                <br>
+
+                We can notice that using $E_{in}$ (or sample mean) tell us something about our $E_{out}$ (or expected value).
+                Specifically, it tell us the our training error $E_{in}$ can approximate our $E_{out}$
+              </p> 
+
+        </div>
+  
+        <div class="comment">
+          <!-- Add your comment content here -->
+            <p>
+              Notice $E_{out}$ is represented with a probability mass distribution where the points are 
+              $h(x) \neq f(x)$. In other words, all those points that produces wrong classification given
+              a hypothesis $h$. <br><br>
+
+              Intuitively, it's similar to the proportion of red balls in our bin example, but we now are dealing
+              with a distribution.
+
+              <div class="small-img-container">
+                <img src="assets/bad_examples.jpg" alt="test">
+              </div>
+
+
+              NOTE: Although our $E_out$ is represented by a mass distribution, this distribution is derived
+              from the expected value. In the ipad, I have an example of a derivation considering a binary 
+              classification problem.
+            </p>
+        </div>
+    </div>
+    <!--  END BLOCK NOTE CONTAINER -->
+    <!--  MAIN BLOCK NOTE CONTAINER -->
+    <div class="note-container">
+      <div class="topic">
+          <p> Problem: No iid examples </p>
+          <!-- Add your title content here -->
+      </div>
+      <div class="content">
+
+        <div class="small-img-container">
+          <img src="assets/problem.jpg" alt="test">
+        </div>
+          <p>
+            In other words and to understand it better
+
+            <ol>
+              <li>In order to use the Hoeffding inequality, we have to **guarantee that the sample is drawn iid**.</li>
+              <li>
+                However, in the Supervised Learning framework, we first choose $g$ using our training set. <br><br>
+
+              If we train our model, find a $g$, fix that ==$g$==, and finally calculate $E_{in}(g)$. This error will
+              not be calculated on iid examples anymore because the error is indirectly influenced by $g$ which was found
+              using the same training set.
+
+              </li>
+            </ol>
+          </p>
+          <div class="small-img-container">
+            <img src="assets/no_iid_condition.jpg" alt="test">
           </div>
+      </div>
+
+      <div class="comment">
+        <!-- Add your comment content here -->
+          <p>
+            We can notice this problem is also visible in the definition of the in-sample error:
+            <div class="img-container">
+              <img src="assets/idd_problem_in_equation.jpg" alt="test">
+            </div>
+
+            if we use a fixed ==$g$== the whole calculation is not iid anymore because
+            the indicator function is going to use the final hypothesis $g$ to count the number
+            of miss-classifications.
+
+          </p>
+      </div>
+  </div>
+  <!--  END BLOCK NOTE CONTAINER -->
+    <!--  MAIN BLOCK NOTE CONTAINER -->
+    <div class="note-container">
+      <div class="topic">
+          <p> Solution: Uniform Hoeffding Inequality </p>
+          <!-- Add your title content here -->
+      </div>
+      <div class="content">
+          <p>
+            The way to solve this problem is to bound $P(|E_{in}(g) - E_{out}(g)| > \epsilon)$ in
+            a way that doesn't depend on which $g$ the learning algorithm picks.
+          </p>
+  
+          <div class="small-img-container">
+            <img src="assets/solution_uni_hoeff.jpg" alt="test">
+          </div>
+
+          <p>
+            This result, also called __Uniform Hoeffding Inequality, is an overestimation__ of the LHS probability.
+
+            It because as we can see in ==*==, we are taking into account all the fixed $h_i$'s. With this bound,
+            intuiively, we are trying to simultaneously approximate the LHS with all the RHS corresponding
+            to each $h_i$, which in some situations is not the best we can do, but for now it's great. <br><br>
+            
+          </p>
+
+          <p>
+            In this way, the new bound show us two things:
+            <ol>
+              <li>
+                Our LHS comes from picking $g$ after training, normally as
+                <div class="small-img-container">
+                  <img src="assets/no_iid_condition.jpg" alt="test">
+                </div>
+              </li>
+              <li>
+                But our RHS takes into account the whole hypothesis set, where it is guaranteed to draw
+                iid examples to calculate each $E_{in}(h_i)$
+
+                <div class="small-img-container">
+                  <img src="assets/rhs_sol.jpg" alt="test">
+                </div>
+              </li>
+            </ol>
+          </p>
+      </div>
+
+      <div class="comment">
+        <!-- Add your comment content here -->
+          <p>
+            The whole derivation of this bound is below and we us two basic rules in probability
+            <ol>
+              <li> if $\mathcal{B}_1 \Rightarrow \mathcal{B}_2$, then $P(\mathcal{B}_1) \leq P(\mathcal{B}_2)$</li>
+              <li> __Union Bound__:
+              $$P(\mathcal{B}_1 \text{or} \cdots \text{or} \mathcal{B}_M) \leq \sum_{i=1}^{M} P(\mathcal{B}_i)$$
+
+              </li>
+            </ol>
+
+            <div class="img-container">
+              <img src="assets/derivation.jpg" alt="test">
+            </div>
+          </p>
+      </div>
+  </div>
+  <!--  END BLOCK NOTE CONTAINER -->
+
+    <!--  MAIN BLOCK NOTE CONTAINER -->
+    <div class="note-container">
+      <div class="topic">
+          <p> Still idd condition </p>
+          <!-- Add your title content here -->
+      </div>
+      <div class="content">
+          <p>
+            **IMPORTANT** <br><br>
+
+            However, it stil important to assume the iid condition to use this bound: <br><br>
+
+            ==**When using $g$ to approximate $f:\mathcal{X} \rightarrow \mathcal{Y}$**==
+
+            <ol>
+              <li>
+                A training and test examples are draw iid from ==$p(x)$==.
+              </li>
+              <li>
+                A training and test examples are all coming from the same target function $f$.
+              </li>
+            </ol>
+          </p>
+          <p>
+            **==When using $g$ to approximate $p(x|y)$==**
+
+            <ol>
+              <li>
+                Training and test examples are draw iid from ==$p(x,y)$==.
+              </li>
+            </ol>       
+          </p>
+      </div>
+
+      <div class="comment">
+        <!-- Add your comment content here -->
+          <p>
+            --I think we still need the iid condition because in some way we still need to guarantee that the RHS is calculated iid examples--
+            <br><br>
+
+            Note these conditions coincide with the supervised learning framework conditions
+          </p>
+      </div>
+  </div>
+  <!--  END BLOCK NOTE CONTAINER -->
+
+    <!--  MAIN BLOCK NOTE CONTAINER -->
+    <div class="note-container">
+      <div class="topic">
+          <p> Conclusions </p>
+          <!-- Add your title content here -->
+      </div>
+      <div class="content">
+          <p> The training set $\mathcal{T}$ can only tell us something ==likely== about $f$ outside $\mathcal{T}$.
+          </p>
+          <div class="img-container">
+              <img src="assets/conclusion.jpg" alt="test">
+          </div>
+
+          <p>
+            <ol>
+              <li>
+                **==$\uparrow \epsilon \Rightarrow$==** $\downarrow \text{RHS} \Rightarrow$ $\downarrow$ probable 
+                that the difference $|E_{in}(g) - E_{out}(g)|$ was too high<br><br>
+                $\Rightarrow$ it's more probable that those erros are close. 
+                Then, $E_{in}$ is a good estimate of $E_{out}$
+              </li>
+              <li>
+                **==$\uparrow N \Rightarrow$==** $\downarrow \text{RHS} \Rightarrow$ $\downarrow$ probable 
+                that the difference $|E_{in}(g) - E_{out}(g)|$ was too high<br><br>
+                $\Rightarrow$ it's more probable that those erros are close. 
+                Then, $E_{in}$ is a good estimate of $E_{out}$
+              </li>
+              <li>
+                The third option is concluded by two previous ones.
+              </li>
+              <li>
+                There exists a __Trade-off between $M$, $E_{in}$, and $E_{out}$__
+              </li>
+            </ol>
+          </p>
+      </div>
+
+      <div class="comment">
+        <!-- Add your comment content here -->
+          <p>
+
+          </p>
+      </div>
+  </div>
+  <!--  END BLOCK NOTE CONTAINER -->
+
+  
+    <!--  MAIN BLOCK NOTE CONTAINER -->
+    <div class="note-container">
+      <div class="topic">
+          <p> Trade-off between $M$, $E_{in}$, and $E_{out}$ </p>
+          <!-- Add your title content here -->
+      </div>
+      <div class="content">
+          <div class="callout">
+
+          
+          <p >
+            By focusing in the complex relation that exists between $M$, $E_{in}$, and $E_{out}$,
+            we can split the learning in two central questions:
+
+            <div class="small-img-container">
+              <img src="assets/trade_off1.jpg" alt="test">
+            </div>
+            <ol>
+              <li>
+                can we make sure that $E_{out}(g)$ is close enough to $E_{in}(g)$
+              </li>
+              <li>
+                can we make $E_{in}(g)$ small enough?
+              </li>
+            </ol>
+          
+          
+          <div class="small-img-container">
+            <img src="assets/trade_off.jpg" alt="test">
+          </div>
+
+          Then, using the right $M$ (or $\mathcal{H}$) is important.
+            </p>
+          </div>
+          <br><br>
+          We will start to handle this trade-off later by changing our notion of model complexity using VC dimension.
+
       </div>
 
       <div class="comment">
