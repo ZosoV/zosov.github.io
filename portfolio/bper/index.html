@@ -1,0 +1,401 @@
+
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title>CovarianceNet</title>
+
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({ tex2jax: { inlineMath: [['$', '$'], ['\\(', '\\)']] } });
+      </script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+ 
+    <!-- <base href="/"> -->
+
+        <!--FACEBOOK-->
+    <!-- <meta property="og:image" content="assets/CovNet_teaser.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="682">
+    <meta property="og:image:height" content="682">
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://jonbarron.info/mipnerf/"/>
+    <meta property="og:title" content="mip-NeRF" />
+    <meta property="og:description" content="Project page for Mip-NeRF: A Multiscale Representation for Anti-Aliasing Neural Radiance Fields." /> -->
+
+        <!--TWITTER-->
+    <!-- <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="mip-NeRF" />
+    <meta name="twitter:description" content="Project page for Mip-NeRF: A Multiscale Representation for Anti-Aliasing Neural Radiance Fields." />
+    <meta name="twitter:image" content="https://jonbarron.info/mipnerf/img/rays_square.png" /> -->
+
+
+<!--     <link rel="apple-touch-icon" href="apple-touch-icon.png"> -->
+  <!-- <link rel="icon" type="image/png" href="img/seal_icon.png"> -->
+    <!-- Place favicon.ico in the root directory -->
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.8.0/codemirror.min.css">
+    <link rel="stylesheet" href="css/app.css">
+	<link rel="icon" href="../../assets/icons/icon-192x192.png">
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.8.0/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.3/clipboard.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <script src="js/app.js"></script>
+</head>
+
+<body>
+    <a href="https://zosov.github.io/" class="fixed-button">
+        <i class="fas fa-home"></i>
+    </a>
+    
+    <div class="container-fluid" id="main">
+        <div class="row" id="header_project">
+            <h2 class="col-md-12 text-center">
+                <b>Bisimulation Prioritized Experience Replay</b>: <br> Enhancing Online Reinforcement Learning through <br>Behavioral-Based Priorities <br>
+                <small>
+                    Master Thesis 2023-2024
+                </small>
+            </h2>
+        </div>
+        <div class="row" id="header_project">
+            <div class="col-md-12 text-center">
+                <ul class="list-inline" >
+                    <li>
+                        <a href="https://zosov.github.io/">
+                            Oscar Guarnizo
+                        </a>
+                        </br>University of Birmingham
+                    </li>
+                    <li>
+                        <a href="https://mircogiacobbe.github.io/">
+                          Mirco Giacobbe
+                        </a>
+                        </br>University of Birmingham
+                    </li><br>
+                    <li>
+                        <a href="https://www.leonardostella.com/">
+                            Leonardo Stella
+                        </a>
+                        </br>University of Birmingham
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="row" id="header_project">
+                <div class="col-md-4 col-md-offset-4 text-center">
+                    <ul class="nav nav-pills nav-justified">
+                        <!-- <li>
+                            <a href="https://ieeexplore.ieee.org/document/9416639">
+                            <image src="assets/mip_paper_image.jpg" height="60px">
+                                <h4><strong>Paper</strong></h4>
+                            </a>
+                        </li> -->
+                        <li>
+                            <a href="#">
+                            <image src="assets/mip_paper_image.jpg" height="60px">
+                                <h4><strong>Thesis</strong></h4>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                            <image src="assets/mip_paper_image.jpg" height="60px">
+                                <h4><strong>Poster Article</strong></h4>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://docs.google.com/presentation/d/1JLb2d-s9r5cLp-ThYM192pepzLsk0x6jFZRSWZSLA2Q/edit?usp=sharing">
+                            <image src="assets/google slides.png" height="60px">
+                                <h4><strong>Demo Slides</strong></h4>
+                            </a>
+                        </li>    
+                        <!-- <li>
+                            <a href="https://www.researchgate.net/publication/361880577_Poster_Convolutional_Neural_Network_Feature_Extraction_Using_Covariance_Tensor_Decomposition">
+                            <image src="assets/poster.png" height="60px">
+                                <h4><strong>Poster</strong></h4>
+                            </a>
+                        </li>                         -->
+                        <li>
+                            <a href="https://youtu.be/ajT4eAypdJM">
+                            <image src="assets/youtube_icon.png" height="60px">
+                                <h4><strong>State Abstractions Video</strong></h4>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://github.com/ZosoV/final_project">
+                            <image src="assets/github.png" height="60px" style="filter: invert(1);">
+                                <h4><strong>Code</strong></h4>
+                            </a>
+                        </li>
+                        <!-- <li>
+                            <a href="https://oscar-guarnizo.medium.com/review-covariance-tensor-for-convolutional-neural-networks-77c119f2a225">
+                            <image src="assets/medium.png" height="60px" style="filter: invert(1);">
+                                <h4><strong>Blog</strong></h4>
+                            </a>
+                        </li> -->
+                    </ul>
+                </div>
+        </div>
+
+
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Abstract
+                </h3>
+                <image src="assets/latent_space.jpg" class="img-responsive" alt="overview"><br>
+                <p class="text-justify">
+                    Prioritized Experience Replay has been an effective traditional solution for 
+                    value-based reinforcement learning algorithms to efficiently address 
+                    non-stationary and correlated data issues. However, standard prioritization 
+                    often overlooks the nuanced, task-specific behaviors of states, leading to a 
+                    "task-agnostic" sampling problem. This work introduces a novel non-uniform 
+                    sampling approach, named Bisimulation Prioritized Experience Replay (BPER), 
+                    by incorporating a surrogate on-policy bisimulation metric into the experience 
+                    replay prioritization process. This metric allows us to measure behavioral 
+                    similarities and diversify the training data, aiming to enhance learning by 
+                    focusing on behaviorally relevant transitions. Specifically, our method utilizes 
+                    a Matching under Independent Couplings (MICo) metric, a more general surrogate metric 
+                    learned through state abstractions. The proposed method balances conventional 
+                    TD-error-based and bisimulation-based prioritization by reweighting priorities 
+                    with an introduced hyperparameter, and two possible strategies to assigning 
+                    priorities. The method demonstrates superior performance in a 31-state Grid 
+                    World and shows promising results in classical pixel-based environments. The 
+                    31-state Grid World empirically validates the proof of concept by efficiently 
+                    achieving to 1) emphasize behavioral relevant transition, thereby avoiding task-agnostic 
+                    sampling, 2) alleviate the outdated priorities by having a better tendency to constant 
+                    fixed priorities, and 3) mitigate the insufficient sample space coverage, increasing 
+                    the data diversity.             
+                </p>
+            </div>
+        </div>
+
+
+
+        <!-- <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Video
+                </h3>
+                <div class="text-center">
+                    <div style="position:relative;padding-top:56.25%;">
+                        <iframe src="https://www.youtube.com/embed/0vH1tGhuZbY" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+
+
+        <!-- <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Matching under Independent Couplings (MICo) Metric <a href="https://arxiv.org/abs/2106.08229">(Castro et al., 2022)</a>
+                </h3>
+                <p class="text-justify">
+                    The present work employs a surrogate on-policy bisimulation metric known as the MICO metric <a href="https://arxiv.org/abs/2106.08229">(Castro et al., 2022)</a>,
+                    which confers a behavioral similarity measure between states. The MICO metric is a general surrogate metric learned through state abstractions.
+                </p>
+                <p style="text-align:center;">
+                    <image src="assets/mico_definition.png" class="img-responsive">
+                </p>
+                <p>
+                    The MICo metric is a diffuse metric, which allows zero values for distinct states, and self-distances greater than zero.
+                </p>
+                <p style="text-align:center;"></p>
+                    <image src="assets/diffuse_metric.png" class="img-responsive">
+                </p>                
+                <p>
+                    This MICo operator is used to learn a parameterized state abstraction \(\phi_\omega(x) : \mathcal{S} \to \mathcal{S}_\phi\) (parameterized by \(\omega\)), which maps a true environmental state (e.g., pixels) to a lower-dimensional latent representation. 
+                    The goal is to position these representations in such a way that a chosen parameterized distance $U_\omega(x,y)$ 
+                    coincides with the MICo distance in the latent space, where the states are organized according to their behavioral similarity.
+                </p>
+                <p style="text-align:center;">
+                    <image src="assets/latent_space.jpg" class="img-responsive">
+                </p>
+                <p class="text-justify">
+                    The parameterized distance function \(U_\omega(x, y)\) is defined as:
+                    \begin{equation}
+                        U^\pi(x, y) \approx U_\omega(x, y):=\frac{\left\|\phi_\omega(x)\right\|_2^2+\left\|\phi_\omega(y)\right\|_2^2}{2}+\beta \theta\left(\phi_\omega(x), \phi_\omega(y)\right)
+                    \end{equation}
+                    where the first term ensures positive self-distances.</p>
+
+                <p>
+                    Consequently, the recursive nature of the operator \(T_M^\pi(U)(x,y)\) is used to define a loss function, which works similarly to the Bellman recurrence process in DQN.
+                    Specifically, the loss function measures the difference between a learning target MICo metric \(T_{\bar{\omega}}^U\) and the online MICo metric \(U_\omega\), as
+
+                    \begin{equation}
+                    \label{eq:mico_loss}
+                        \mathcal{L}_{\mathrm{MICo}}(\omega)=\mathbb{E}_{\left\langle x, r_x, x^{\prime}\right\rangle,\left\langle y, r_y, y^{\prime}\right\rangle}\left[\left(T_{\bar{\omega}}^U\left(r_x, x^{\prime}, r_y, y^{\prime}\right)-U_\omega(x, y)\right)^2\right]
+                    \end{equation}
+
+                    \begin{equation}
+                        T_{\bar{\omega}}^U\left(r_x, x^{\prime}, r_y, y^{\prime}\right)=\left|r_x-r_y\right|+\gamma U_{\bar{\omega}}\left(x^{\prime}, y^{\prime}\right)
+                    \end{equation}
+                    where \(\bar{\omega}\) is a separate copy of the network parameters, synchronized with \(\omega\) at infrequent intervals, and the pairs of transitions \(\left\langle x, r_x, x^{\prime}\right\rangle\) and \(\left\langle y, r_y, y^{\prime}\right\rangle\) are sampled from the experience replay.
+                </p>
+
+                <p>The MICO learning can be integrated into any value-based agent by learning an estimate $Q_{\xi, \omega}(x, \cdot) = \psi_\xi(\phi_\omega(x))$, where $\phi_\omega(x)$ corresponds to the representation of state $x$, and $\psi_\xi$ corresponds to the value approximator. This work specifically focuses on the DQN algorithm, where the $Q_{\xi, \omega}$ corresponds to the Q-values. In this scenario, the MICO loss $\mathcal{L}_{\text{TD}}$ is combined with the temporal-difference loss $\mathcal{L}_{\text{MICo}}$ as 
+                    \begin{equation}
+                        \mathcal{L}_\alpha(\xi, \omega) = (1 - \alpha)\mathcal{L}_{\text{TD}}(\xi, \omega) + \alpha \mathcal{L}_{\text{MICo}}(\omega)
+                    \end{equation}
+                    , where $\alpha \in (0, 1)$. 
+                </p>
+
+                <p style="text-align:center;">
+                    <image src="assets/mico_learning.jpg"  class="img-responsive">
+                </p>
+
+                <p>
+                    Although the MICo loss $\mathcal{L}_{\text{MICo}}$ requires pairs of transitions $\left\langle x, r_x, x^{\prime}\right\rangle$ and $\left\langle y, r_y, y^{\prime}\right\rangle$, in practice, transitions are not sampled as pairs; we only have access to a mini-batch of unpaired transitions, necessitating a method to pair them. To address this issue, a <b>squarify</b> method <a href="https://arxiv.org/abs/1911.09291">(Castro, 2019)</a> was proposed to construct pairs of transitions by pairing each transition with all others within the current mini-batch and then calculating the MICo loss.
+                </p>
+                <p style="text-align:center;">
+                    <image src="assets/squarify.jpg"  class="img-responsive">
+                </p>
+            </div>
+        </div>
+            
+
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Bisimulation Prioritized Experience Replay (BPER)
+                </h3>
+                <p class="text-justify">
+                    The current work explores the behaviors between states stored in the experience replay. Note that an experience tuple is
+                    defined as \(e_t = (s_t, a_t, r_t, s_{t+1})\). It is evident that experiences with a higher MICO on-policy bisimulation
+                    distance between \(s_t\) and \(s_{t+1}\) are likely to be more informative (or 'surprising') than transitions between
+                    behaviorally similar states. By prioritizing transitions with greater behavioral differences, our method encourages more
+                    diversity in the sampling process.
+
+                    As the MICo metric is approximated online as part of the state abstraction learning process, it is enough to use
+                    $U_\omega$ to calculate a MICo distance between two current and next states and update the priorities accordingly. This is our <b>current-next Strategy</b>.
+                </p>
+                <p style="text-align:center;">
+                    <image src="assets/strategies.jpg" class="img-responsive" alt="scales">
+                </p>
+    
+                <p>
+                The current-next Strategy faces challenges due to overlapping state distributions and variability in online bisimulation approximation, leading to scarce high-priority transitions. 
+                An empirical solution is proposed to mitigate these issues and improve prioritization effectiveness. In this <b>all-vs-all Strategy</b>, a relative behavioral distance to the current minibatch is computed by averaging the mean distance between each current state and all other current states in the minibatch.
+                <br>
+                <br>
+                Algorithm 3 presents the pseudo-code for the entire prioritizing process. Similar to the PER method, the priorities are only updated for the current sampled mini-batch to maintain computational efficiency. Notice the algorithm depicts the procedure for current-next Strategy (BPERcn). all-vs-all Strategy (BPERaa) requires a minor replacement in line 19, where \(U_\omega(s_i, s_{i+1})\) should be replaced with the relative distance \(U^B_\omega(s_i)\).
+                
+                \begin{equation}
+    U^B_\omega(s_i) = \sum_{i=1}^k U_\omega(s_i, s_k), \quad \forall e_k = (s_k, r_k, a_k, s_{k+1}) \in B
+\end{equation}
+where $B$ corresponds to the current mini-batch.            
+                </p>
+                <p style="text-align:center;">
+                    <image src="assets/algorithm.png" class="img-responsive" alt="scales">
+                </p>
+            </div>
+        </div>
+            
+
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Results
+                </h3>
+                <p class="text-justify">
+                    A 31-state simple GridWorld was used as a proof of concept to evaluate three key problems in non-uniform sampling
+                    methods: task-agnostic sampling, outdated priorities, and state space coverage. After that, a general evaluation was performed on classical environments. 
+                    
+                    <br>
+                    <br>
+                    <b>Task-agnostic</b>
+                    This experiments shows that a notion of behavioral similarity proves to be a better indicator of expected learning progress by encouraging more
+                    behavioral disimilar states in
+                
+                </p>
+                <p style="text-align:center; align-items: center;">
+                    <image src="assets/visual_sanity_check.PNG" width="500px" class="img-responsive center" alt="scales">
+                </p>
+                <p class="text-justify">
+                    We study the correlation between generated kernels (per 
+                    layer) using different sizes of training sub-datasets.             
+                </p>
+                <p style="text-align:center;">
+                    <image src="assets/correlation_layer_0.png" class="img-responsive center" alt="scales">
+                </p>
+                <p class="text-justify">
+                    We compare our model with state-of-the-art architectures on
+                    CIFAR 10, CIFAR 100 and MNIST.             
+                </p>                             
+                <p style="text-align:center;">
+                    <image src="assets/state-of-the-art.PNG" width="500px" class="img-responsive center" alt="scales">
+                </p>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Related links
+                </h3>
+                <p class="text-justify">
+                    - The book <a href="https://www.routledge.com/Multilinear-Subspace-Learning-Dimensionality-Reduction-of-Multidimensional/Lu-Plataniotis-Venetsanopoulos/p/book/9781439857243">Multilinear Subspace Learning Dimensionality Reduction of Multidimensional Data</a> 
+                    provides an excellent introduction to tensor operations: unfolding, n-mode product,
+                    n-mode cross-covariance (Covariance Tensor), and Tucker Decomposition.
+                </p>
+                <p class="text-justify">
+                    - To understand Tucker Decomposition with R, explore 
+                    <a href="https://www.alexejgossmann.com/tensor_decomposition_tucker/">Understanding the Tucker decomposition, and compressing tensor-valued data (with R code)</a>
+                </p>
+                <p class="text-justify">
+                    - To know more about the cascade style used in our work, check
+                    <a href="https://link.springer.com/chapter/10.1007/978-981-15-7205-0_7">PCA Based Kernel Initialization for Convolutional Neural Networks.</a>                
+                </p>
+
+            </div>
+        </div>
+        
+            
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Citation
+                </h3>
+                <div class="form-group col-md-10 col-md-offset-1">
+                    <textarea id="bibtex" class="form-control" readonly>
+@article{fonseca2021convolutional,
+    title={Convolutional Neural Network Feature Extraction Using Covariance Tensor Decomposition},
+    author={Fonseca, Ricardo and Guarnizo, Oscar and Suntaxi, Diego and Cadiz, Alfonso and Creixell, Werner},
+    journal={IEEE Access},
+    volume={9},
+    pages={66646--66660},
+    year={2021},
+    publisher={IEEE}
+}</textarea>
+                </div>
+            </div>
+        </div> -->
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <p style="text-align: right">
+                Powered by <a href="https://jonbarron.info/">Jon Barron</a> and <a href="http://mgharbi.com/">Michaël Gharbi</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

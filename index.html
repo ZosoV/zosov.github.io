@@ -98,9 +98,9 @@
 
                 <ul>
                   <li>Reinforcement learning</li>
+                  <li>Representation learning</li>
                   <li>Continual learning </li>
                   <li>Meta learning</li>
-                  <li>Representation learning</li>
                 </ul>
               </p>
               <p>
@@ -198,6 +198,51 @@
           </tr>
         </tbody></table>
         <table class="dotted" style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+          <tr onmouseout="bper_stop()" onmouseover="bper_start()">
+            <td class = "left-card">
+              <div class="one">
+                <div class="two" id='bper_image'>
+                  <img src='assets/images/banner_back_bper.jpg' width="160"></div>
+                <img src='assets/images/banner_front_bper.jpg' width="160">
+              </div>
+              <script type="text/javascript">
+                function bper_start() {
+                  document.getElementById('bper_image').style.opacity = "1";
+                }
+
+                function bper_stop() {
+                  document.getElementById('bper_image').style.opacity = "0";
+                }
+                bper_stop()
+              </script>
+            </td>
+            <td class = "right-card">
+              <a href="./portfolio/bper/index.html" target="_blank">
+                <papertitle>Bisimulation Prioritized Experience Replay: Enhancing Online Reinforcement Learning through Behavioral-Based Priorities</papertitle>
+              </a>
+              <br>
+              <strong>Oscar Guarnizo</strong>, 
+							<a href="https://mircogiacobbe.github.io/">Mirco Giacobbe</a>,
+              <a href="https://www.leonardostella.com/">Leonardo Stella</a>
+              <br>
+              <em>Master Thesis</em>, 2023-2024
+              <br>
+              <a href="./portfolio/bper/index.html" target="_blank">project page</a> 
+              <!-- <a href="https://ieeexplore.ieee.org/document/9416639">paper</a> / -->
+              <!-- <a href="https://www.researchgate.net/publication/361880577_Poster_Convolutional_Neural_Network_Feature_Extraction_Using_Covariance_Tensor_Decomposition">poster</a> /
+              <a href="https://www.youtube.com/watch?v=0vH1tGhuZbY&ab_channel=OscarGuarnizo">video</a> /
+              <a href="https://oscar-guarnizo.medium.com/review-covariance-tensor-for-convolutional-neural-networks-77c119f2a225">blog</a> /
+              <a href="https://github.com/ZosoV/cnn_tensor_decomposition">code</a> -->
+              <p></p>
+              <p>
+                Bisimulation Prioritized Experience Replay (BPER) introduces a novel approach to enhance value-based reinforcement 
+                learning by incorporating a bisimulation metric to prioritize behaviorally relevant transitions. 
+                By balancing traditional TD-error with state behavior similarities, BPER improves data diversity 
+                and learning efficiency, as demonstrated in a 31-state Grid World and pixel-based environments.
+              </p>
+            </td>
+          </tr>
+          
           <tr onmouseout="malle_stop()" onmouseover="malle_start()">
             <td class = "left-card">
               <div class="one">
