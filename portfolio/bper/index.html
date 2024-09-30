@@ -184,7 +184,9 @@
             </div>
         </div>
 
-
+        <p>
+            NOTE: Content TBD waiting thesis released.
+        </p>
 
         <!-- <div class="row">
             <div class="col-md-8 col-md-offset-2">
@@ -207,13 +209,14 @@
                 </h3>
                 <p class="text-justify">
                     The present work employs a surrogate on-policy bisimulation metric known as the MICO metric <a href="https://arxiv.org/abs/2106.08229">(Castro et al., 2022)</a>,
-                    which confers a behavioral similarity measure between states. The MICO metric is a general surrogate metric learned through state abstractions.
+                    which confers a behavioral similarity measure between states. The MICO metric is a more general metric learned through state abstractions, which works for both
+                    deterministic and stochastic MDPs. 
                 </p>
                 <p style="text-align:center;">
                     <image src="assets/mico_definition.png" class="img-responsive">
                 </p>
                 <p>
-                    The MICo metric is a diffuse metric, which allows zero values for distinct states, and self-distances greater than zero.
+                    It is important to notice that the MICo metric is a diffuse metric, which allows zero values for distinct states, and self-distances greater than zero.
                 </p>
                 <p style="text-align:center;"></p>
                     <image src="assets/diffuse_metric.png" class="img-responsive">
@@ -276,30 +279,37 @@
                     Bisimulation Prioritized Experience Replay (BPER)
                 </h3>
                 <p class="text-justify">
-                    The current work explores the behaviors between states stored in the experience replay. Note that an experience tuple is
-                    defined as \(e_t = (s_t, a_t, r_t, s_{t+1})\). It is evident that experiences with a higher MICO on-policy bisimulation
+                    The current work explores the behaviors between states stored in the experience replay. Note that an experience tuple in an experience replay is
+                    defined as \(e_t = (s_t, a_t, r_t, s_{t+1})\). It is evident that experiences with a higher MICO on-policy bisimulation (more behavioral dissimilar)
                     distance between \(s_t\) and \(s_{t+1}\) are likely to be more informative (or 'surprising') than transitions between
                     behaviorally similar states. By prioritizing transitions with greater behavioral differences, our method encourages more
                     diversity in the sampling process.
 
                     As the MICo metric is approximated online as part of the state abstraction learning process, it is enough to use
-                    $U_\omega$ to calculate a MICo distance between two current and next states and update the priorities accordingly. This is our <b>current-next Strategy</b>.
+                    $U_\omega$ to calculate a MICo distance between the current and next states and update the priorities accordingly. This is our <b>current-next Strategy (BPERcn)</b>.
                 </p>
                 <p style="text-align:center;">
                     <image src="assets/strategies.jpg" class="img-responsive" alt="scales">
                 </p>
     
                 <p>
-                The current-next Strategy faces challenges due to overlapping state distributions and variability in online bisimulation approximation, leading to scarce high-priority transitions. 
-                An empirical solution is proposed to mitigate these issues and improve prioritization effectiveness. In this <b>all-vs-all Strategy</b>, a relative behavioral distance to the current minibatch is computed by averaging the mean distance between each current state and all other current states in the minibatch.
-                <br>
-                <br>
-                Algorithm 3 presents the pseudo-code for the entire prioritizing process. Similar to the PER method, the priorities are only updated for the current sampled mini-batch to maintain computational efficiency. Notice the algorithm depicts the procedure for current-next Strategy (BPERcn). all-vs-all Strategy (BPERaa) requires a minor replacement in line 19, where \(U_\omega(s_i, s_{i+1})\) should be replaced with the relative distance \(U^B_\omega(s_i)\).
-                
+                The current-next Strategy faces challenges due to, in practice, the trajectories may overlap significantly, resulting in overlapping state distributions, leading to scarce high-priority transitions. 
+                An empirical solution is proposed to mitigate these issues and improve prioritization effectiveness. In this <b>all-vs-all Strategy (BPERaa)</b>, a relative behavioral distance to the current minibatch is 
+                computed by averaging the mean distance between each current state and all other current states in the minibatch; computed as
                 \begin{equation}
-    U^B_\omega(s_i) = \sum_{i=1}^k U_\omega(s_i, s_k), \quad \forall e_k = (s_k, r_k, a_k, s_{k+1}) \in B
-\end{equation}
-where $B$ corresponds to the current mini-batch.            
+                U^B_\omega(s_i) = \sum_{i=1}^k U_\omega(s_i, s_k), \quad \forall e_k = (s_k, r_k, a_k, s_{k+1}) \in B
+            \end{equation}
+            where $B$ corresponds to the current mini-batch.         
+                <br>
+                <br>
+                Algorithm 3 presents the pseudo-code for the entire prioritizing process. Similar to the PER method, 
+                the priorities are only updated for the current sampled mini-batch to maintain computational efficiency.
+                Additionally, alpha-weighting the probability and importance sampling are used similarly to PER. 
+                Notice the algorithm depicts the procedure for current-next Strategy (BPERcn). all-vs-all Strategy 
+                (BPERaa) requires a minor replacement in line 19, where \(U_\omega(s_i, s_{i+1})\) should be 
+                replaced with the relative distance \(U^B_\omega(s_i)\).
+                
+   
                 </p>
                 <p style="text-align:center;">
                     <image src="assets/algorithm.png" class="img-responsive" alt="scales">
@@ -320,30 +330,59 @@ where $B$ corresponds to the current mini-batch.
                     
                     <br>
                     <br>
-                    <b>Task-agnostic</b>
-                    This experiments shows that a notion of behavioral similarity proves to be a better indicator of expected learning progress by encouraging more
-                    behavioral disimilar states in
-                
+                    <b>Task-agnostic Sampling.</b>
+                    The following plot illustrates the evolution of priority distributions in the experience replay over time, with the final distribution (at 100k steps) highlighted at the top.
+                    The results show that both proposed strategies, BPERcn and BPERaa, consistently generate higher priority values over time, encouraging more behaviorally
+                    dissimilar transitions, while PER exhibits an accumulation of low priority values over time. Notably, BPERaa exhibits slightly greater variability in the priority values.
+
                 </p>
                 <p style="text-align:center; align-items: center;">
-                    <image src="assets/visual_sanity_check.PNG" width="500px" class="img-responsive center" alt="scales">
+                    <image src="assets/priority_distributions.jpg" class="img-responsive" alt="scales">
                 </p>
                 <p class="text-justify">
-                    We study the correlation between generated kernels (per 
-                    layer) using different sizes of training sub-datasets.             
+                    <b>Outdated Priorities.</b>
+                    Recall that outdated priorities occur because priority updates are performed only on the current minibatch, rather than
+                    across the whole possible transition under the current policy.
+                    <br>
+                    <br>
+                    The following plots show the distances between the sampling distribution $p_i$ for PER and BPER variants, and the ideal
+                    distributions $p^\ast_i$, achieved when all possible transitions under the current policy are updated at each time step.
+                    Two weighting schemes, the on-policy and uniform weighting, were used based on the previous work of <a href="https://arxiv.org/abs/2007.09569">Pan et al., 2022</a>.
+                    Although our method does not provides distances close to zero indicating a perfect match between distributions, our
+                    method reduce and alleviate the difference between the distributions without relying on a model-based techniques.
+
                 </p>
-                <p style="text-align:center;">
-                    <image src="assets/correlation_layer_0.png" class="img-responsive center" alt="scales">
+                <p style="text-align:center; align-items: center;">
+                    <image src="assets/outdated_priorities.jpg" class="img-responsive" alt="scales">
                 </p>
                 <p class="text-justify">
-                    We compare our model with state-of-the-art architectures on
-                    CIFAR 10, CIFAR 100 and MNIST.             
+                    <b>Space Coverage.</b>
+                    Recall the state space coverage problem arises from insufficient exploration, where the experience replay only captures
+                    a limited number of possible states, leading to suboptimal learning outcomes.
+                    <br>
+                    <br>
+                    Figure bellow shows the state visitation distribution at the 90k time step in the 31-state
+                    Grid World, where cell values corresponds to the visit count per state. The results indicate that the strategies BPERcn
+                    and BPERaa visit more states more frequently compared to other methods, with BPERcn performing slightly better than
+                    BPERaa. While some of the increased exploration in BPERcn and BPERaa may be attributed to the MICo learning, the
+                    bisimulation prioritized technique further enhances exploration (relative to DQN + MICo) by significantly increasing the
+                    state visit counts, reaching values around 600.
                 </p>                             
-                <p style="text-align:center;">
-                    <image src="assets/state-of-the-art.PNG" width="500px" class="img-responsive center" alt="scales">
+                <p style="text-align:center; align-items: center;">
+                    <image src="assets/space_coverage.jpg" class="img-responsive" alt="scales">
+                </p>
+                <p class="text-justify">
+                    <b>Classical Environments.</b>
+                    Figures bellow illustrate the episode reward calculated over a moving average window of 100 episodes in four different
+                    pixel-based environments, averaged over 5 independent executions. The hyperparameter priority weight $\mu$ was set using
+                    the best values found. In these results, the bisimulation strategies outperform the direct baseline DQN + MICo in most
+                    of the environments, even if they do not surpass DQN or DQN + PER.
+                </p>                             
+                <p style="text-align:center; align-items: center;">
+                    <image src="assets/classical_environments.jpg" class="img-responsive" alt="scales">
                 </p>
             </div>
-        </div>
+        </div> -->
 
 
         <div class="row">
@@ -352,24 +391,20 @@ where $B$ corresponds to the current mini-batch.
                     Related links
                 </h3>
                 <p class="text-justify">
-                    - The book <a href="https://www.routledge.com/Multilinear-Subspace-Learning-Dimensionality-Reduction-of-Multidimensional/Lu-Plataniotis-Venetsanopoulos/p/book/9781439857243">Multilinear Subspace Learning Dimensionality Reduction of Multidimensional Data</a> 
-                    provides an excellent introduction to tensor operations: unfolding, n-mode product,
-                    n-mode cross-covariance (Covariance Tensor), and Tucker Decomposition.
+                    - The on-policy bisimulation metric was proposed on the paper <a href="https://arxiv.org/abs/1911.09291">Scalable methods for computing state similarity in deterministic Markov Decision Processes</a> by Castro (2020).
                 </p>
                 <p class="text-justify">
-                    - To understand Tucker Decomposition with R, explore 
-                    <a href="https://www.alexejgossmann.com/tensor_decomposition_tucker/">Understanding the Tucker decomposition, and compressing tensor-valued data (with R code)</a>
+                    - The MICO paper can be found on <a href="https://arxiv.org/abs/2106.08229">MICo: Improved representations via sampling-based state similarity for Markov decision processes</a> by Castro et al. (2022).
                 </p>
                 <p class="text-justify">
-                    - To know more about the cascade style used in our work, check
-                    <a href="https://link.springer.com/chapter/10.1007/978-981-15-7205-0_7">PCA Based Kernel Initialization for Convolutional Neural Networks.</a>                
+                    - A new alternative for calculating the MICo metric using kernels is proposed on <a href="https://arxiv.org/abs/2310.19804">A Kernel Perspective on Behavioural Metrics for Markov Decision Processes</a> by Castro et al. (2023).
                 </p>
 
             </div>
         </div>
         
             
-        <div class="row">
+        <!-- <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <h3>
                     Citation
