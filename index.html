@@ -440,6 +440,46 @@
           <table class="dotted" style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
           <tbody>
 
+            <tr onmouseout="hangman_stop()" onmouseover="hangman_start()">
+              <td class="left-card">
+                <div class="one">
+                  <div class="two" id='hangman_image'>
+                    <img src='assets/images/banner_back_hangman.jpg' width="160"></div>
+                  <img src='assets/images/hangman.webp' width="160">
+                </div>
+                <script type="text/javascript">
+                  function hangman_start() {
+                    document.getElementById('hangman_image').style.opacity = "1";
+                  }
+  
+                  function hangman_stop() {
+                    document.getElementById('hangman_image').style.opacity = "0";
+                  }
+                  hangman_stop()
+                </script>
+              </td>
+              <td class="right-card">
+                <a href="https://github.com/ZosoV/hangman_bert" target="_blank">
+                  <papertitle>Hangman Model: Finetuning a BERT Model for Token Classification using Character-Level Masked Language Modeling (MLM)</papertitle>
+                </a>
+                <br>
+                <strong>Oscar Guarnizo</strong>,
+                <!-- <a href="https://www.linkedin.com/in/pepeleduin/">Leduin Cuenca</a> -->
+                <br>
+                <em> <strong>Self-Learning</strong> </em>, May 2024
+                <br>
+                <!-- <a href="https://zosov.github.io/portfolio/lpr/" target="_blank">project page</a> / -->
+                <a href="https://github.com/ZosoV/hangman_bert">code</a>
+                <p></p>
+                <p>
+                  This project aims to fine-tune a BERT-based model, called HangmanNet, for character-level masked language modeling to
+                  play the Hangman game. The model predicts hidden characters by leveraging bidirectional context from both sides of a
+                  word. Additional techniques, such as incorporating prior character frequency and custom data collators, were explored to
+                  improve accuracy, particularly for shorter words.
+                </p>
+              </td>
+            </tr> 
+
             <tr onmouseout="rawnerf_stop()" onmouseover="rawnerf_start()">
               <td class="left-card">
                 <div class="one">
@@ -468,7 +508,7 @@
                 <strong>Oscar Guarnizo</strong>,
                 <!-- <a href="https://www.linkedin.com/in/pepeleduin/">Leduin Cuenca</a> -->
                 <br>
-                <em> <strong>Self-Learning</strong>, 2023 - Present
+                <em> <strong>Self-Learning</strong></em>, 2023 - Present
                 <br>
                 <!-- <a href="https://zosov.github.io/portfolio/lpr/" target="_blank">project page</a> / -->
                 <a href="https://github.com/ZosoV/rl_comparison">code</a>
