@@ -448,6 +448,48 @@
           <table class="dotted" style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
           <tbody>
 
+            <tr onmouseout="pretrained_rl_hangman_stop()" onmouseover="pretrained_rl_hangman_start()">
+              <td class="left-card">
+                <div class="one">
+                  <div class="two" id='pretrained_rl_hangman_image'>
+                    <img src='assets/images/hangman_banner.png' width="160"></div>
+                  <img src='assets/images/hangman_bert_rl.png' width="160">
+                </div>
+                <script type="text/javascript">
+                  function pretrained_rl_hangman_start() {
+                    document.getElementById('pretrained_rl_hangman_image').style.opacity = "1";
+                  }
+  
+                  function pretrained_rl_hangman_stop() {
+                    document.getElementById('pretrained_rl_hangman_image').style.opacity = "0";
+                  }
+                  pretrained_rl_hangman_stop()
+                </script>
+              </td>
+              <td class="right-card">
+                <a href="https://github.com/ZosoV/pretrained_rl_hangman" target="_blank">
+                  <papertitle>Pretrained RL-Hangman: Enhancing Word Games Strategy with BERT and Deep Q-Networks.</papertitle>
+                </a>
+                <br>
+                <strong>Oscar Guarnizo</strong>,
+                <!-- <a href="https://www.linkedin.com/in/pepeleduin/">Leduin Cuenca</a> -->
+                <br>
+                <em> <strong>Self-Learning</strong> </em>, February 2025
+                <br>
+                <!-- <a href="https://zosov.github.io/portfolio/lpr/" target="_blank">project page</a> / -->
+                <a href="https://github.com/ZosoV/pretrained_rl_hangman">code</a>
+                <p></p>
+                <p>
+                  This project integrated a pretrained BERT-based model into a Deep Q-Network (DQN) to enhance 
+                  decision-making in the Hangman word game. The model combines contextual learning from BERT with 
+                  reinforcement learning, optimizing letter selection via a dynamic reward function based on 
+                  character frequency and game progression. Explored LoRA fine-tuning, smaller BERT variants, 
+                  and custom Gym environments improving accuracy from 70% to 75% and achieving a 65% success 
+                  rate across 113,000 games.
+                </p>
+              </td>
+            </tr> 
+
             <tr onmouseout="hangman_stop()" onmouseover="hangman_start()">
               <td class="left-card">
                 <div class="one">
