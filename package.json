@@ -4,8 +4,14 @@
   "private": true,
   "type": "module",
   "description": "Oscar Guarnizo's personal research and engineering portfolio",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "preview": "python3 -m http.server 4173 --bind 127.0.0.1 --directory dist",
+    "test": "npm run build && playwright test"
+  },
   "devDependencies": {
     "@axe-core/playwright": "4.13.0",
-    "@playwright/test": "1.64.1"
+    "@playwright/test": "1.64.1",
+    "katex": "0.19.0"
   }
 }

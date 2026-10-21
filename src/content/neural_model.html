@@ -1,0 +1,112 @@
+<h2>Abstract</h2>
+                <figure><img src="/assets/archive/portfolio/neural_model/assets/images/teaser_image.png" alt="Teaser image — project illustration" loading="lazy"></figure><br>
+                <p>
+                    This work aims to implement a model to find equidistant real roots using a Successive Adaptive Linear Neural Modeling,
+                    consisting of two models: a Self Organized Map (SOM) and an Adaptative Linear Neuron (Adaline). A SOM model has been
+                    used with a new neighborhood function and a physical distance. The SOM model can delimit the areas where a single root
+                    exists, dividing the task at hand into sub-processes and reducing the complexity. Then, we defined a neural model based
+                    on single Adaline neurons with a pocket. This model is applied sequentially to each pair of regions to find the real
+                    root values with reduced precision. Finally, several experiments were done considering CPU time, relative error, the
+                    distance between the roots, and polynomial degrees. The results show that the time complexity grows in a logarithmic
+                    way. Also, the error does not increase at a higher rate than the polynomial degree or the root distance.
+                </p>
+            
+
+                <h2>Video</h2>
+                
+                    
+                        <p><a href="https://www.youtube.com/watch?v=gJ-oAOBfijI">Watch the project video on YouTube ↗</a></p>
+                    
+                
+            
+
+                <h2>Self Organized Map (SOM)</h2>
+                <p>
+                    The random samples from a given function (which represents a given equation) are taken as initial patterns. Then, a
+                    self-organized map will receive the patterns and classify them into regions of possible roots.
+
+                    The topology of the SOM is simply linear because the patterns are distributed around the x-axis. There are n + 1 neurons
+                    because there are n roots dividing a whole space, which will produce n + 1 regions (one region per neuron).
+
+                </p>
+                <p>
+                    <figure><img src="/assets/archive/portfolio/neural_model/assets/images/som_topology.PNG" alt="Som topology — project illustration" loading="lazy"></figure>
+                </p>
+                
+                
+                <p>
+                    We used a neighborhood function during the training in order to update five neurons, the winning neuron and the closest
+                    neurons on both sides, two on the left and two on the right. Then, the neurons are multiplied by 1, 0.5, or 0.1
+                    depending on the topological distance (0 winning neuron, 1 the first closest, and 2 the second closes).
+                </p>
+                <p>
+                    <figure><img src="/assets/archive/portfolio/neural_model/assets/images/neighbor_function.PNG" alt="Neighbor function — project illustration" loading="lazy"></figure>
+                </p>
+                <p>
+                    Then, the training used the following equation
+                </p>
+                <p>
+                    <figure><img src="/assets/archive/portfolio/neural_model/assets/images/training_update.PNG" alt="Training update — project illustration" loading="lazy"></figure>
+                </p>
+            
+
+                <h2>Adaline</h2>
+                <p>
+                    After finding the regions with SOM, a dimension is added into the ouput patterns 
+                    given the regions distribution.
+                    Then, an Adaptive Linear Neuron (Adaline) is launched n times (per pair of regions) to
+                    find the n respective roots. Additionally, Adaline used a pocket to store the weight of neurons with the best accuracy
+                    for improving performance.
+                </p>
+                <p>
+                    <figure><img src="/assets/archive/portfolio/neural_model/assets/images/adaline.PNG" alt="scales" loading="lazy"></figure>
+                    Fig: Adalines per pair of regions after training.
+                </p>
+                <p>
+                    <strong>Equidistan Roots</strong> <br>
+
+                    This modeling only works for real equidistant roots because the SOM allows us to divide the space into (quasi) equally
+                    distributed regions.
+                </p>
+                <p>
+                    <figure><img src="/assets/archive/portfolio/neural_model/assets/images/polynomial_equation.PNG" alt="scales" loading="lazy"></figure>
+                </p>
+                <p>
+                    It can also be written as
+                </p>
+                <p>
+                    <figure><img src="/assets/archive/portfolio/neural_model/assets/images/polynomial_equation2.PNG" alt="scales" loading="lazy"></figure>
+                </p>
+                <p>
+                    with a root constraint
+                </p>
+                <p>
+                    <figure><img src="/assets/archive/portfolio/neural_model/assets/images/root_constraint.PNG" alt="scales" loading="lazy"></figure>
+                </p>
+            
+
+                <h2>Results</h2>
+                <p>
+                    This model is a two-process and we check their behavior visually as bellow or in the following <a href="https://youtu.be/gJ-oAOBfijI">video</a>.
+                </p>
+                <p>
+                    <figure><img src="/assets/archive/portfolio/neural_model/assets/images/steps_1.PNG" alt="scales" loading="lazy"></figure>
+                </p>
+                <p>
+                    <figure><img src="/assets/archive/portfolio/neural_model/assets/images/steps2.PNG" alt="scales" loading="lazy"></figure>
+                </p>
+                <p>
+                    We evaluated our method with polynomials of different degrees from 2 to 10, calculating its root approximation, CPU
+                    time, and relative error.
+                </p>
+                <p>
+                    <figure><img src="/assets/archive/portfolio/neural_model/assets/images/experiments01.png" alt="scales" loading="lazy"></figure>
+                </p>
+            
+
+                <h2>Related links</h2>
+                <p>
+                    - For more elaborated approaches for finding roots in polynomials using neural networks, check <a href="https://ieeexplore.ieee.org/abstract/document/6790351"> A Neural Root Finder of Polynomials Based on Root Moments
+                    </a> and <a href="https://ieeexplore.ieee.org/abstract/document/1288251/">A constructive approach for finding arbitrary roots of polynomials by neural networks</a> by De-Shuang Huan et al.
+                    <br>
+                </p>
