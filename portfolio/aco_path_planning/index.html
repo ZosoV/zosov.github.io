@@ -1,0 +1,371 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <script src="../../assets/js/theme.js"></script>
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title>ACO Path Planning</title>
+
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- <base href="/"> -->
+
+        <!--FACEBOOK-->
+    <!-- <meta property="og:image" content="assets/CovNet_teaser.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="682">
+    <meta property="og:image:height" content="682">
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://jonbarron.info/mipnerf/"/>
+    <meta property="og:title" content="mip-NeRF" />
+    <meta property="og:description" content="Project page for Mip-NeRF: A Multiscale Representation for Anti-Aliasing Neural Radiance Fields." /> -->
+
+        <!--TWITTER-->
+    <!-- <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="mip-NeRF" />
+    <meta name="twitter:description" content="Project page for Mip-NeRF: A Multiscale Representation for Anti-Aliasing Neural Radiance Fields." />
+    <meta name="twitter:image" content="https://jonbarron.info/mipnerf/img/rays_square.png" /> -->
+
+
+<!--     <link rel="apple-touch-icon" href="apple-touch-icon.png"> -->
+  <!-- <link rel="icon" type="image/png" href="img/seal_icon.png"> -->
+    <!-- Place favicon.ico in the root directory -->
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/app.css">
+	<link rel="icon" href="../../assets/icons/icon-192x192.png">
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <script src="js/app.js"></script>
+<link rel="stylesheet" href="../../assets/css/site.css">
+<script>
+      window.MathJax = {
+        tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], processEscapes: true },
+        options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'] }
+      };
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-chtml.js"></script>
+<script defer src="../../assets/js/navigation.js"></script>
+<script defer src="../../assets/js/media.js"></script>
+<script defer src="../../assets/js/citations.js"></script>
+</head>
+
+<body class="project-page">
+<nav class="contents-rail sidebar" aria-label="Project contents">
+  <details class="sidebar-shell" open>
+    <summary><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#menu"></use></svg><span>Navigation</span></summary>
+    <div class="sidebar-content">
+      <a class="sidebar-brand" href="../../index.html" title="Oscar Guarnizo — Home"><span class="brand-mark">OG</span><span class="sidebar-identity">Oscar Guarnizo<small>Project</small></span></a>
+      <div class="sidebar-scroll"><span class="rail-title">On this page</span>
+        <ul class="sidebar-menu"><li class="sidebar-group"><div class="sidebar-row"><a href="#abstract" data-section-link title="Abstract"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#overview"></use></svg><span class="sidebar-label">Abstract</span></a></div></li><li class="sidebar-group"><div class="sidebar-row"><a href="#video-unity3d" data-section-link title="Simulation"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#play"></use></svg><span class="sidebar-label">Simulation</span></a></div></li><li class="sidebar-group"><div class="sidebar-row"><a href="#global-interventions-random-walks" data-section-link title="Random walks"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#workflow"></use></svg><span class="sidebar-label">Random walks</span></a></div></li><li class="sidebar-group"><div class="sidebar-row"><a href="#local-interventions" data-section-link title="Local interventions"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#workflow"></use></svg><span class="sidebar-label">Local interventions</span></a></div></li><li class="sidebar-group"><div class="sidebar-row"><a href="#results" data-section-link title="Results"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#chart"></use></svg><span class="sidebar-label">Results</span></a></div></li><li class="sidebar-group"><div class="sidebar-row"><a href="#related-links" data-section-link title="Related links"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#link"></use></svg><span class="sidebar-label">Related links</span></a></div></li><li class="sidebar-group"><div class="sidebar-row"><a href="#citations" data-section-link title="Citations"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#quote"></use></svg><span class="sidebar-label">Citations</span></a></div></li></ul>
+      <div class="sidebar-destinations"><span class="rail-title">Elsewhere</span><ul><li class="sidebar-group"><div class="sidebar-row"><a href="../../blog/index.html" title="Blog"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#blog"></use></svg><span class="sidebar-label">Blog</span></a></div></li><li class="sidebar-group"><div class="sidebar-row"><a href="../../resources/index.html" title="Resources"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#resources"></use></svg><span class="sidebar-label">Resources</span></a></div></li></ul></div></div>
+      <div class="sidebar-footer">
+        <button type="button" class="theme-toggle" data-theme-toggle aria-label="Switch to dark mode" aria-pressed="false" title="Switch to dark mode"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#moon"></use></svg><span class="sidebar-label" data-theme-label>Dark mode</span></button>
+        <button type="button" class="sidebar-collapse" aria-label="Collapse sidebar" aria-expanded="true" title="Collapse sidebar"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#panel"></use></svg><span class="sidebar-label">Collapse</span></button>
+      </div>
+    </div>
+  </details>
+</nav>
+    
+    <div class="container-fluid" id="main">
+        <div class="row header-project">
+            <h2 class="col-md-12 text-center">
+                Three Dimensional Adaptive Path Planning Simulation <br> Based On Ant Colony Optimization <br>
+                <small>
+                    LA-CCI 2019 (Oral Presentation, Unity3D Simulation)
+                </small>
+            </h2>
+        </div>
+        <div class="row header-project">
+            <div class="col-md-12 text-center">
+                <ul class="list-inline" >
+                    <li>
+                        <a href="../../index.html">
+                            Oscar Guarnizo
+                        </a>
+                        <br>Yachay Tech University
+                    </li>
+                    <li>
+                        <a href="https://www.linkedin.com/in/israel-pineda/">
+                          Israel Pineda
+                        </a>
+                        <br>Yachay Tech University
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="row header-project">
+                <div class="col-md-4 col-md-offset-4 text-center">
+                    <ul class="nav nav-pills nav-justified">
+                        <li>
+                            <a title="Paper" aria-label="Paper" href="https://ieeexplore.ieee.org/document/9037049">
+                            <span class="resource-icon resource-icon--paper" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h6"/></svg></span>
+                                <h4><strong>Article</strong></h4>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://repositorio.yachaytech.edu.ec/handle/123456789/210">
+                            <span class="resource-icon resource-icon--thesis" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h13a1 1 0 0 1 1 1v17H6a3 3 0 0 1-3-3V6a3 3 0 0 1 2-3Z"/><path d="M3 18a3 3 0 0 1 3-3h13M8 7h7M8 10h5"/></svg></span>
+                                <h4><strong>Thesis</strong></h4>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://youtu.be/c0dzv3qGqrs">
+                            <span class="resource-icon resource-icon--video" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m10 9 5 3-5 3Z"/></svg></span>
+                                <h4><strong>Video</strong></h4>
+                            </a>
+                        </li>                
+                        <li>
+                            <a href="https://github.com/ZosoV/PathPlanningACO">
+                            <span class="resource-icon resource-icon--code" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m8 6-6 6 6 6M16 6l6 6-6 6M14 4l-4 16"/></svg></span>
+                                <h4><strong>Code</strong></h4>
+                            </a>
+                        </li>
+                        <li>
+                            <a title="Extended Code" aria-label="Extended Code" href="https://github.com/ZosoV/aco_random_walk">
+                            <span class="resource-icon resource-icon--code" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m8 6-6 6 6 6M16 6l6 6-6 6M14 4l-4 16"/></svg></span>
+                                <h4><strong>Source</strong></h4>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+        </div>
+
+
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3 id="abstract">Abstract</h3>
+                <button type="button" class="figure-button" data-image-original="assets/images/teaser_image.png" data-image-title="Project overview" aria-label="Enlarge figure: Project overview" style="--figure-width:1195px"><img src="../../assets/images/responsive/1acea0b30b-1195.webp" class="img-responsive" alt="Project overview" width="1195" height="391" loading="eager" decoding="async" srcset="../../assets/images/responsive/1acea0b30b-640.webp 640w, ../../assets/images/responsive/1acea0b30b-1195.webp 1195w" sizes="(max-width: 1000px) calc(100vw - 60px), (max-width: 1440px) calc(100vw - 320px), 876px"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button><br>
+                <p class="text-justify">
+                    Path Planning is a widely studied issue due to its several applications in robotics, relief planning, trade route
+                    planning, and even in the video game industry. The path planning techniques are therefore diverse, seeking to solve
+                    problems in unknown environments until finding a trail with the smoothest navigation. Unfortunately, this diversity
+                    provokes that some methods overlook certain aspects by attending to a specific-purpose problem, limiting characteristics
+                    such as execution time, adaptability behavior, and environment representations. The current project aims to design a
+                    path planning algorithm based on Ant Colony Optimization (ACO), which considers improvements for these limitations. The
+                    experiments followed an incremental style. Starting from a basic algorithm, we add some global and local interventions.
+                    Then, we selected the configurations with the best performance to define our final proposal and compare it with other
+                    already known methods. Finally, we display some results in a graphic simulation (using Unity3D) to showcase its adaptive behavior. The
+                    algorithm generates promising results with an accuracy of around 95%, proving to solve the limitations mentioned above.
+                </p>
+            </div>
+        </div>
+
+
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3 id="video-unity3d">Video (Unity3D)</h3>
+                <div class="text-center">
+                    <div style="position:relative;padding-top:56.25%;">
+                        <iframe src="https://www.youtube.com/embed/c0dzv3qGqrs" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3 id="global-interventions-random-walks">Global Interventions (Random Walks)</h3>
+                <p class="text-justify">
+                    We perform global interventions known as <strong>Random Walks</strong>, impacting the whole pheromones distributions. These random walks
+                    are proposed as pheromones initialization techniques to provide an advantage at the beginning of the algorithm. <br> <br> Indeed,
+                    a random walk enables initial controlled randomness, which helps to encourage a controlled trade-off between exploration
+                    and exploitation in the early steps of the algorithm. Furthermore, we hypothesized that these methods would reduce the
+                    convergence time and produce solutions closer to the optimal.
+                </p>
+                <figure class="algorithm" aria-labelledby="aco-algorithm-title">
+                    <figcaption id="aco-algorithm-title"><strong>Algorithm 1</strong><span>Random Walk + ACO</span><small class="algorithm-hint">Swipe long equations to read them in full.</small></figcaption>
+                    <div class="algorithm-parameters"><p><b>Input:</b> \(G(N,E),\;\tau_0,\;\mathcal A,\;\rho,\;\alpha,\;\beta,\;q_0\)</p><p><b>Output:</b> \(P_{\mathrm{best}}\)</p></div>
+                    <ol class="algorithm-steps">
+                        <li><div>\(\operatorname{InitPheromones}(G(N,E),\tau_0)\)</div></li>
+                        <li><div>\(\operatorname{RandomWalk}(G(N,E))\)</div></li>
+                        <li><div><b>while</b> <code>(!stopCondition)</code> <b>do</b></div></li>
+                        <li class="indent-1"><div><b>for</b> <code>(ant in</code> \(\mathcal A\)<code>)</code> <b>do</b></div></li>
+                        <li class="indent-2"><div><b>while</b> <code>(!reachGoal or !stuck)</code> <b>do</b></div></li>
+                        <li class="indent-3"><div><b>if</b> \((q\leq q_0)\) <b>then</b></div></li>
+                        <li class="indent-4"><div>\(P\mathrel{+}=\operatorname*{arg\,max}_{n_l\in\mathcal N(n_i)}\{\tau_{il}\nu_{il}^{\beta}\}\)</div></li>
+                        <li class="indent-3"><div><b>else</b></div></li>
+                        <li class="indent-4"><div>\(P\mathrel{+}=\operatorname{NodeGivenProb}(p_{ij}^k)\)</div></li>
+                        <li class="indent-3"><div><b>end</b></div></li>
+                        <li class="indent-2"><div><b>end</b></div></li>
+                        <li class="indent-2"><div>\(P_{\mathrm{best}}=\operatorname{UpdateBestPath}(P_{\mathrm{best}},P)\)</div></li>
+                        <li class="indent-1"><div><b>end</b></div></li>
+                        <li class="indent-1"><div>\(\operatorname{OfflinePheromoneUpdate}(G(N,E))\)</div></li>
+                        <li><div><b>end</b></div></li>
+                    </ol>
+                    <div class="algorithm-source"><a href="assets/images/algorithm.PNG" target="_blank" rel="noopener">Original figure</a></div>
+                </figure>
+                
+                <!-- <video id="video-1" width="100%" autoplay loop muted>
+                  <source src="img/pe_anim_horiz.mp4" type="video/mp4" />
+                </video> -->
+                <p class="text-justify">
+                    We proposed two different tendency random walks: Proximity Random Walk (PRW)
+                    and Random Nodes Walk (RNW).
+                    <br> <br>
+                    <strong>Proximity Random Walk</strong> is purely based on a distance heuristic to the target called <em>proximity</em>
+                    to choose the next node with a probability (<strong><em>r<sub>ij</sub></em></strong>).
+                </p>
+                <p style="text-align:center;">
+                    <span class="equation" style="display:block">\[r_{ij}^{k}=\frac{\nu_{ij}}{\sum_{n_l\in\mathcal{N}(n_i)}\nu_{il}},\qquad n_{ij}\in\mathcal{N}_i\]</span>
+                    <br>
+                </p>
+                <p style="text-align:center;">
+                    <button type="button" class="figure-button" data-image-original="assets/images/prw_representation.png" data-image-title="Prw representation" aria-label="Enlarge figure: prw representation" style="--figure-width:1079px"><img src="../../assets/images/responsive/25e34d7c18-1079.webp" class="img-responsive" width="1079" height="471" loading="lazy" decoding="async" srcset="../../assets/images/responsive/25e34d7c18-640.webp 640w, ../../assets/images/responsive/25e34d7c18-1079.webp 1079w" sizes="(max-width: 1000px) calc(100vw - 60px), (max-width: 1440px) calc(100vw - 320px), 876px" alt="Prw representation"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+                </p>
+                <p class="text-justify">
+                    <strong>Random Nodes Walk</strong> is a two-step 
+                    process based on a random nodes selection and the
+                    proximity random walk mentioned above. The idea is to randomly select nodes
+                    with probability (<strong><em>s<sub>i</sub></em></strong>) and connect
+                    the floating nodes by PRW.
+                </p>
+                <p style="text-align:center;">
+                    <span class="equation" style="display:block">\[s_i=\begin{cases}\dfrac{1}{|R_i|} & n_i\in R_i,\\0 & \text{otherwise},\end{cases}\qquad R_i:\text{ nodes closest to the target}\]</span>
+                </p>
+                <p style="text-align:center;">
+                    <button type="button" class="figure-button" data-image-original="assets/images/rnw_representation.png" data-image-title="Rnw representation" aria-label="Enlarge figure: rnw representation" style="--figure-width:1072px"><img src="../../assets/images/responsive/9c70ece577-1072.webp" class="img-responsive" width="1072" height="485" loading="lazy" decoding="async" srcset="../../assets/images/responsive/9c70ece577-640.webp 640w, ../../assets/images/responsive/9c70ece577-1072.webp 1072w" sizes="(max-width: 1000px) calc(100vw - 60px), (max-width: 1440px) calc(100vw - 320px), 876px" alt="Rnw representation"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+                </p>
+            </div>
+        </div>
+            
+
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3 id="local-interventions">Local Interventions</h3>
+                <p class="text-justify">
+                    The local interventions help us to control ants' behavior when confronted with obstacles during execution time. The
+                    principal problem of adding many obstacles is that it can generate several stuck conditions that delay the algorithm and
+                    even prevent it from converging. We proposed three interventions: local search, partial path decay, and neighbour decay.
+                </p>
+                <p class="text-justify">
+                    <strong>Local Search</strong> <br>
+                    We perform a local search to find nodes that produce a stuck condition and prevent access to these positions (or, as we called, forbid the given nodes).
+                </p>
+                <p style="text-align:center;">
+                    <button type="button" class="figure-button" data-image-original="assets/images/local_search.PNG" data-image-title="Local search" aria-label="Enlarge figure: local search" style="--figure-width:994px"><img src="../../assets/images/responsive/bf3e94ef52-994.webp" class="img-responsive" alt="Local search" width="994" height="352" loading="lazy" decoding="async" srcset="../../assets/images/responsive/bf3e94ef52-640.webp 640w, ../../assets/images/responsive/bf3e94ef52-994.webp 994w" sizes="(max-width: 1000px) calc(100vw - 60px), (max-width: 1440px) calc(100vw - 320px), 876px"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+                </p>
+                <p class="text-justify">
+                    <strong>Partial Path Decay</strong> <br>
+                    We perform an uneven pheromone decay on a portion of the path each time an ant gets stuck. As a result, we promote roads of less exploration in the long run.                </p>
+                <p style="text-align:center;">
+                    <button type="button" class="figure-button" data-image-original="assets/images/partial_path_decay.PNG" data-image-title="Partial path decay" aria-label="Enlarge figure: partial path decay" style="--figure-width:1099px"><img src="../../assets/images/responsive/b23fa7170e-1099.webp" class="img-responsive" alt="Partial path decay" width="1099" height="304" loading="lazy" decoding="async" srcset="../../assets/images/responsive/b23fa7170e-640.webp 640w, ../../assets/images/responsive/b23fa7170e-1099.webp 1099w" sizes="(max-width: 1000px) calc(100vw - 60px), (max-width: 1440px) calc(100vw - 320px), 876px"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+                </p>
+                <p class="text-justify">
+                    <strong>Neighbor Decay</strong> <br>
+                    We perform an uneven pheromone decay on neighbor nodes around the stuck node each time an ant gets stuck. As a result, we promote regions of less exploration in the long run.                </p>
+                <p style="text-align:center;">
+                    <button type="button" class="figure-button" data-image-original="assets/images/neighbor_decay.PNG" data-image-title="Neighbor decay" aria-label="Enlarge figure: neighbor decay" style="--figure-width:1374px"><img src="../../assets/images/responsive/e5c827ca35-1280.webp" class="img-responsive" alt="Neighbor decay" width="1374" height="371" loading="lazy" decoding="async" srcset="../../assets/images/responsive/e5c827ca35-640.webp 640w, ../../assets/images/responsive/e5c827ca35-1280.webp 1280w, ../../assets/images/responsive/e5c827ca35-1374.webp 1374w" sizes="(max-width: 1000px) calc(100vw - 60px), (max-width: 1440px) calc(100vw - 320px), 876px"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+                </p>
+            </div>
+        </div>
+            
+
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3 id="results">Results</h3>
+                <p class="text-justify">
+                    Our algorithm works in a graph representation, so it is easy to extrapolate the two behavior previously mentioned into a
+                    three-dimensional environment. Particularly, we experimented with four different topographic instances: mountain, valley, double
+                    valley, and Perlin noise graphs
+                </p>
+                <p style="text-align:center;">
+                    <button type="button" class="figure-button" data-image-original="assets/images/test_environments.png" data-image-title="Test environments" aria-label="Enlarge figure: test environments" style="--figure-width:2041px"><img src="../../assets/images/responsive/61b200801b-1280.webp" class="img-responsive" alt="Test environments" width="2041" height="401" loading="lazy" decoding="async" srcset="../../assets/images/responsive/61b200801b-640.webp 640w, ../../assets/images/responsive/61b200801b-1280.webp 1280w, ../../assets/images/responsive/61b200801b-1920.webp 1920w" sizes="(max-width: 1000px) calc(100vw - 60px), (max-width: 1440px) calc(100vw - 320px), 876px"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+                    <figcaption style="text-align:right;">From left to right, the terrains are double valley, mountain,
+                        perlin noise, and valley.
+                        </figcaption>
+
+                </p>
+                <p class="text-justify">
+                    We evaluated the performance of the algorithms using a <strong>PCA mechanism</strong> and defining the following evaluation metrics:
+                    <ul>
+
+                    </ul>
+                    <li>Execution Time (ET)</li>
+                    <li>Total Iterations (TI)</li>
+                    <li>Ground Truth Percent (GT)</li>
+                    <li>Stuck Roads (SR)</li>
+                    <li>Nodes Exploration (NE)</li>
+                    <li>Edges Exploration (EE)</li>
+                    <li>Useful Exploration (UE)</li>
+                </p>
+                <p style="text-align:center;">
+                    <button type="button" class="figure-button" data-image-original="assets/images/biplot_rw_groups.png" data-image-title="Biplot rw groups" aria-label="Enlarge figure: biplot rw groups" style="--figure-width:675px"><img src="../../assets/images/responsive/0b2da8a48c-675.webp" class="img-responsive center" alt="Biplot rw groups" width="675" height="392" loading="lazy" decoding="async" srcset="../../assets/images/responsive/0b2da8a48c-640.webp 640w, ../../assets/images/responsive/0b2da8a48c-675.webp 675w" sizes="(max-width: 1000px) calc(100vw - 60px), (max-width: 1440px) calc(100vw - 320px), 876px"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+                </p>
+                <p class="text-justify">
+                    Additionally, we explored some evaluation metrics in isolation to confirm PCA results.
+                </p>
+                <p style="text-align:center;">
+                    <button type="button" class="figure-button" data-image-original="assets/images/per_metric_plot.png" data-image-title="Per metric plot" aria-label="Enlarge figure: per metric plot" style="--figure-width:1521px"><img src="../../assets/images/responsive/9e868acc89-1280.webp" class="img-responsive" alt="Per metric plot" width="1521" height="469" loading="lazy" decoding="async" srcset="../../assets/images/responsive/9e868acc89-640.webp 640w, ../../assets/images/responsive/9e868acc89-1280.webp 1280w, ../../assets/images/responsive/9e868acc89-1521.webp 1521w" sizes="(max-width: 1000px) calc(100vw - 60px), (max-width: 1440px) calc(100vw - 320px), 876px"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+                </p>
+                <p class="text-justify">
+                    <strong>Graphic Simulation</strong>
+                    <br>
+                    Finally, we perform a graphical simulation using <a href="https://unity.com/">Unity3D</a> to verify 
+                    our findings. Specifically, we examined how our algorithm would perform when obstacles suddenly appear.
+                </p>
+                <p style="text-align:center;">
+                    <button type="button" class="figure-button" data-image-original="assets/images/graphic_simulation.PNG" data-image-title="Graphic simulation" aria-label="Enlarge figure: graphic simulation" style="--figure-width:1115px"><img src="../../assets/images/responsive/2e720148bc-1115.webp" class="img-responsive" alt="Graphic simulation" width="1115" height="323" loading="lazy" decoding="async" srcset="../../assets/images/responsive/2e720148bc-640.webp 640w, ../../assets/images/responsive/2e720148bc-1115.webp 1115w" sizes="(max-width: 1000px) calc(100vw - 60px), (max-width: 1440px) calc(100vw - 320px), 876px"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+                </p>
+                <p style="text-align:center;">
+                    <button type="button" class="figure-button" data-image-original="assets/images/experiment_01_graph_simulation.PNG" data-image-title="Experiment 01 graph simulation" aria-label="Enlarge figure: experiment 01 graph simulation" style="--figure-width:838px"><img src="../../assets/images/responsive/db945da63b-838.webp" class="img-responsive" alt="Experiment 01 graph simulation" width="838" height="659" loading="lazy" decoding="async" srcset="../../assets/images/responsive/db945da63b-640.webp 640w, ../../assets/images/responsive/db945da63b-838.webp 838w" sizes="(max-width: 1000px) calc(100vw - 60px), (max-width: 1440px) calc(100vw - 320px), 876px"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+                </p>          
+            </div>
+        </div>
+     
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3 id="related-links">Related links</h3>
+                <p class="text-justify">
+                    
+                    - The Ant Colony System algorithm (basic algorithm) used in this work is defined in 
+                    <a href="https://ieeexplore.ieee.org/abstract/document/4129846/">"Ant colony optimization." by Dorigo M. et al.</a>.
+                    <br>
+                    - Review <a href="assets/ECMC0032.pdf">Path Planning Simulation in Controlled Environments using the
+                        Ant Colony Optimization Algorithm</a> for an overview of path planning problems and multiple ways to solve them.
+                </p>
+            </div>
+        </div>
+        
+            
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3 id="citations">Citations</h3>
+                <section class="citation-block" aria-labelledby="bibtex-label">
+                    <div class="citation-toolbar">
+                        <strong id="bibtex-label">BibTeX</strong>
+                        <span class="citation-status" role="status" aria-live="polite"></span>
+                        <button type="button" class="citation-copy" data-copy-citation><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#copy"></use></svg><span data-copy-label>Copy BibTeX</span></button>
+                    </div>
+                    <pre class="citation-code" tabindex="0" aria-label="BibTeX citation"><code>@inproceedings{guarnizo2019three,
+  title = {Three dimensional adaptive path planning simulation based on ant colony optimization algorithm},
+  author = {Guarnizo, Oscar and Pineda, Israel},
+  booktitle = {2019 IEEE Latin American Conference on Computational Intelligence (LA-CCI)},
+  pages = {1--6},
+  year = {2019},
+  organization = {IEEE}
+}</code></pre>
+                </section>
+                
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

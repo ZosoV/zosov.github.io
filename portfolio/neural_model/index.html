@@ -1,0 +1,313 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <script src="../../assets/js/theme.js"></script>
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title>Neural Model</title>
+
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- <base href="/"> -->
+
+        <!--FACEBOOK-->
+    <!-- <meta property="og:image" content="assets/CovNet_teaser.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="682">
+    <meta property="og:image:height" content="682">
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://jonbarron.info/mipnerf/"/>
+    <meta property="og:title" content="mip-NeRF" />
+    <meta property="og:description" content="Project page for Mip-NeRF: A Multiscale Representation for Anti-Aliasing Neural Radiance Fields." /> -->
+
+        <!--TWITTER-->
+    <!-- <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="mip-NeRF" />
+    <meta name="twitter:description" content="Project page for Mip-NeRF: A Multiscale Representation for Anti-Aliasing Neural Radiance Fields." />
+    <meta name="twitter:image" content="https://jonbarron.info/mipnerf/img/rays_square.png" /> -->
+
+
+<!--     <link rel="apple-touch-icon" href="apple-touch-icon.png"> -->
+  <!-- <link rel="icon" type="image/png" href="img/seal_icon.png"> -->
+    <!-- Place favicon.ico in the root directory -->
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/app.css">
+	<link rel="icon" href="../../assets/icons/icon-192x192.png">
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <script src="js/app.js"></script>
+<link rel="stylesheet" href="../../assets/css/site.css">
+<script>
+      window.MathJax = {
+        tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], processEscapes: true },
+        options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'] }
+      };
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-chtml.js"></script>
+<script defer src="../../assets/js/navigation.js"></script>
+<script defer src="../../assets/js/media.js"></script>
+<script defer src="../../assets/js/citations.js"></script>
+</head>
+
+<body class="project-page">
+<nav class="contents-rail sidebar" aria-label="Project contents">
+  <details class="sidebar-shell" open>
+    <summary><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#menu"></use></svg><span>Navigation</span></summary>
+    <div class="sidebar-content">
+      <a class="sidebar-brand" href="../../index.html" title="Oscar Guarnizo — Home"><span class="brand-mark">OG</span><span class="sidebar-identity">Oscar Guarnizo<small>Project</small></span></a>
+      <div class="sidebar-scroll"><span class="rail-title">On this page</span>
+        <ul class="sidebar-menu"><li class="sidebar-group"><div class="sidebar-row"><a href="#abstract" data-section-link title="Abstract"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#overview"></use></svg><span class="sidebar-label">Abstract</span></a></div></li><li class="sidebar-group"><div class="sidebar-row"><a href="#video" data-section-link title="Video"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#play"></use></svg><span class="sidebar-label">Video</span></a></div></li><li class="sidebar-group"><div class="sidebar-row"><a href="#self-organized-map-som" data-section-link title="SOM"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#grid"></use></svg><span class="sidebar-label">SOM</span></a></div></li><li class="sidebar-group"><div class="sidebar-row"><a href="#adaline" data-section-link title="Adaline"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#chip"></use></svg><span class="sidebar-label">Adaline</span></a></div></li><li class="sidebar-group"><div class="sidebar-row"><a href="#results" data-section-link title="Results"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#chart"></use></svg><span class="sidebar-label">Results</span></a></div></li><li class="sidebar-group"><div class="sidebar-row"><a href="#related-links" data-section-link title="Related links"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#link"></use></svg><span class="sidebar-label">Related links</span></a></div></li><li class="sidebar-group"><div class="sidebar-row"><a href="#citation" data-section-link title="Citation"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#quote"></use></svg><span class="sidebar-label">Citation</span></a></div></li></ul>
+      <div class="sidebar-destinations"><span class="rail-title">Elsewhere</span><ul><li class="sidebar-group"><div class="sidebar-row"><a href="../../blog/index.html" title="Blog"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#blog"></use></svg><span class="sidebar-label">Blog</span></a></div></li><li class="sidebar-group"><div class="sidebar-row"><a href="../../resources/index.html" title="Resources"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#resources"></use></svg><span class="sidebar-label">Resources</span></a></div></li></ul></div></div>
+      <div class="sidebar-footer">
+        <button type="button" class="theme-toggle" data-theme-toggle aria-label="Switch to dark mode" aria-pressed="false" title="Switch to dark mode"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#moon"></use></svg><span class="sidebar-label" data-theme-label>Dark mode</span></button>
+        <button type="button" class="sidebar-collapse" aria-label="Collapse sidebar" aria-expanded="true" title="Collapse sidebar"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#panel"></use></svg><span class="sidebar-label">Collapse</span></button>
+      </div>
+    </div>
+  </details>
+</nav>
+    
+    <div class="container-fluid" id="main">
+        <div class="row header-project">
+            <h2 class="col-md-12 text-center">
+                Successive Adaptive Linear Neural Modeling for <br> Equidistant Real Roots Finding <br>
+                <small>
+                    ETCM 2018 (Oral Presentation)
+                </small>
+            </h2>
+        </div>
+        <div class="row header-project">
+            <div class="col-md-12 text-center">
+                <ul class="list-inline" >
+                    <li>
+                        <a href="https://www.linkedin.com/in/josephrgonzalezn/">
+                            Joseph Gonzalez
+                        </a>
+                        <br>Yachay Tech University
+                    </li>
+                    <li>
+                        <a href="https://www.linkedin.com/in/ferzcam/">
+                            Fernando Zhapa
+                        </a>
+                        <br>Yachay Tech University
+                    </li>
+                    <li>
+                        <a href="../../index.html">
+                            Oscar Guarnizo
+                        </a>
+                        <br>Yachay Tech University
+                    </li><br>
+                    <li>
+                        <a href="https://www.linkedin.com/in/francisco-ortega-zamorano-56bb8788/">
+                          Francisco Ortega-Zamorano
+                        </a>
+                        <br>Yachay Tech University
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="row header-project">
+                <div class="col-md-4 col-md-offset-4 text-center">
+                    <ul class="nav nav-pills nav-justified">
+                        <li>
+                            <a title="Paper" aria-label="Paper" href="https://ieeexplore.ieee.org/document/8580280">
+                            <span class="resource-icon resource-icon--paper" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h6"/></svg></span>
+                                <h4><strong>Article</strong></h4>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.youtube.com/watch?v=gJ-oAOBfijI&ab_channel=OscarGuarnizo">
+                            <span class="resource-icon resource-icon--video" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m10 9 5 3-5 3Z"/></svg></span>
+                                <h4><strong>Video</strong></h4>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://github.com/ferzcam/Root-finder">
+                            <span class="resource-icon resource-icon--code" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m8 6-6 6 6 6M16 6l6 6-6 6M14 4l-4 16"/></svg></span>
+                                <h4><strong>Code</strong></h4>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+        </div>
+
+
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3 id="abstract">Abstract</h3>
+                <button type="button" class="figure-button" data-image-original="assets/images/teaser_image.png" data-image-title="Project overview" aria-label="Enlarge figure: Project overview" style="--figure-width:1312px"><img src="../../assets/images/responsive/c9ed6c5281-1280.webp" class="img-responsive" alt="Project overview" width="1312" height="398" loading="eager" decoding="async" srcset="../../assets/images/responsive/c9ed6c5281-640.webp 640w, ../../assets/images/responsive/c9ed6c5281-1280.webp 1280w, ../../assets/images/responsive/c9ed6c5281-1312.webp 1312w" sizes="(max-width: 1000px) calc(100vw - 60px), (max-width: 1440px) calc(100vw - 320px), 876px"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button><br>
+                <p class="text-justify">
+                    This work aims to implement a model to find equidistant real roots using a Successive Adaptive Linear Neural Modeling,
+                    consisting of two models: a Self Organized Map (SOM) and an Adaptative Linear Neuron (Adaline). A SOM model has been
+                    used with a new neighborhood function and a physical distance. The SOM model can delimit the areas where a single root
+                    exists, dividing the task at hand into sub-processes and reducing the complexity. Then, we defined a neural model based
+                    on single Adaline neurons with a pocket. This model is applied sequentially to each pair of regions to find the real
+                    root values with reduced precision. Finally, several experiments were done considering CPU time, relative error, the
+                    distance between the roots, and polynomial degrees. The results show that the time complexity grows in a logarithmic
+                    way. Also, the error does not increase at a higher rate than the polynomial degree or the root distance.
+                </p>
+            </div>
+        </div>
+
+
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3 id="video">Video</h3>
+                <div class="text-center">
+                    <div style="position:relative;padding-top:56.25%;">
+                        <iframe src="https://www.youtube.com/embed/gJ-oAOBfijI" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3 id="self-organized-map-som">Self Organized Map (SOM)</h3>
+                <p class="text-justify">
+                    The random samples from a given function (which represents a given equation) are taken as initial patterns. Then, a
+                    self-organized map will receive the patterns and classify them into regions of possible roots.
+
+                    The topology of the SOM is simply linear because the patterns are distributed around the x-axis. There are n + 1 neurons
+                    because there are n roots dividing a whole space, which will produce n + 1 regions (one region per neuron).
+
+                </p>
+                <p style="text-align:center;">
+                    <button type="button" class="figure-button" data-image-original="assets/images/som_topology.PNG" data-image-title="Som topology" aria-label="Enlarge figure: som topology" style="--figure-width:710px"><img src="../../assets/images/responsive/d1b0284988-710.webp" class="img-responsive center" width="710" height="93" loading="lazy" decoding="async" srcset="../../assets/images/responsive/d1b0284988-640.webp 640w, ../../assets/images/responsive/d1b0284988-710.webp 710w" sizes="(max-width: 1000px) calc(100vw - 60px), (max-width: 1440px) calc(100vw - 320px), 876px" alt="Som topology"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+                </p>
+                
+                <!-- <video id="video-1" width="100%" autoplay loop muted>
+                  <source src="img/pe_anim_horiz.mp4" type="video/mp4" />
+                </video> -->
+                <p class="text-justify">
+                    We used a neighborhood function during the training in order to update five neurons, the winning neuron and the closest
+                    neurons on both sides, two on the left and two on the right. Then, the neurons are multiplied by 1, 0.5, or 0.1
+                    depending on the topological distance (0 winning neuron, 1 the first closest, and 2 the second closes).
+                </p>
+                <p style="text-align:center;">
+                    <span class="equation" style="display:block">\[\Lambda(d_r,d_i)=\begin{cases}1 & |d_r-d_i|=0,\\0.5 & |d_r-d_i|=1,\\0.1 & |d_r-d_i|=2,\\0 & \text{otherwise}.\end{cases}\]</span>
+                </p>
+                <p class="text-justify">
+                    Then, the training used the following equation
+                </p>
+                <p style="text-align:center;">
+                    <span class="equation" style="display:block">\[w_i(k+1)=w_i(k)+\eta(k)\Lambda(d_r,d_i)\bigl(x(k)-w_i(k)\bigr)\]</span>
+                </p>
+            </div>
+        </div>
+            
+
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3 id="adaline">Adaline</h3>
+                <p class="text-justify">
+                    After finding the regions with SOM, a dimension is added into the ouput patterns 
+                    given the regions distribution.
+                    Then, an Adaptive Linear Neuron (Adaline) is launched n times (per pair of regions) to
+                    find the n respective roots. Additionally, Adaline used a pocket to store the weight of neurons with the best accuracy
+                    for improving performance.
+                </p>
+                <p style="text-align:center;">
+                    <button type="button" class="figure-button" data-image-original="assets/images/adaline.PNG" data-image-title="Adaline" aria-label="Enlarge figure: adaline" style="--figure-width:757px"><img src="../../assets/images/responsive/efa311e3fb-757.webp" class="img-responsive center" alt="Adaline" width="757" height="397" loading="lazy" decoding="async" srcset="../../assets/images/responsive/efa311e3fb-640.webp 640w, ../../assets/images/responsive/efa311e3fb-757.webp 757w" sizes="(max-width: 1000px) calc(100vw - 60px), (max-width: 1440px) calc(100vw - 320px), 876px"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+                    <figcaption style="text-align:right;">Fig: Adalines per pair of regions after training.</figcaption>
+                </p>
+                <p class="text-justify">
+                    <strong>Equidistan Roots</strong> <br>
+
+                    This modeling only works for real equidistant roots because the SOM allows us to divide the space into (quasi) equally
+                    distributed regions.
+                </p>
+                <p style="text-align:center;">
+                    <span class="equation" style="display:block">\[p_n(t)=t^n+a_{n-1}t^{n-1}+\cdots+a_2t^2+a_1t+a_0\]</span>
+                </p>
+                <p class="text-justify">
+                    It can also be written as
+                </p>
+                <p style="text-align:center;">
+                    <span class="equation" style="display:block">\[p(t)=\prod_{i=1}^{n}(t-\lambda_i)\]</span>
+                </p>
+                <p class="text-justify">
+                    with a root constraint
+                </p>
+                <p style="text-align:center;">
+                    <span class="equation" style="display:block">\[r=|\lambda_i-\lambda_{i+1}|=k\]</span>
+                </p>
+            </div>
+        </div>
+            
+
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3 id="results">Results</h3>
+                <p class="text-justify">
+                    This model is a two-process and we check their behavior visually as bellow or in the following <a
+                        href="https://youtu.be/gJ-oAOBfijI">video</a>.
+                </p>
+                <p style="text-align:center;">
+                    <button type="button" class="figure-button" data-image-original="assets/images/steps_1.PNG" data-image-title="Steps 1" aria-label="Enlarge figure: steps 1" style="--figure-width:1290px"><img src="../../assets/images/responsive/88be8d225b-1280.webp" class="img-responsive" alt="Steps 1" width="1290" height="360" loading="lazy" decoding="async" srcset="../../assets/images/responsive/88be8d225b-640.webp 640w, ../../assets/images/responsive/88be8d225b-1280.webp 1280w, ../../assets/images/responsive/88be8d225b-1290.webp 1290w" sizes="(max-width: 1000px) calc(100vw - 60px), (max-width: 1440px) calc(100vw - 320px), 876px"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+                </p>
+                <p style="text-align:center;">
+                    <button type="button" class="figure-button" data-image-original="assets/images/steps2.PNG" data-image-title="Steps2" aria-label="Enlarge figure: steps2" style="--figure-width:1295px"><img src="../../assets/images/responsive/e2bbca0e27-1280.webp" class="img-responsive" alt="Steps2" width="1295" height="357" loading="lazy" decoding="async" srcset="../../assets/images/responsive/e2bbca0e27-640.webp 640w, ../../assets/images/responsive/e2bbca0e27-1280.webp 1280w, ../../assets/images/responsive/e2bbca0e27-1295.webp 1295w" sizes="(max-width: 1000px) calc(100vw - 60px), (max-width: 1440px) calc(100vw - 320px), 876px"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+                </p>
+                <p class="text-justify">
+                    We evaluated our method with polynomials of different degrees from 2 to 10, calculating its root approximation, CPU
+                    time, and relative error.
+                </p>
+                <p style="text-align:center;">
+                    <button type="button" class="figure-button" data-image-original="assets/images/experiments01.png" data-image-title="Experiments01" aria-label="Enlarge figure: experiments01" style="--figure-width:1059px"><img src="../../assets/images/responsive/f2e880e8e7-1059.webp" class="img-responsive" alt="Experiments01" width="1059" height="1210" loading="lazy" decoding="async" srcset="../../assets/images/responsive/f2e880e8e7-640.webp 640w, ../../assets/images/responsive/f2e880e8e7-1059.webp 1059w" sizes="(max-width: 1000px) calc(100vw - 60px), (max-width: 1440px) calc(100vw - 320px), 876px"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3 id="related-links">Related links</h3>
+                <p class="text-justify">
+                    - For more elaborated approaches for finding roots in polynomials using neural networks, check <a href="https://ieeexplore.ieee.org/abstract/document/6790351"> A Neural Root Finder of Polynomials Based on Root Moments
+                    </a> and <a href="https://ieeexplore.ieee.org/abstract/document/1288251/">A constructive approach for finding arbitrary roots of polynomials by neural networks</a> by De-Shuang Huan et al.
+                    <br>
+                </p>
+            </div>
+        </div>
+        
+            
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3 id="citation">Citation</h3>
+                <section class="citation-block" aria-labelledby="bibtex-label">
+                    <div class="citation-toolbar">
+                        <strong id="bibtex-label">BibTeX</strong>
+                        <span class="citation-status" role="status" aria-live="polite"></span>
+                        <button type="button" class="citation-copy" data-copy-citation><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#copy"></use></svg><span data-copy-label>Copy BibTeX</span></button>
+                    </div>
+                    <pre class="citation-code" tabindex="0" aria-label="BibTeX citation"><code>@inproceedings{gonzalez2018successive,
+  title = {Successive Adaptive Linear Neural Modeling for Equidistant Real Roots Finding},
+  author = {Gonz{\&#x27;a}lez, Joseph R and Zhapa, Fernando P and Guarnizo, Oscar V and Ortega-Zamorano, Francisco},
+  booktitle = {2018 IEEE Third Ecuador Technical Chapters Meeting (ETCM)},
+  pages = {1--6},
+  year = {2018},
+  organization = {IEEE}
+}</code></pre>
+                </section>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,338 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <script src="../../assets/js/theme.js"></script>
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title>Mask RCNN</title>
+
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- <base href="/"> -->
+
+        <!--FACEBOOK-->
+    <!-- <meta property="og:image" content="assets/CovNet_teaser.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="682">
+    <meta property="og:image:height" content="682">
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://jonbarron.info/mipnerf/"/>
+    <meta property="og:title" content="mip-NeRF" />
+    <meta property="og:description" content="Project page for Mip-NeRF: A Multiscale Representation for Anti-Aliasing Neural Radiance Fields." /> -->
+
+        <!--TWITTER-->
+    <!-- <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="mip-NeRF" />
+    <meta name="twitter:description" content="Project page for Mip-NeRF: A Multiscale Representation for Anti-Aliasing Neural Radiance Fields." />
+    <meta name="twitter:image" content="https://jonbarron.info/mipnerf/img/rays_square.png" /> -->
+
+
+<!--     <link rel="apple-touch-icon" href="apple-touch-icon.png"> -->
+  <!-- <link rel="icon" type="image/png" href="img/seal_icon.png"> -->
+    <!-- Place favicon.ico in the root directory -->
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/app.css">
+	<link rel="icon" href="../../assets/icons/icon-192x192.png">
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <script src="js/app.js"></script>
+<link rel="stylesheet" href="../../assets/css/site.css">
+<script>
+      window.MathJax = {
+        tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], processEscapes: true },
+        options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'] }
+      };
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-chtml.js"></script>
+<script defer src="../../assets/js/navigation.js"></script>
+<script defer src="../../assets/js/media.js"></script>
+</head>
+
+<body class="project-page">
+<nav class="contents-rail sidebar" aria-label="Project contents">
+  <details class="sidebar-shell" open>
+    <summary><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#menu"></use></svg><span>Navigation</span></summary>
+    <div class="sidebar-content">
+      <a class="sidebar-brand" href="../../index.html" title="Oscar Guarnizo — Home"><span class="brand-mark">OG</span><span class="sidebar-identity">Oscar Guarnizo<small>Project</small></span></a>
+      <div class="sidebar-scroll"><span class="rail-title">On this page</span>
+        <ul class="sidebar-menu"><li class="sidebar-group"><div class="sidebar-row"><a href="#description" data-section-link title="Description"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#overview"></use></svg><span class="sidebar-label">Description</span></a></div></li><li class="sidebar-group"><div class="sidebar-row"><a href="#mask-rcnn" data-section-link title="Mask RCNN"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#chip"></use></svg><span class="sidebar-label">Mask RCNN</span></a></div></li><li class="sidebar-group"><div class="sidebar-row"><a href="#deepsort-tracker" data-section-link title="DeepSort Tracker"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#workflow"></use></svg><span class="sidebar-label">DeepSort Tracker</span></a></div></li><li class="sidebar-group"><div class="sidebar-row"><a href="#heat-map-generation" data-section-link title="Heat Map Generation"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#chart"></use></svg><span class="sidebar-label">Heat Map Generation</span></a></div></li><li class="sidebar-group"><div class="sidebar-row"><a href="#additional-results" data-section-link title="More results"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#chart"></use></svg><span class="sidebar-label">More results</span></a></div></li><li class="sidebar-group"><div class="sidebar-row"><a href="#related-links" data-section-link title="Related links"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#link"></use></svg><span class="sidebar-label">Related links</span></a></div></li></ul>
+      <div class="sidebar-destinations"><span class="rail-title">Elsewhere</span><ul><li class="sidebar-group"><div class="sidebar-row"><a href="../../blog/index.html" title="Blog"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#blog"></use></svg><span class="sidebar-label">Blog</span></a></div></li><li class="sidebar-group"><div class="sidebar-row"><a href="../../resources/index.html" title="Resources"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#resources"></use></svg><span class="sidebar-label">Resources</span></a></div></li></ul></div></div>
+      <div class="sidebar-footer">
+        <button type="button" class="theme-toggle" data-theme-toggle aria-label="Switch to dark mode" aria-pressed="false" title="Switch to dark mode"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#moon"></use></svg><span class="sidebar-label" data-theme-label>Dark mode</span></button>
+        <button type="button" class="sidebar-collapse" aria-label="Collapse sidebar" aria-expanded="true" title="Collapse sidebar"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#panel"></use></svg><span class="sidebar-label">Collapse</span></button>
+      </div>
+    </div>
+  </details>
+</nav>
+    
+    <div class="container-fluid" id="main">
+        <div class="row header-project">
+            <h2 class="col-md-12 text-center">
+                Segmentating and Counting Grapes Bunches <br> using MaskRCNN + Tracker DeepSort <br>
+                <small>
+                    Divego (Omia AI Group)
+                </small>
+            </h2>
+        </div>
+        <div class="row header-project">
+            <div class="col-md-12 text-center">
+                <ul class="list-inline" >
+                    <li>
+                        <a href="../../index.html">
+                            Oscar Guarnizo
+                        </a>
+                        <br>Digevo
+                        <br>Yachay Tech University
+                    </li>
+                    <li>
+                        <a href="https://www.linkedin.com/in/tubaher/">
+                          Diego Suntaxi
+                        </a>
+                        <br>Digevo
+                        <br>Yachay Tech University
+                    </li>
+                    <li>
+                        <a href="https://www.linkedin.com/in/fabricio-crespo-114864207/">
+                          Fabricio Crespo
+                        </a>
+                        <br>Digevo
+                        <br>Yachay Tech University
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="row header-project">
+                <div class="col-md-4 col-md-offset-4 text-center">
+                    <ul class="nav nav-pills nav-justified">
+                        <!-- <li>
+                            <a href="https://www.researchgate.net/publication/356491906_Reproduction_of_Image2StyleGAN_How_to_Embed_Images_Into_the_StyleGAN_Latent_Space">
+                            <img src="assets/icons/mip_paper_image.jpg" height="60px">
+                                <h4><strong>Paper</strong></h4>
+                            </a>
+                        </li>                      -->
+                        <li>
+                            <a href="https://github.com/Tubaher/grapes_project">
+                            <span class="resource-icon resource-icon--code" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m8 6-6 6 6 6M16 6l6 6-6 6M14 4l-4 16"/></svg></span>
+                                <h4><strong>Code</strong></h4>
+                            </a>
+                        </li>
+                        <!-- <li>
+                            <a href="https://oscar-guarnizo.medium.com/review-image2stylegan-embedding-an-image-into-stylegan-c7989e345271">
+                            <img src="assets/icons/medium.png" height="60px" style="filter: invert(1);">
+                                <h4><strong>Blog</strong></h4>
+                            </a>
+                        </li> -->
+                    </ul>
+                </div>
+        </div>
+
+
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3 id="description">Description</h3>
+                <button type="button" class="figure-button" data-image-original="assets/images/teaser_image.png" data-image-title="Project overview" aria-label="Enlarge figure: Project overview" style="--figure-width:4176px"><img src="../../assets/images/responsive/a09a804d08-1280.webp" class="img-responsive" alt="Project overview" width="4176" height="900" loading="eager" decoding="async" srcset="../../assets/images/responsive/a09a804d08-640.webp 640w, ../../assets/images/responsive/a09a804d08-1280.webp 1280w, ../../assets/images/responsive/a09a804d08-1920.webp 1920w" sizes="(max-width: 1000px) calc(100vw - 60px), (max-width: 1440px) calc(100vw - 320px), 876px"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button><br>
+                <p class="text-justify">
+                    This project is an additional implementation of <a href="https://arxiv.org/abs/1703.06870">Mask R-CNN</a> for grapes mask detection, grapes bunches counting, and heat
+                    maps generation. We based this work on the implementation from GitHub <a href="https://github.com/matterport/Mask_RCNN">matterport/Mask_RCNN</a> and 
+                    <a href="https://github.com/johncuicui/grapeMRCNN">johncuicui/grapeMRCNN</a> for grape sample detection. Our work's
+                    main contributions are the addition of a DeepSort Tracker (programmed with Pytorch) and heat maps generation. This
+                    implementation helps us to count the number of bunches without repetitions detected in a specific video. After that, we
+                    extrapolate the counting information to satellite images to generate heat maps that show the number of grapes per parcel
+                    in a yield. These images comprise the visual interpretability of the grapes bunches in an area.
+                    <br> <br>
+
+                    <strong>Skills</strong>: <br>
+                    Python, TensorFlow, PyTorch, OpenCV, Pandas and Matplotlib.
+                </p>
+            </div>
+        </div>
+
+
+        <!-- <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Video
+                </h3>
+                <div class="text-center">
+                    <div style="position:relative;padding-top:56.25%;">
+                        <iframe src="https://www.youtube.com/embed/0vH1tGhuZbY" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+
+
+
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3 id="mask-rcnn">Mask RCNN</h3>
+                <p class="text-justify">
+                    <a href="https://arxiv.org/abs/1703.06870">Mask R-CNN, introduced by Kaiming He et al.</a>, is a two-step approach that is the continuation of <a href="https://arxiv.org/abs/1506.01497">Fast R-CNN</a>.
+                    <ol>
+                        <li>
+                            The first step (Region Proposal Network) scans the image and generates proposals (areas likely to contain an object). 
+                        </li>
+                        <li>
+                            The second step (RoI Classification & Bounding Box Regressor) classifies the proposals and generates bounding boxes and masks.
+                        </li>
+                    </ol>
+                </p>
+                <p style="text-align:center;">
+                    <button type="button" class="figure-button" data-image-original="assets/images/mas_rcnn.png" data-image-title="Mas rcnn" aria-label="Enlarge figure: mas rcnn" style="--figure-width:700px"><img src="../../assets/images/responsive/4c3a8e4e4b-700.webp" class="img-responsive center" width="700" height="315" loading="lazy" decoding="async" srcset="../../assets/images/responsive/4c3a8e4e4b-640.webp 640w, ../../assets/images/responsive/4c3a8e4e4b-700.webp 700w" sizes="(max-width: 1000px) calc(100vw - 60px), (max-width: 1440px) calc(100vw - 320px), 876px" alt="Mas rcnn"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+                    <figcaption style="text-align:right;">Mask R-CNN (2017) by Kaiming He et al.</figcaption>
+                </p>
+
+                <p class="text-justify">
+                    <strong>Region Proposal Network </strong> <br>
+                    During the first step, a sliding window approach is implemented to extract the regions of interest (RoI). However, this
+                    sliding window approach is powered by convolutions to get all predictions in one step forward. The convolutional neural
+                    network uses a backbone based on a <a href="https://arxiv.org/abs/1612.03144">Feature Pyramid Network (FPN)</a>. 
+                    The sliding window approach is repeated with different
+                    window sizes. Finally, overlapping regions are refined through Non-max Suppression.
+                </p>
+                
+                <!-- <video id="video-1" width="100%" autoplay loop muted>
+                  <source src="img/pe_anim_horiz.mp4" type="video/mp4" />
+                </video> -->
+
+                <p style="text-align:center;">
+                    <button type="button" class="figure-button" data-image-original="assets/images/roi_grapes.png" data-image-title="Roi grapes" aria-label="Enlarge figure: roi grapes" style="--figure-width:623px"><img src="../../assets/images/responsive/a4b25bca1b-623.webp" class="img-responsive center" width="623" height="445" loading="lazy" decoding="async" srcset="../../assets/images/responsive/a4b25bca1b-623.webp 623w" sizes="(max-width: 1000px) calc(100vw - 60px), (max-width: 1440px) calc(100vw - 320px), 876px" alt="Roi grapes"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+                    <figcaption style="text-align:right;">Overlapping Regions</figcaption>
+                </p>
+
+                <p class="text-justify">
+                    <strong>RoI Classification & Mask Generation </strong> <br>
+                    During the second stage, another convolutional network is applied to each region of interest (RoI). The network
+                    generates two outputs: the object class and the respective bounding box.
+                </p>
+
+                <p style="text-align:center;">
+                    <button type="button" class="figure-button" data-image-original="assets/images/roi_network.png" data-image-title="Roi network" aria-label="Enlarge figure: roi network" style="--figure-width:700px"><img src="../../assets/images/responsive/b44d6fa805-700.webp" class="img-responsive center" width="700" height="267" loading="lazy" decoding="async" srcset="../../assets/images/responsive/b44d6fa805-640.webp 640w, ../../assets/images/responsive/b44d6fa805-700.webp 700w" sizes="(max-width: 1000px) calc(100vw - 60px), (max-width: 1440px) calc(100vw - 320px), 876px" alt="Roi network"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+                    <figcaption style="text-align:right;">Fast R-CNN (2015) by Ross Girshick</figcaption>
+                </p>
+
+                <p class="text-justify">
+                    Until this point, we have similar behavior to Faster R-CNN. Then, Mask R-CNN adds additional convolutions to generate a
+                    mask in the bounding boxes already detected.
+                </p>
+
+                <p style="text-align:center;">
+                    <button type="button" class="figure-button" data-image-original="assets/images/bounding_boxes_mask.jpg" data-image-title="Bounding boxes mask" aria-label="Enlarge figure: bounding boxes mask" style="--figure-width:1117px"><img src="../../assets/images/responsive/7cda497811-1117.webp" class="img-responsive center" width="1117" height="734" loading="lazy" decoding="async" srcset="../../assets/images/responsive/7cda497811-640.webp 640w, ../../assets/images/responsive/7cda497811-1117.webp 1117w" sizes="(max-width: 1000px) calc(100vw - 60px), (max-width: 1440px) calc(100vw - 320px), 876px" alt="Bounding boxes mask"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+                </p>
+            </div>
+        </div>
+            
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3 id="deepsort-tracker">DeepSort Tracker</h3>
+                <p class="text-justify">
+                    <a href="https://arxiv.org/abs/1703.07402">DeepSORT by Nicolai Wojke et al.</a> is built upon the <a href="https://arxiv.org/abs/1602.00763">SORT</a> implementation but integrates appearance information to improve
+                    the performance. This extension enables tracking objects through longer periods of occlusion, reducing identity
+                    switching. It is worth mentioning that we don't work much at this stage. Instead, we used an already code implementation
+                    from <a href="https://github.com/nwojke/deep_sort">nwojke/deep_sort</a>, and we adjusted it to our work case.
+                </p>
+                <p style="text-align:center;">
+                    <video id="video-2" width="100%" autoplay loop muted>
+                        <source src="assets/images/uvas3.mp4" type="video/mp4" />
+                    </video>                
+                </p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3 id="heat-map-generation">Heat Map Generation</h3>
+                <p class="text-justify">
+                    We generate heat maps using a pragmatic (practical) approach. We take a satellite image from our objective parcel and
+                    record several metadata detections per row in a parcel. Per each parcel, we perform the following:
+                    <br> <br>
+                    1. Collect polygonal coordinates (including diagonal and rows angle) from the parcel satellite image. These coordinates
+                    are called <code>COORDINADAS_POLY</code>.
+                </p>
+                <p style="text-align:center;">
+                    <button type="button" class="figure-button" data-image-original="assets/images/coordinates_poly1.png" data-image-title="Coordinates poly1" aria-label="Enlarge figure: coordinates poly1" style="--figure-width:1354px"><img src="../../assets/images/responsive/fa0a6a5a55-1280.webp" class="img-responsive" width="1354" height="323" loading="lazy" decoding="async" srcset="../../assets/images/responsive/fa0a6a5a55-640.webp 640w, ../../assets/images/responsive/fa0a6a5a55-1280.webp 1280w, ../../assets/images/responsive/fa0a6a5a55-1354.webp 1354w" sizes="(max-width: 1000px) calc(100vw - 60px), (max-width: 1440px) calc(100vw - 320px), 876px" alt="Coordinates poly1"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+                </p>
+                <p style="text-align:center;">
+                    <button type="button" class="figure-button" data-image-original="assets/images/coordinates_poly.png" data-image-title="Coordinates poly" aria-label="Enlarge figure: coordinates poly" style="--figure-width:1301px"><img src="../../assets/images/responsive/68f9577692-1280.webp" class="img-responsive" width="1301" height="698" loading="lazy" decoding="async" srcset="../../assets/images/responsive/68f9577692-640.webp 640w, ../../assets/images/responsive/68f9577692-1280.webp 1280w, ../../assets/images/responsive/68f9577692-1301.webp 1301w" sizes="(max-width: 1000px) calc(100vw - 60px), (max-width: 1440px) calc(100vw - 320px), 876px" alt="Coordinates poly"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+                </p>
+                <p class="text-justify">
+                    2. Then, perform a model that automatically finds each row's start and endpoints.
+                    <ul>
+                        <li>
+                            Use the rows angle to divide rows (with points) along the diagonal.
+                        </li>
+                        <li>
+                            Intersect the dotted lines with the polygonal boundaries to get the start and endpoints per each row.
+                        </li>
+                    </ul>
+                </p>
+                <p style="text-align:center;">
+                    <button type="button" class="figure-button" data-image-original="assets/images/intersection.png" data-image-title="Intersection" aria-label="Enlarge figure: intersection" style="--figure-width:1354px"><img src="../../assets/images/responsive/272e828b69-1280.webp" class="img-responsive" width="1354" height="396" loading="lazy" decoding="async" srcset="../../assets/images/responsive/272e828b69-640.webp 640w, ../../assets/images/responsive/272e828b69-1280.webp 1280w, ../../assets/images/responsive/272e828b69-1354.webp 1354w" sizes="(max-width: 1000px) calc(100vw - 60px), (max-width: 1440px) calc(100vw - 320px), 876px" alt="Intersection"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+                </p>
+                <p class="text-justify">
+                    3. Divide (in rectangular shapes) each row automatically based on the grapes' distribution along the row.
+                </p>
+                <p style="text-align:center;">
+                    <button type="button" class="figure-button" data-image-original="assets/images/rows_heatmap.png" data-image-title="Rows heatmap" aria-label="Enlarge figure: rows heatmap" style="--figure-width:1476px"><img src="../../assets/images/responsive/b679b19357-1280.webp" class="img-responsive" width="1476" height="900" loading="lazy" decoding="async" srcset="../../assets/images/responsive/b679b19357-640.webp 640w, ../../assets/images/responsive/b679b19357-1280.webp 1280w, ../../assets/images/responsive/b679b19357-1476.webp 1476w" sizes="(max-width: 1000px) calc(100vw - 60px), (max-width: 1440px) calc(100vw - 320px), 876px" alt="Rows heatmap"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3 id="additional-results">Additional Results</h3>
+                <p style="text-align:center;">
+                    <video id="video-3" width="100%" autoplay loop muted>
+                        <source src="assets/images/uvas4.mp4" type="video/mp4" />
+                    </video>                
+                </p>
+                <p style="text-align:center;">
+                    <video id="video-4" width="100%" autoplay loop muted>
+                        <source src="assets/images/uvas5.mp4" type="video/mp4" />
+                    </video>
+                    <figcaption style="text-align:right;">Counting Grape Bunches</figcaption>                
+                </p>
+            </div>
+        </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3 id="related-links">Related links</h3>
+                <p class="text-justify">
+                    <ul>
+                        <li>
+                            Check  <a
+                            href="https://engineering.matterport.com/splash-of-color-instance-segmentation-with-mask-r-cnn-and-tensorflow-7c761e238b46">Splash
+                            of Color: Instance Segmentation with Mask R-CNN and TensorFlow</a>
+                            for a high-level explanation about Mask RCNN.
+                        </li>
+                        <li>
+                            Check <a href="https://arxiv.org/abs/1602.00763">Simple Online and Realtime Tracking (2016) by Alex Bewley et al.</a> to a more in deep understanding of SORT algorithm.
+                        </li>
+                        <li>
+                            Check <a href="https://arxiv.org/abs/1703.07402">Simple Online and Realtime Tracking with a Deep Association Metric
+                                (2017) by Nicolai Wojke et al.</a> to a more in deep understanding of DeepSORT algorithm.
+                        </li>
+                    </ul>
+                </p>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

@@ -1,31 +1,32 @@
 # Oscar Guarnizo — personal website
 
-A fresh portfolio for Oscar Guarnizo, using the Midnight mint palette.
+Static personal website with research projects, demos, blog posts, and learning resources.
 
-This repository starts independently of the old website's template history. Personal content has been migrated from the local backup, with collaborators credited and unrelated template projects excluded.
+## Preview locally
 
-## Direction
-
-- One continuous homepage with the full About section, individual research and software entries, learning notes, and contact information.
-- Responsive layouts, readable text, keyboard navigation, and reduced-motion support.
-- Static HTML output suitable for GitHub Pages.
-- Browser checks with Playwright and accessibility checks with axe.
-
-See [the content audit](docs/content-audit.md) for the migration decisions.
-
-## Run locally
+Run from the repository root:
 
 ```sh
-npm ci
-npx playwright install chromium
-npm run build
-npm run preview
+python3 -m http.server 8765 --bind 127.0.0.1
 ```
 
-Open `http://127.0.0.1:4173/`. Run `npm test` to rebuild and test the homepage sequence, project navigation, mobile layout, internal links, and accessibility on all pages.
+Open http://localhost:8765/.
 
-The source for project metadata lives in `src/data.mjs`. Page layouts and rendering are in `scripts/build.mjs`; styling lives in `src/styles.css`. The generated `dist/` directory is GitHub Pages ready and is intentionally not tracked.
+## GitHub Pages
 
-The seven long project articles and four local notes are in `src/content/`. Their images, figures, videos, and linked documents are in `assets/archive/`. The one-time `scripts/migrate_content.py` script records how those files were selected from the backup; it requires Python and Pillow if run again. The old backup is not required to build or test the site.
+Publish the `main` branch from the repository root (`/`). No build step is required; `.nojekyll` keeps GitHub Pages from processing the HTML with Jekyll.
 
-The repository is private for review. Publishing with GitHub Pages is a separate step.
+The public site address is https://zosov.github.io/ once Pages is enabled.
+
+## Source layout
+
+- `index.html`: profile, research, and demos.
+- `portfolio/`: individual project pages.
+- `blog/`: published articles.
+- `resources/`: categorized external links.
+- `assets/`: shared styles, scripts, fonts, and media.
+- `notes/`: legacy redirects and retained drafts.
+
+## Acknowledgments
+
+The original academic website layout was adapted from [Jon Barron’s website](https://jonbarron.info/) and [Michaël Gharbi’s project-page template](http://mgharbi.com/).

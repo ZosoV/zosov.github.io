@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Is Learning Feasible? Hoeffding Inequality | Oscar Guarnizo</title>
+<meta name="description" content="How probability and Hoeffding’s inequality connect limited training data to learning beyond the training set.">
+<meta name="author" content="Oscar Guarnizo">
+<script src="../../assets/js/theme.js"></script>
+<link rel="icon" href="../../assets/icons/icon-192x192.png">
+<link rel="stylesheet" href="../../assets/css/site.css">
+<link rel="stylesheet" href="../../assets/css/blog.css">
+<script defer src="../../assets/js/navigation.js"></script>
+<script defer src="../../assets/js/blog.js"></script>
+<script defer src="../../assets/js/media.js"></script>
+<script>
+window.MathJax = {
+ tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']], processEscapes: true },
+ options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'] }
+};
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-chtml.js"></script>
+</head>
+<body class="project-page blog-post">
+<nav class="contents-rail sidebar" aria-label="Page sections">
+  <details class="sidebar-shell" open>
+    <summary><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#menu"></use></svg><span>Navigation</span></summary>
+    <div class="sidebar-content">
+      <a class="sidebar-brand" href="../../index.html" title="Oscar Guarnizo — Home"><span class="brand-mark">OG</span><span class="sidebar-identity">Oscar Guarnizo<small>Portfolio</small></span></a>
+      <div class="sidebar-scroll"><span class="rail-title">Home</span>
+        <ul class="sidebar-menu"><li class="sidebar-group"><div class="sidebar-row"><a href="../../index.html#section1" title="About"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#about"></use></svg><span class="sidebar-label">About</span></a></div></li><li class="sidebar-group"><div class="sidebar-row"><a href="../../index.html#section2" title="Research"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#research"></use></svg><span class="sidebar-label">Research</span></a><button class="group-toggle" type="button" aria-label="Show research shortcuts" aria-expanded="false" aria-controls="nav-section2" title="Toggle research shortcuts"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#chevron"></use></svg></button></div><ul class="sidebar-submenu" id="nav-section2" hidden><li><a href="../../index.html#bper" title="BPER"><span class="sidebar-dot" aria-hidden="true"></span>BPER</a></li><li><a href="../../index.html#covariancenet" title="CovarianceNet"><span class="sidebar-dot" aria-hidden="true"></span>CovarianceNet</a></li><li><a href="../../index.html#stylegan" title="StyleGAN"><span class="sidebar-dot" aria-hidden="true"></span>StyleGAN</a></li><li><a href="../../index.html#path-planning" title="Path planning"><span class="sidebar-dot" aria-hidden="true"></span>Path planning</a></li><li><a href="../../index.html#neural-model" title="Neural model"><span class="sidebar-dot" aria-hidden="true"></span>Neural model</a></li></ul></li><li class="sidebar-group"><div class="sidebar-row"><a href="../../index.html#section3" title="Demos"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#software"></use></svg><span class="sidebar-label">Demos</span></a><button class="group-toggle" type="button" aria-label="Show demos shortcuts" aria-expanded="false" aria-controls="nav-section3" title="Toggle demos shortcuts"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#chevron"></use></svg></button></div><ul class="sidebar-submenu" id="nav-section3" hidden><li><a href="../../index.html#rl-hangman" title="RL Hangman"><span class="sidebar-dot" aria-hidden="true"></span>RL Hangman</a></li><li><a href="../../index.html#bert-hangman" title="BERT Hangman"><span class="sidebar-dot" aria-hidden="true"></span>BERT Hangman</a></li><li><a href="../../index.html#license-plates" title="License plates"><span class="sidebar-dot" aria-hidden="true"></span>License plates</a></li><li><a href="../../index.html#grape-detection" title="Grape detection"><span class="sidebar-dot" aria-hidden="true"></span>Grape detection</a></li><li><a href="../../index.html#game-jam" title="Game Jam"><span class="sidebar-dot" aria-hidden="true"></span>Game Jam</a></li></ul></li></ul>
+      <div class="sidebar-destinations"><span class="rail-title">Elsewhere</span><ul><li class="sidebar-group is-active"><div class="sidebar-row"><a href="../../blog/index.html" title="Blog" aria-current="page"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#blog"></use></svg><span class="sidebar-label">Blog</span></a></div></li><li class="sidebar-group"><div class="sidebar-row"><a href="../../resources/index.html" title="Resources"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#resources"></use></svg><span class="sidebar-label">Resources</span></a></div></li></ul></div></div>
+      <div class="sidebar-footer">
+        <button type="button" class="theme-toggle" data-theme-toggle aria-label="Switch to dark mode" aria-pressed="false" title="Switch to dark mode"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#moon"></use></svg><span class="sidebar-label" data-theme-label>Dark mode</span></button>
+        <button type="button" class="sidebar-collapse" aria-label="Collapse sidebar" aria-expanded="true" title="Collapse sidebar"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#panel"></use></svg><span class="sidebar-label">Collapse</span></button>
+      </div>
+    </div>
+  </details>
+</nav><main class="blog-main">
+<header class="post-header"><a class="back-to-blog" href="../index.html">← All posts</a><p class="blog-eyebrow">Oscar Guarnizo · Blog</p><h1>Is Learning Feasible? Hoeffding Inequality</h1><ul class="post-tags" aria-label="Tags"><li><a href="../index.html?tag=learning-theory">Learning theory</a></li><li><a href="../index.html?tag=probability">Probability</a></li></ul></header>
+<article aria-label="Is Learning Feasible? Hoeffding Inequality"><section class="article-row" id="part-1">
+        <header class="topic"><h2>Learning Intuition</h2></header>
+        <div class="content">
+            <p> 
+                This article explores the question: Is learning feasible?
+                To do that, we first developed an intuition and then use the Hoeffding Inequality
+                to formarly explain our inution. <br> <br><span>
+
+                The learner $\mathcal{A}$, in principle, only have limited data (<mark>training set</mark>) to pindown
+                the theorical entire target function $f(x)$. However, this limited data set could reveal enough
+                information or not depending of the prespective (discrete or <mark>probabilitic</mark>), and 
+                we will describe these prespectives later. </span><br> <br>
+
+                First, it's important to define what we understand for feasible learning. Our notion of learning
+                in this context is the following:
+                </p><ul>
+                  <li><span><mark>Learning:</mark> A learner is learning if it is able to tell us <span class="text-emphasis">anything outside of training set ($\mathcal{T}$)</span>.</span></li>
+                  <li><span><mark>Memorization:</mark> A learner is only memorizing if it only knows the target $f$ for all points in our training set.</span></li>
+                </ul>
+              
+        </div>
+
+        </section>
+    
+
+        
+        <section class="article-row" id="part-2">
+          <header class="topic"><h2>Discrete Perspective</h2></header>
+          <div class="content">
+              <p><span> <mark><strong>Why learning something outside $\mathcal{T}$ is challenging in a discrete perspective?</strong></mark> </span><br><br><span>
+
+                In a discrete prespective, we expect that our learner is able to learn all the in-samples and out-samples.
+                However, that is not practically possible because our limited training set cannot tell us something <mark>concrete (or certain)</mark> 
+                about something outside our training set. </span><br><br><span>
+
+                Illustrated with an example, using the following training set, we are interested in learning an optimal function
+                $g$, such that $g = f$; or in other words $g$ must be able to correctly predict <strong>all</strong> in-samples and out-samples.
+              </span></p>
+      
+              <div class="img-container">
+                  <button type="button" class="figure-button" data-image-original="assets/discrete_intuition.png.jpg" data-image-title="Discrete intuition illustration" aria-label="Enlarge figure: Discrete intuition illustration" style="--figure-width:1280px"><img src="assets/discrete_intuition.png.jpg" alt="Discrete intuition illustration" width="1280" height="682" loading="lazy" decoding="async" class="img-responsive"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+              </div>
+
+              <p>
+                Picking any of those candidates ($f_1, f_2, \cdots, f_8$) could be a possible optimal $g$ because they predict
+                correctly our in-samples. <br><br><span>
+
+                However, these candidates don't give us a concrete (certain) information outside the dataset (out-samples).
+                Any possible value in <mark><strong>?</strong></mark>'s can be acceptable in theory because we don't know what is actually happening outside
+                the dataset.
+              </span></p>
+          </div>
+  
+          </section>
+      
+
+    
+    <section class="article-row" id="part-3">
+      <header class="topic"><h2>Probabilistic Perpective</h2></header>
+      <div class="content">
+          <p><span>
+            Nevertheless, although the discrete case is not possible, the training set can still give us 
+            a probabilitic approximation. We are able to <mark>infer</mark> something outside $\mathcal{T}$ using only
+            $\mathcal{T}$, but in a probabilitic way using <span class="text-emphasis"><strong>Hoeffding Inequality</strong></span>.
+          </span></p>
+
+          <p>
+   
+      </p></div>
+
+      </section>
+  
+
+   
+   <section class="article-row" id="part-4">
+    <header class="topic"><h2>Hoeffding Inequality</h2></header>
+    <div class="content">
+        <p><span>
+          Hoeffding Inequality is a <mark>concentration inequality</mark>, which provides an exponential bound
+          on the probability that the <mark>sample mean</mark> deviates significantly from the <mark>true expected value</mark>. </span><br><br>
+          
+          Let $z_1, \cdots, z_N$ be random independent indentically distributed random variables, 
+          such that $0 \leq z_i \leq 1$.
+          </p><div class="small-img-container">
+            <button type="button" class="figure-button" data-image-original="assets/hoeff_ineq.png" data-image-title="Hoeff ineq illustration" aria-label="Enlarge figure: Hoeff ineq illustration" style="--figure-width:2515px"><img src="assets/hoeff_ineq.png" alt="Hoeff ineq illustration" width="2515" height="312" loading="lazy" decoding="async" class="img-responsive"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+        </div>
+        
+
+        <p>
+          where,
+          </p><ul>
+            <li>$\nu = \frac{1}{N}\sum^N_{i=1}z_i$ is the sample mean</li>
+            <li>$\mu = E_{z\sim p}[z]$ is the expected value (or population value)</li>
+          </ul>
+        
+        <p><span>
+          <mark>Important Takeways</mark>
+          </span></p><ol>
+            <li><span>It is <mark>not a tight bound</mark> because is bounded by 2, and probability can't be greater than 1.</span></li>
+            <li>The only quantity that is random is $\nu$ (it a random variable), $u$ is unknown but not random.</li>
+            <li>The size of the population (bin) doesn't matter. The population could be small or large, finite or infinite.</li>
+            <li><span><span class="text-emphasis"><strong>iid condition</strong></span>: The fact that the sample is iid draw from the population is a necessary condition to apply 
+              Hoeffding Inequality.
+            </span></li>
+          </ol>
+
+        
+     
+        
+      </div>
+
+    <aside class="comment" aria-label="Further explanation">
+      
+        <p>
+          In the general case, we use a bound on $a_i \leq z_i \leq b_i$, where $a_i$ and $b_i$ are constant
+          per each $z_i$. Then, the RHS exponent changes to 
+          </p><div class="small-img-container">
+            <button type="button" class="figure-button" data-image-original="assets/generalRHS.png" data-image-title="GeneralRHS illustration" aria-label="Enlarge figure: GeneralRHS illustration" style="--figure-width:499px"><img src="assets/generalRHS.png" alt="GeneralRHS illustration" width="499" height="201" loading="lazy" decoding="async" class="img-responsive"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+        </div>
+          <br> <br>
+          Intuitively, to understand the Hoeffding Inequality, thing about a bin with read and blue balls, 
+          and an iid sample from this bin. Then, by the law of large numbers, it makes sense that the mean 
+          sample $\nu$ can tell us something about the expected value (or population mean) $\mu$. Hoeffding
+          Inequality only quantifies this behavior.
+          <br> <br> <br>
+
+          There are others takeways on $\epsilon$ and $N$, which are better explained when Hoeffning 
+          is applied to machine learning later. 
+        
+    </aside>
+</section>
+
+
+
+    
+    <section class="article-row" id="part-5">
+      <header class="topic" aria-hidden="true">
+          <p>  </p>
+          
+      </header>
+      <div class="content">
+          <p>
+            In order to use our Hoeffding Inequality in Machine Learning, we focused in the simple Supervised 
+            Learning Framework, where we try to predict $g: \mathcal{X} \rightarrow \mathcal{Y}$,
+            such that $g$ approximates the true target function $f: \mathcal{X} \rightarrow \mathcal{Y}$.
+          </p>
+  
+          <div class="small-img-container">
+            <button type="button" class="figure-button" data-image-original="assets/supervised_learning.jpg" data-image-title="Supervised learning illustration" aria-label="Enlarge figure: Supervised learning illustration" style="--figure-width:1280px"><img src="assets/supervised_learning.jpg" alt="Supervised learning illustration" width="1280" height="966" loading="lazy" decoding="async" class="img-responsive"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+        </div>
+          <p>
+            In this framework, we can additionally distinguish in-sample and out-sample examples, which will 
+            be consider to calculate the errors:
+            </p><ul>
+              <li>in-sample examples are the training examples.</li>
+              <li><span>out-sample examples are <mark><strong>all</strong></mark> the other examples that are not training examples, but belongs to $\mathcal{X}$.
+              </span></li>
+            </ul>
+          
+      </div>
+
+      </section>
+  
+      
+      <section class="article-row" id="part-6">
+        <header class="topic"><h2>Hoeffding in Machine Learning</h2></header>
+        <div class="content">
+              <p>
+                We can replace the respective sample mean and expected value from Hoeffding Inequality 
+                with our equivalence in Machine Learning, where
+                </p><ol>
+                  <li><span><mark>$\nu = E_{in}$</mark> is our in-sample error (or <mark>training error</mark>).</span></li>
+                  <ul>
+                    <li><span>It is our <mark>random variable</mark> because it depends on a training set.</span></li>
+                    <li>We can calculate this error because we know $f(x^{(i)})$ (our label from training set).</li>
+                  </ul>
+
+                  <li><span><mark>$\mu = E_{out}$</mark> is our out-sample error (or <mark>generalization error</mark>) calculated across all possible examples.</span></li>
+                  <ul>
+                    <li>It is unknown but not random.</li>
+                    <li>We can't calculate it because we don't known $f(x)$</li>
+                  </ul>
+                </ol>
+
+                <div class="small-img-container">
+                  <button type="button" class="figure-button" data-image-original="assets/hoeff_in_ml.jpg" data-image-title="Hoeff in ml illustration" aria-label="Enlarge figure: Hoeff in ml illustration" style="--figure-width:1280px"><img src="assets/hoeff_in_ml.jpg" alt="Hoeff in ml illustration" width="1280" height="966" loading="lazy" decoding="async" class="img-responsive"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+              </div>
+                
+                <br>
+
+                We can notice that using $E_{in}$ (or sample mean) tell us something about our $E_{out}$ (or expected value).
+                Specifically, it tell us the our training error $E_{in}$ can approximate our $E_{out}$
+               
+
+        </div>
+  
+        <aside class="comment" aria-label="Further explanation">
+          
+            <p>
+              Notice $E_{out}$ is represented with a probability mass distribution where the points are 
+              $h(x) \neq f(x)$. In other words, all those points that produces wrong classification given
+              a hypothesis $h$. <br><br>
+
+              Intuitively, it's similar to the proportion of red balls in our bin example, but we now are dealing
+              with a distribution.
+
+              </p><div class="small-img-container">
+                <button type="button" class="figure-button" data-image-original="assets/bad_examples.jpg" data-image-title="Bad examples illustration" aria-label="Enlarge figure: Bad examples illustration" style="--figure-width:768px"><img src="assets/bad_examples.jpg" alt="Bad examples illustration" width="768" height="660" loading="lazy" decoding="async" class="img-responsive"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+              </div>
+
+
+              Although our $E_out$ is represented by a mass distribution, this distribution is derived
+              from the expected value. In the ipad, I have an example of a derivation considering a binary 
+              classification problem.
+            
+        </aside>
+    </section>
+    
+    
+    <section class="article-row" id="part-7">
+      <header class="topic"><h2>Problem: No iid examples</h2></header>
+      <div class="content">
+
+        <div class="small-img-container">
+          <button type="button" class="figure-button" data-image-original="assets/problem.jpg" data-image-title="Problem illustration" aria-label="Enlarge figure: Problem illustration" style="--figure-width:1280px"><img src="assets/problem.jpg" alt="Problem illustration" width="1280" height="205" loading="lazy" decoding="async" class="img-responsive"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+        </div>
+          <p>
+            In other words and to understand it better
+
+            </p><ol>
+              <li><span>In order to use the Hoeffding inequality, we have to <strong>guarantee that the sample is drawn iid</strong>.</span></li>
+              <li>
+                However, in the Supervised Learning framework, we first choose $g$ using our training set. <br><br><span>
+
+              If we train our model, find a $g$, fix that <mark>$g$</mark>, and finally calculate $E_{in}(g)$. This error will
+              not be calculated on iid examples anymore because the error is indirectly influenced by $g$ which was found
+              using the same training set. Then, Hoeffding is invalid, and we need to come up with other bound.
+
+              </span></li>
+            </ol>
+          
+          <div class="small-img-container">
+            <button type="button" class="figure-button" data-image-original="assets/no_iid_condition.jpg" data-image-title="No iid condition illustration" aria-label="Enlarge figure: No iid condition illustration" style="--figure-width:1280px"><img src="assets/no_iid_condition.jpg" alt="No iid condition illustration" width="1280" height="263" loading="lazy" decoding="async" class="img-responsive"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+          </div>
+      </div>
+
+      <aside class="comment" aria-label="Further explanation">
+        
+          <p>
+            We can notice this problem is also visible in the definition of the in-sample error:
+            </p><div class="img-container">
+              <button type="button" class="figure-button" data-image-original="assets/idd_problem_in_equation.jpg" data-image-title="Idd problem in equation illustration" aria-label="Enlarge figure: Idd problem in equation illustration" style="--figure-width:1280px"><img src="assets/idd_problem_in_equation.jpg" alt="Idd problem in equation illustration" width="1280" height="698" loading="lazy" decoding="async" class="img-responsive"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+            </div><span>
+
+            if we use a fixed <mark>$g$</mark> the whole calculation is not iid anymore because
+            the indicator function is going to use the final hypothesis $g$ to count the number
+            of miss-classifications.
+
+          
+      </span></aside>
+  </section>
+  
+    
+    <section class="article-row" id="part-8">
+      <header class="topic"><h2>Solution: Uniform Hoeffding Inequality</h2></header>
+      <div class="content">
+          <p>
+            The way to solve this problem is to bound $P(|E_{in}(g) - E_{out}(g)| &gt; \epsilon)$ in
+            a way that doesn't depend on which $g$ the learning algorithm picks.
+          </p>
+  
+          <div class="small-img-container">
+            <button type="button" class="figure-button" data-image-original="assets/solution_uni_hoeff.jpg" data-image-title="Solution uni hoeff illustration" aria-label="Enlarge figure: Solution uni hoeff illustration" style="--figure-width:1280px"><img src="assets/solution_uni_hoeff.jpg" alt="Solution uni hoeff illustration" width="1280" height="966" loading="lazy" decoding="async" class="img-responsive"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+          </div>
+
+          <p><span>
+            This result, also called <span class="text-emphasis">Uniform Hoeffding Inequality, is an overestimation</span> of the LHS probability.
+
+            It because as we can see in <mark>*</mark>, we are taking into account all the fixed $h_i$'s. With this bound,
+            intuiively, we are trying to simultaneously approximate the LHS with all the RHS corresponding
+            to each $h_i$, which in some situations is not the best we can do, but for now it's great. </span><br><br>
+            
+          </p>
+
+          <p>
+            In this way, the new bound show us two things:
+            </p><ol>
+              <li>
+                Our LHS comes from picking $g$ after training, normally as
+                <div class="small-img-container">
+                  <button type="button" class="figure-button" data-image-original="assets/no_iid_condition.jpg" data-image-title="No iid condition illustration" aria-label="Enlarge figure: No iid condition illustration" style="--figure-width:1280px"><img src="assets/no_iid_condition.jpg" alt="No iid condition illustration" width="1280" height="263" loading="lazy" decoding="async" class="img-responsive"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+                </div>
+              </li>
+              <li>
+                But our RHS takes into account the whole hypothesis set, where it is guaranteed to draw
+                iid examples to calculate each $E_{in}(h_i)$
+
+                <div class="small-img-container">
+                  <button type="button" class="figure-button" data-image-original="assets/rhs_sol.jpg" data-image-title="Rhs sol illustration" aria-label="Enlarge figure: Rhs sol illustration" style="--figure-width:1280px"><img src="assets/rhs_sol.jpg" alt="Rhs sol illustration" width="1280" height="563" loading="lazy" decoding="async" class="img-responsive"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+                </div>
+              </li>
+            </ol>
+          
+      </div>
+
+      <aside class="comment" aria-label="Further explanation">
+        
+          <p>
+            The whole derivation of this bound is below and we us two basic rules in probability
+            </p><ol>
+              <li> if $\mathcal{B}_1 \Rightarrow \mathcal{B}_2$, then $P(\mathcal{B}_1) \leq P(\mathcal{B}_2)$</li>
+              <li><span> <span class="text-emphasis">Union Bound</span>:
+              $$P(\mathcal{B}_1 \text{or} \cdots \text{or} \mathcal{B}_M) \leq \sum_{i=1}^{M} P(\mathcal{B}_i)$$
+
+              </span></li>
+            </ol>
+
+            <div class="img-container">
+              <button type="button" class="figure-button" data-image-original="assets/derivation.jpg" data-image-title="Derivation illustration" aria-label="Enlarge figure: Derivation illustration" style="--figure-width:1280px"><img src="assets/derivation.jpg" alt="Derivation illustration" width="1280" height="1163" loading="lazy" decoding="async" class="img-responsive"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+            </div>
+          
+      </aside>
+  </section>
+  
+
+    
+    <section class="article-row" id="part-9">
+      <header class="topic"><h2>Still idd condition</h2></header>
+      <div class="content">
+          <p><span>
+            <strong>IMPORTANT</strong> </span><br><br>
+
+            However, it stil important to assume the iid condition to use this bound: <br><br><span>
+
+            <mark><strong>When using $g$ to approximate $f:\mathcal{X} \rightarrow \mathcal{Y}$</strong></mark>
+
+            </span></p><ol>
+              <li><span>
+                A training and test examples are draw iid from <mark>$p(x)$</mark>.
+              </span></li>
+              <li>
+                A training and test examples are all coming from the same target function $f$.
+              </li>
+            </ol>
+          
+          <p><span>
+            <strong><mark>When using $g$ to approximate $p(x|y)$</mark></strong>
+
+            </span></p><ol>
+              <li><span>
+                Training and test examples are draw iid from <mark>$p(x,y)$</mark>.
+              </span></li>
+            </ol>       
+          
+      </div>
+
+      <aside class="comment" aria-label="Further explanation">
+        
+          <p><span>
+            <span class="text-context">I think we still need the iid condition because in some way we still need to guarantee that the RHS is calculated iid examples</span>
+            </span><br><br>
+
+            Observe that these conditions coincide with the supervised learning framework conditions
+          </p>
+      </aside>
+  </section>
+  
+
+    
+    <section class="article-row" id="part-10">
+      <header class="topic"><h2>Conclusions</h2></header>
+      <div class="content">
+          <p><span> The training set $\mathcal{T}$ can only tell us something <mark>likely</mark> about $f$ outside $\mathcal{T}$.
+          </span></p>
+          <div class="img-container">
+              <button type="button" class="figure-button" data-image-original="assets/conclusion.jpg" data-image-title="Conclusion illustration" aria-label="Enlarge figure: Conclusion illustration" style="--figure-width:1280px"><img src="assets/conclusion.jpg" alt="Conclusion illustration" width="1280" height="900" loading="lazy" decoding="async" class="img-responsive"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+          </div>
+
+          <p>
+            </p><ol>
+              <li><span>
+                <strong><mark>$\uparrow \epsilon \Rightarrow$</mark></strong> $\downarrow \text{RHS} \Rightarrow$ $\downarrow$ probable 
+                that the difference $|E_{in}(g) - E_{out}(g)|$ was too high</span><br><br>
+                $\Rightarrow$ it's more probable that those erros are close. 
+                Then, $E_{in}$ is a good estimate of $E_{out}$
+              </li>
+              <li><span>
+                <strong><mark>$\uparrow N \Rightarrow$</mark></strong> $\downarrow \text{RHS} \Rightarrow$ $\downarrow$ probable 
+                that the difference $|E_{in}(g) - E_{out}(g)|$ was too high</span><br><br>
+                $\Rightarrow$ it's more probable that those erros are close. 
+                Then, $E_{in}$ is a good estimate of $E_{out}$
+              </li>
+              <li>
+                The third option is concluded by two previous ones.
+              </li>
+              <li><span>
+                There exists a <span class="text-emphasis">Trade-off between $M$, $E_{in}$, and $E_{out}$</span>
+              </span></li>
+            </ol>
+          
+      </div>
+
+      </section>
+  
+
+  
+    
+    <section class="article-row" id="part-11">
+      <header class="topic"><h2>Trade-off between $M$, $E_{in}$, and $E_{out}$</h2></header>
+      <div class="content">
+          <div class="callout">
+
+          
+          <p>
+            By focusing in the complex relation that exists between $M$, $E_{in}$, and $E_{out}$,
+            we can split the learning in two central questions:
+
+            </p><div class="small-img-container">
+              <button type="button" class="figure-button" data-image-original="assets/trade_off1.jpg" data-image-title="Trade off1 illustration" aria-label="Enlarge figure: Trade off1 illustration" style="--figure-width:1280px"><img src="assets/trade_off1.jpg" alt="Trade off1 illustration" width="1280" height="255" loading="lazy" decoding="async" class="img-responsive"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+            </div>
+            <ol>
+              <li>
+                can we make sure that $E_{out}(g)$ is close enough to $E_{in}(g)$
+              </li>
+              <li>
+                can we make $E_{in}(g)$ small enough?
+              </li>
+            </ol>
+          
+          
+          <div class="small-img-container">
+            <button type="button" class="figure-button" data-image-original="assets/trade_off.jpg" data-image-title="Trade off illustration" aria-label="Enlarge figure: Trade off illustration" style="--figure-width:1280px"><img src="assets/trade_off.jpg" alt="Trade off illustration" width="1280" height="339" loading="lazy" decoding="async" class="img-responsive"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+          </div>
+
+          Then, using the right $M$ (or $\mathcal{H}$) is important.
+            
+          </div>
+          <br><br>
+          We will start to handle this trade-off later by changing our notion of model complexity using VC dimension.
+
+      </div>
+
+      </section>
+  
+</article>
+<nav class="post-pagination" aria-label="Other posts"><span></span><a href="../generalization-bound/index.html" rel="next">Generalization Bound →</a></nav>
+</main></body></html>

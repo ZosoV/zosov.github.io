@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Is Learning Feasible? Generalization Bound | Oscar Guarnizo</title>
+<meta name="description" content="Understanding how sample size, hypothesis-set complexity, and confidence shape the gap between training and generalization error.">
+<meta name="author" content="Oscar Guarnizo">
+<script src="../../assets/js/theme.js"></script>
+<link rel="icon" href="../../assets/icons/icon-192x192.png">
+<link rel="stylesheet" href="../../assets/css/site.css">
+<link rel="stylesheet" href="../../assets/css/blog.css">
+<script defer src="../../assets/js/navigation.js"></script>
+<script defer src="../../assets/js/blog.js"></script>
+<script defer src="../../assets/js/media.js"></script>
+<script>
+window.MathJax = {
+ tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']], processEscapes: true },
+ options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'] }
+};
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-chtml.js"></script>
+</head>
+<body class="project-page blog-post">
+<nav class="contents-rail sidebar" aria-label="Page sections">
+  <details class="sidebar-shell" open>
+    <summary><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#menu"></use></svg><span>Navigation</span></summary>
+    <div class="sidebar-content">
+      <a class="sidebar-brand" href="../../index.html" title="Oscar Guarnizo — Home"><span class="brand-mark">OG</span><span class="sidebar-identity">Oscar Guarnizo<small>Portfolio</small></span></a>
+      <div class="sidebar-scroll"><span class="rail-title">Home</span>
+        <ul class="sidebar-menu"><li class="sidebar-group"><div class="sidebar-row"><a href="../../index.html#section1" title="About"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#about"></use></svg><span class="sidebar-label">About</span></a></div></li><li class="sidebar-group"><div class="sidebar-row"><a href="../../index.html#section2" title="Research"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#research"></use></svg><span class="sidebar-label">Research</span></a><button class="group-toggle" type="button" aria-label="Show research shortcuts" aria-expanded="false" aria-controls="nav-section2" title="Toggle research shortcuts"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#chevron"></use></svg></button></div><ul class="sidebar-submenu" id="nav-section2" hidden><li><a href="../../index.html#bper" title="BPER"><span class="sidebar-dot" aria-hidden="true"></span>BPER</a></li><li><a href="../../index.html#covariancenet" title="CovarianceNet"><span class="sidebar-dot" aria-hidden="true"></span>CovarianceNet</a></li><li><a href="../../index.html#stylegan" title="StyleGAN"><span class="sidebar-dot" aria-hidden="true"></span>StyleGAN</a></li><li><a href="../../index.html#path-planning" title="Path planning"><span class="sidebar-dot" aria-hidden="true"></span>Path planning</a></li><li><a href="../../index.html#neural-model" title="Neural model"><span class="sidebar-dot" aria-hidden="true"></span>Neural model</a></li></ul></li><li class="sidebar-group"><div class="sidebar-row"><a href="../../index.html#section3" title="Demos"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#software"></use></svg><span class="sidebar-label">Demos</span></a><button class="group-toggle" type="button" aria-label="Show demos shortcuts" aria-expanded="false" aria-controls="nav-section3" title="Toggle demos shortcuts"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#chevron"></use></svg></button></div><ul class="sidebar-submenu" id="nav-section3" hidden><li><a href="../../index.html#rl-hangman" title="RL Hangman"><span class="sidebar-dot" aria-hidden="true"></span>RL Hangman</a></li><li><a href="../../index.html#bert-hangman" title="BERT Hangman"><span class="sidebar-dot" aria-hidden="true"></span>BERT Hangman</a></li><li><a href="../../index.html#license-plates" title="License plates"><span class="sidebar-dot" aria-hidden="true"></span>License plates</a></li><li><a href="../../index.html#grape-detection" title="Grape detection"><span class="sidebar-dot" aria-hidden="true"></span>Grape detection</a></li><li><a href="../../index.html#game-jam" title="Game Jam"><span class="sidebar-dot" aria-hidden="true"></span>Game Jam</a></li></ul></li></ul>
+      <div class="sidebar-destinations"><span class="rail-title">Elsewhere</span><ul><li class="sidebar-group is-active"><div class="sidebar-row"><a href="../../blog/index.html" title="Blog" aria-current="page"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#blog"></use></svg><span class="sidebar-label">Blog</span></a></div></li><li class="sidebar-group"><div class="sidebar-row"><a href="../../resources/index.html" title="Resources"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#resources"></use></svg><span class="sidebar-label">Resources</span></a></div></li></ul></div></div>
+      <div class="sidebar-footer">
+        <button type="button" class="theme-toggle" data-theme-toggle aria-label="Switch to dark mode" aria-pressed="false" title="Switch to dark mode"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#moon"></use></svg><span class="sidebar-label" data-theme-label>Dark mode</span></button>
+        <button type="button" class="sidebar-collapse" aria-label="Collapse sidebar" aria-expanded="true" title="Collapse sidebar"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#panel"></use></svg><span class="sidebar-label">Collapse</span></button>
+      </div>
+    </div>
+  </details>
+</nav><main class="blog-main">
+<header class="post-header"><a class="back-to-blog" href="../index.html">← All posts</a><p class="blog-eyebrow">Oscar Guarnizo · Blog</p><h1>Is Learning Feasible? Generalization Bound</h1><ul class="post-tags" aria-label="Tags"><li><a href="../index.html?tag=learning-theory">Learning theory</a></li><li><a href="../index.html?tag=generalization">Generalization</a></li></ul></header>
+<article aria-label="Is Learning Feasible? Generalization Bound"><section class="article-row" id="part-1">
+        <header class="topic"><h2>Generalization Bound Idea</h2></header>
+        <div class="content">
+            <p><span> 
+                A <mark>Generalization bound</mark> help us to understand how the Generalization
+                Error $E_{out}$ could be, even though we cannot compute it. </span><br><br>
+                In order to understand that, the bound is defined in terms of the
+                training error $E_{in}$, which we can compute. <br> <br><span>
+
+                Starting from <mark>Hoeffding Inequality</mark>, we can derive two possible
+                escenarios:
+                </span></p><ol>
+                    <li><span><mark>Maximum Bound</mark>: What is the <strong>maximum</strong> possible value for $E_{out}$</span></li>
+                    <li><span><mark>Minimum Bound</mark>: What is the <strong>minimum</strong> possible value for $E_{out}$</span></li>
+                </ol>
+
+                The first one is of more interest because it could explain how well
+                our $E_{in}$ can estimate $E_{out}$ by providing a small maximum bound. The following image depicts this derivation
+            
+    
+            <div class="img-container">
+                <button type="button" class="figure-button" data-image-original="assets/rewrite_hoeff.jpg" data-image-title="Rewrite hoeff illustration" aria-label="Enlarge figure: Rewrite hoeff illustration" style="--figure-width:1280px"><img src="assets/rewrite_hoeff.jpg" alt="Rewrite hoeff illustration" width="1280" height="966" loading="lazy" decoding="async" class="img-responsive"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+            </div>
+        </div>
+
+        <aside class="comment" aria-label="Further explanation">
+          
+            <p> A Generalization Bound is other way to understand if 
+                Learning is feasible or not, we will came up to similar conclusions
+                as with Hoeffding Inequality.
+            </p>
+        </aside>
+    </section>
+    
+
+    
+    <section class="article-row" id="part-2">
+        <header class="topic" aria-hidden="true">
+            
+        </header>
+        <div class="content">
+            <p>
+                In order to have a better expression of $\epsilon$, we use
+                assume that the right term of Hoeffding Inequality is a term $\delta$
+                that we, as users, defined beforehand.                 
+            </p>
+            <div class="small-img-container">
+                <button type="button" class="figure-button" data-image-original="assets/delta.png" data-image-title="Delta illustration" aria-label="Enlarge figure: Delta illustration" style="--figure-width:627px"><img src="assets/delta.png" alt="Delta illustration" width="627" height="143" loading="lazy" decoding="async" class="img-responsive"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+            </div>
+            <p><span>
+                and we can isolate $\epsilon$ to get
+
+                $$\epsilon = \sqrt{\frac{1}{2N}\text{ln}\left(\frac{2M}{\delta}\right)}$$
+
+                Notice that by replacing $\epsilon$ in any of our two previous cases
+                we have an expression in terms of $N$ (<mark>training set size</mark>) 
+                and $M$ (<mark>model complexity</mark>). </span><br><br>
+                Now we, as users, will define $\delta$ instead of $\epsilon$.
+            </p>
+
+            <p><span>
+                In such way, we say that starting from the Hoeffding Inequality with probability <mark>$1 - \delta$</mark>,
+                the following bounds are true 
+
+                <mark>Maximum Bound</mark>
+
+                $$E_{out}(g) \leq E_{in}(g) + \sqrt{\frac{1}{2N}\text{ln}\left(\frac{2M}{\delta}\right)}$$
+
+                <mark> Minimal Bound</mark>
+
+                $$E_{out}(g) \geq E_{in}(g) - \sqrt{\frac{1}{2N}\text{ln}\left(\frac{2M}{\delta}\right)}$$
+            </span></p>
+
+        </div>
+
+        <aside class="comment" aria-label="Further explanation">
+          
+            <p>Notice the isolation $\epsilon$ from $\delta$ is
+            </p>
+            <div class="img-container">
+                <button type="button" class="figure-button" data-image-original="assets/delta.png" data-image-title="Delta illustration" aria-label="Enlarge figure: Delta illustration" style="--figure-width:627px"><img src="assets/delta.png" alt="Delta illustration" width="627" height="143" loading="lazy" decoding="async" class="img-responsive"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+            </div>
+            <p>
+                $$\text{ln}\left(\frac{\delta}{2M}\right) = -2N\epsilon^2$$
+                $$\epsilon^2 = - \frac{1}{2N} \text{ln}\left(\frac{\delta}{2M}\right)$$
+                $$\epsilon = \sqrt{\frac{1}{2N}ln\left(\frac{2M}{\delta}\right)}$$
+            </p>
+        </aside>
+    </section>
+    
+
+        
+        <section class="article-row" id="part-3">
+            <header class="topic"><h2>Maximum Bound (First Case)</h2></header>
+            <div class="content">
+                <p>
+                    The following is the definition of the maximum bound
+                
+                    $$E_{out}(g) \leq E_{in}(g) + \sqrt{\frac{1}{2N}\text{ln}\left(\frac{2M}{\delta}\right)}$$
+
+                    Notice we can conclude
+                </p>
+                    <ol>
+                        <li>$\downarrow E_{in} \quad \downarrow E_{out} \Rightarrow$ 
+                            limits the generalization error by a smaller training error $E_{in}$</li>
+                        <li>$\uparrow N \quad \downarrow E_{out} \Rightarrow$ more training size less generalization error</li>
+                        <li>$\uparrow M \quad \uparrow E_{out} \Rightarrow$ more model complexity more generalization</li>
+                    </ol>
+
+                <div class="callout">
+                    <p><span>    
+                        <strong><span class="text-emphasis">Trade-off M, $E_{in}$, $E_{out}$</span></strong>
+                        </span><br>
+    
+                        Additionally, we can observe again that there exists a complex relation
+                        between $M$, $E_{in}$, and $E_{out}$ similar to what happened with the Uniform Hoeffnig Inequality 
+                    </p>
+                    <p>
+                        By focusing in the complex relation that exists between $M$, $E_{in}$, and $E_{out}$,
+                        we can split the learning in two central questions:
+            
+                        </p><div class="img-container">
+                          <button type="button" class="figure-button" data-image-original="assets/trade_off1.jpg" data-image-title="Trade off1 illustration" aria-label="Enlarge figure: Trade off1 illustration" style="--figure-width:1280px"><img src="assets/trade_off1.jpg" alt="Trade off1 illustration" width="1280" height="255" loading="lazy" decoding="async" class="img-responsive"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+                        </div>
+                        <ol>
+                          <li>
+                            can we make sure that $E_{out}(g)$ is close enough to $E_{in}(g)$
+                          </li>
+                          <li>
+                            can we make $E_{in}(g)$ small enough?
+                          </li>
+                        </ol>
+                      
+                      
+                      <div class="img-container">
+                        <button type="button" class="figure-button" data-image-original="assets/trade_off.jpg" data-image-title="Trade off illustration" aria-label="Enlarge figure: Trade off illustration" style="--figure-width:1280px"><img src="assets/trade_off.jpg" alt="Trade off illustration" width="1280" height="339" loading="lazy" decoding="async" class="img-responsive"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+                      </div>
+            
+                      Then, using the right $M$ (or $\mathcal{H}$) is important.
+                        
+                </div>
+
+                        
+
+            </div>
+    
+            <aside class="comment" aria-label="Further explanation">
+              
+                <p>Notice that although the generalization error increases with
+                    the model complexity, it doesn't increase too much due to the
+                    square root and logarithm. <br><br><span>
+
+                    <span class="text-context">Regularization can account for this trade-off by minimizing $E_{in}$ and at the same time trying to minimize the complexity of the model M</span>
+                </span></p>
+
+            </aside>
+        </section>
+        
+
+        
+        <section class="article-row" id="part-4">
+            <header class="topic"><h2>Minimum Bound (Second Case)</h2></header>
+            <div class="content">
+                <p>The following is the definition of the minimum bound
+                
+                    $$E_{out}(g) \geq E_{in}(g) - \sqrt{\frac{1}{2N}\text{ln}\left(\frac{2M}{\delta}\right)}$$
+
+                    Notice we can conclude $\uparrow E_{in} \quad \uparrow E_{out}$. <br><br>
+                    
+                    Then, this bound effectively provides a kind of
+                    minimum bound that our generalization error can achieve. It can not necesarily
+                    be an absolute zero generalization error. It is limited again by the $E_{in}$
+                </p>
+    
+            </div>
+    
+            </section>
+        
+
+                        
+                        <section class="article-row" id="part-5">
+                            <header class="topic"><h2>Conclusion</h2></header>
+                            <div class="content">
+                                <p>
+                                    The generalization bound is an intrinsic (max and min) limit of
+                                    </p><ul>
+                                        <li>your dataset (which contro N), </li>
+                                        <li>model complexity (which controls M),</li>
+                                        <li>and how much you want tolerance to bad events we have (which determines $\delta$)</li>
+                                    </ul>
+                                    
+                                
+                    
+                            </div>
+                    
+                            </section>
+                        
+
+                
+                <section class="article-row" id="part-6">
+                    <header class="topic"><h2>Finite Hypothesis Set Assumption</h2></header>
+                    <div class="content">
+                        <p>Notice the whole derivation is possible because we assume
+                            a finite set $H$. However, our ML algorithm usually have 
+                            infinite hypothesis sets. We will use VC dimension to deal
+                            with these cases.
+                        </p>
+            
+                    </div>
+            
+                    </section>
+                
+</article>
+<nav class="post-pagination" aria-label="Other posts"><a href="../hoeffding-inequality/index.html" rel="prev">← Hoeffding Inequality</a><span></span></nav>
+</main></body></html>

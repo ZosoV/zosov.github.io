@@ -1,0 +1,366 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <script src="../../assets/js/theme.js"></script>
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title>CovarianceNet</title>
+
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- <base href="/"> -->
+
+        <!--FACEBOOK-->
+    <!-- <meta property="og:image" content="assets/CovNet_teaser.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="682">
+    <meta property="og:image:height" content="682">
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://jonbarron.info/mipnerf/"/>
+    <meta property="og:title" content="mip-NeRF" />
+    <meta property="og:description" content="Project page for Mip-NeRF: A Multiscale Representation for Anti-Aliasing Neural Radiance Fields." /> -->
+
+        <!--TWITTER-->
+    <!-- <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="mip-NeRF" />
+    <meta name="twitter:description" content="Project page for Mip-NeRF: A Multiscale Representation for Anti-Aliasing Neural Radiance Fields." />
+    <meta name="twitter:image" content="https://jonbarron.info/mipnerf/img/rays_square.png" /> -->
+
+
+<!--     <link rel="apple-touch-icon" href="apple-touch-icon.png"> -->
+  <!-- <link rel="icon" type="image/png" href="img/seal_icon.png"> -->
+    <!-- Place favicon.ico in the root directory -->
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/app.css">
+	<link rel="icon" href="../../assets/icons/icon-192x192.png">
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <script src="js/app.js"></script>
+<link rel="stylesheet" href="../../assets/css/site.css">
+<script>
+      window.MathJax = {
+        tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], processEscapes: true },
+        options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'] }
+      };
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-chtml.js"></script>
+<script defer src="../../assets/js/navigation.js"></script>
+<script defer src="../../assets/js/media.js"></script>
+<script defer src="../../assets/js/citations.js"></script>
+</head>
+
+<body class="project-page">
+<nav class="contents-rail sidebar" aria-label="Project contents">
+  <details class="sidebar-shell" open>
+    <summary><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#menu"></use></svg><span>Navigation</span></summary>
+    <div class="sidebar-content">
+      <a class="sidebar-brand" href="../../index.html" title="Oscar Guarnizo — Home"><span class="brand-mark">OG</span><span class="sidebar-identity">Oscar Guarnizo<small>Project</small></span></a>
+      <div class="sidebar-scroll"><span class="rail-title">On this page</span>
+        <ul class="sidebar-menu"><li class="sidebar-group"><div class="sidebar-row"><a href="#abstract" data-section-link title="Abstract"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#overview"></use></svg><span class="sidebar-label">Abstract</span></a></div></li><li class="sidebar-group"><div class="sidebar-row"><a href="#video" data-section-link title="Video"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#play"></use></svg><span class="sidebar-label">Video</span></a></div></li><li class="sidebar-group"><div class="sidebar-row"><a href="#covariance-tensor" data-section-link title="Covariance Tensor"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#grid"></use></svg><span class="sidebar-label">Covariance Tensor</span></a></div></li><li class="sidebar-group"><div class="sidebar-row"><a href="#tucker-decomposition" data-section-link title="Tucker"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#grid"></use></svg><span class="sidebar-label">Tucker</span></a></div></li><li class="sidebar-group"><div class="sidebar-row"><a href="#results" data-section-link title="Results"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#chart"></use></svg><span class="sidebar-label">Results</span></a></div></li><li class="sidebar-group"><div class="sidebar-row"><a href="#related-links" data-section-link title="Related links"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#link"></use></svg><span class="sidebar-label">Related links</span></a></div></li><li class="sidebar-group"><div class="sidebar-row"><a href="#citation" data-section-link title="Citation"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#quote"></use></svg><span class="sidebar-label">Citation</span></a></div></li></ul>
+      <div class="sidebar-destinations"><span class="rail-title">Elsewhere</span><ul><li class="sidebar-group"><div class="sidebar-row"><a href="../../blog/index.html" title="Blog"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#blog"></use></svg><span class="sidebar-label">Blog</span></a></div></li><li class="sidebar-group"><div class="sidebar-row"><a href="../../resources/index.html" title="Resources"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#resources"></use></svg><span class="sidebar-label">Resources</span></a></div></li></ul></div></div>
+      <div class="sidebar-footer">
+        <button type="button" class="theme-toggle" data-theme-toggle aria-label="Switch to dark mode" aria-pressed="false" title="Switch to dark mode"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#moon"></use></svg><span class="sidebar-label" data-theme-label>Dark mode</span></button>
+        <button type="button" class="sidebar-collapse" aria-label="Collapse sidebar" aria-expanded="true" title="Collapse sidebar"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#panel"></use></svg><span class="sidebar-label">Collapse</span></button>
+      </div>
+    </div>
+  </details>
+</nav>
+    
+    <div class="container-fluid" id="main">
+        <div class="row header-project">
+            <h2 class="col-md-12 text-center">
+                <b>CovarianceNet</b>: Convolutional Neural Network Feature <br> Extraction Using Covariance Tensor Decomposition <br>
+                <small>
+                    IEEE Access 2021 (Oral Presentation, Best Poster Award)
+                </small>
+            </h2>
+        </div>
+        <div class="row header-project">
+            <div class="col-md-12 text-center">
+                <ul class="list-inline" >
+                    <li>
+                        <a href="https://ieeexplore.ieee.org/author/37086154709">
+                          Ricardo Fonseca
+                        </a>
+                        <br>Federico Santa María University 
+                        <br>Digevo
+                    </li>
+                    <li>
+                        <a href="../../index.html">
+                            Oscar Guarnizo
+                        </a>
+                        <br>Yachay Tech University
+                        <br>Digevo
+                    </li>
+                    <li>
+                        <a href="https://www.linkedin.com/in/tubaher/">
+                          Diego Suntaxi
+                        </a>
+                        <br>Yachay Tech University
+                        <br>Digevo
+                    </li><br>
+                    <li>
+                        <a href="https://ieeexplore.ieee.org/author/37088858346">
+                            Alfonso Cadiz
+                        </a>
+                        <br>Digevo
+                    </li>
+                    <li>
+                        <a href="http://profesores.elo.utfsm.cl/~wcreixell/index.html/?page_id=2">
+                            Werner Creixell
+                        </a>
+                        <br>Federico Santa María University 
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="row header-project">
+                <div class="col-md-4 col-md-offset-4 text-center">
+                    <ul class="nav nav-pills nav-justified">
+                        <li>
+                            <a title="Paper" aria-label="Paper" href="https://ieeexplore.ieee.org/document/9416639">
+                            <span class="resource-icon resource-icon--paper" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h6"/></svg></span>
+                                <h4><strong>Article</strong></h4>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.researchgate.net/publication/361880577_Poster_Convolutional_Neural_Network_Feature_Extraction_Using_Covariance_Tensor_Decomposition">
+                            <span class="resource-icon resource-icon--poster" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 7h8M8 11h3v5H8zM14 11h2M14 14h2M8 18h8"/></svg></span>
+                                <h4><strong>Poster</strong></h4>
+                            </a>
+                        </li>                        
+                        <li>
+                            <a href="https://youtu.be/0vH1tGhuZbY">
+                            <span class="resource-icon resource-icon--video" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m10 9 5 3-5 3Z"/></svg></span>
+                                <h4><strong>Video</strong></h4>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://github.com/ZosoV/cnn_tensor_decomposition">
+                            <span class="resource-icon resource-icon--code" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m8 6-6 6 6 6M16 6l6 6-6 6M14 4l-4 16"/></svg></span>
+                                <h4><strong>Code</strong></h4>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://oscar-guarnizo.medium.com/review-covariance-tensor-for-convolutional-neural-networks-77c119f2a225">
+                            <span class="resource-icon resource-icon--blog" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M13 5H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="m16 3 5 5M10 14l-1 4 4-1 9-9a2 2 0 0 0-5-5zM7 8h3"/></svg></span>
+                                <h4><strong>Blog</strong></h4>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+        </div>
+
+
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3 id="abstract">Abstract</h3>
+                <button type="button" class="figure-button" data-image-original="assets/CovNet_teaser.png" data-image-title="CovNet teaser" aria-label="Enlarge figure: CovNet teaser" style="--figure-width:3742px"><img src="../../assets/images/responsive/c7792b569e-1280.webp" class="img-responsive" alt="CovNet teaser" width="3742" height="1307" loading="eager" decoding="async" srcset="../../assets/images/responsive/c7792b569e-640.webp 640w, ../../assets/images/responsive/c7792b569e-1280.webp 1280w, ../../assets/images/responsive/c7792b569e-1920.webp 1920w" sizes="(max-width: 1000px) calc(100vw - 60px), (max-width: 1440px) calc(100vw - 320px), 876px"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button><br>
+                <p class="text-justify">
+                    This work describes a new method to extract image features 
+                    using tensor decomposition to model data. Given an image 
+                    dataset, we extract patches from images, compute the 
+                    covariance tensor for all patches, decompose with the 
+                    Tucker Decomposition, and obtain the most critical features 
+                    from a tensor core. These features can be leveraged in 
+                    diverse forms and with different objectives. This work 
+                    explored rearranging these features into block-wise kernels
+                    , which are plugged into convolutional layers of CNNs for 
+                    classification tasks. Preliminary experiments were 
+                    conducted on these kernels to test their discriminative 
+                    and initializer capabilities. The discriminative 
+                    experiments showed an increased classification accuracy 
+                    of around 67% with CIFAR 10, 64% with CIFAR 100, and 98% 
+                    with MNIST, using 10,100,1000 samples with a single 
+                    feed-forward training. On the other hand, the 
+                    initialization experiments showed the feature extraction 
+                    capability versus available initializers (He random, He 
+                    uniform, Glorot, random), returning comparable findings 
+                    with state-of-the-art around 91% with CIFAR 10, 72% with 
+                    CIFAR 100, and 99% with MNIST. The results were promising, 
+                    allowing us to identify the proposed method's advantages 
+                    over traditional convolutional neural networks.                 
+                </p>
+            </div>
+        </div>
+
+
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3 id="video">Video</h3>
+                <div class="text-center">
+                    <div style="position:relative;padding-top:56.25%;">
+                        <iframe src="https://www.youtube.com/embed/0vH1tGhuZbY" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3 id="covariance-tensor">Covariance Tensor</h3>
+                <p class="text-justify">
+                    The covariance tensor, also called n-mode cross-covariance,
+                    is calculated among different patches extracted from images
+                    in the training dataset. The covariance tensor is a 
+                    generalization of the covariance matrix. 
+                </p>
+                <p style="text-align:center;">
+                    <button type="button" class="figure-button" data-image-original="assets/covariance_tensor.png" data-image-title="Covariance tensor" aria-label="Enlarge figure: covariance tensor" style="--figure-width:2470px"><img src="../../assets/images/responsive/5d5c61fabd-1280.webp" class="img-responsive" width="2470" height="558" loading="lazy" decoding="async" srcset="../../assets/images/responsive/5d5c61fabd-640.webp 640w, ../../assets/images/responsive/5d5c61fabd-1280.webp 1280w, ../../assets/images/responsive/5d5c61fabd-1920.webp 1920w" sizes="(max-width: 1000px) calc(100vw - 60px), (max-width: 1440px) calc(100vw - 320px), 876px" alt="Covariance tensor"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+                    <button type="button" class="figure-button" data-image-original="assets/cov_per_example.png" data-image-title="Cov per example" aria-label="Enlarge figure: cov per example" style="--figure-width:2470px"><img src="../../assets/images/responsive/da7afc49c8-1280.webp" class="img-responsive" width="2470" height="558" loading="lazy" decoding="async" srcset="../../assets/images/responsive/da7afc49c8-640.webp 640w, ../../assets/images/responsive/da7afc49c8-1280.webp 1280w, ../../assets/images/responsive/da7afc49c8-1920.webp 1920w" sizes="(max-width: 1000px) calc(100vw - 60px), (max-width: 1440px) calc(100vw - 320px), 876px" alt="Cov per example"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+                    <br> <br>
+                    <button type="button" class="figure-button" data-image-original="assets/cov_ten_process.png" data-image-title="Cov ten process" aria-label="Enlarge figure: cov ten process" style="--figure-width:1165px"><img src="../../assets/images/responsive/3962355e2a-1165.webp" class="img-responsive center" width="1165" height="413" loading="lazy" decoding="async" srcset="../../assets/images/responsive/3962355e2a-640.webp 640w, ../../assets/images/responsive/3962355e2a-1165.webp 1165w" sizes="(max-width: 1000px) calc(100vw - 60px), (max-width: 1440px) calc(100vw - 320px), 876px" alt="Cov ten process"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+                </p>
+                
+                <!-- <video id="video-1" width="100%" autoplay loop muted>
+                  <source src="img/pe_anim_horiz.mp4" type="video/mp4" />
+                </video> -->
+                <p class="text-justify">
+                    The next step involves getting the <strong>factor matrices (U’s)</strong>
+                    from the mean covariance tensor. Here, unlike the standard 
+                    tucker decomposition, we decide only to get the factor 
+                    matrices U1, U2, and U3. It is because the covariance 
+                    matrix is super symmetric so that we can get a good 
+                    approximation of the tensor core with only these three 
+                    matrices.
+                    <br><br>
+                    
+                    We got the factor matrices by unfolding and decomposing 
+                    (Singular Value Decomposition) the mean covariance tensor.
+                </p>
+                <p style="text-align:center;">
+                    <span class="equation" style="display:block">\[\begin{aligned}\underline{C}^{(1)}&\in\mathbb{R}^{I_1\times(I_2\times I_3\times I_3\times I_2\times I_1)},\\\underline{C}^{(2)}&\in\mathbb{R}^{I_2\times(I_1\times I_3\times I_3\times I_2\times I_1)},\\\underline{C}^{(3)}&\in\mathbb{R}^{I_3\times(I_1\times I_2\times I_3\times I_2\times I_1)}.\end{aligned}\]</span><span class="equation-note" style="display:block">Unfoldings in modes 1, 2, and 3: keep the corresponding dimension \(I_1\), \(I_2\), or \(I_3\), respectively, and unify the remaining dimensions into the second matrix dimension.</span>
+                    <button type="button" class="figure-button" data-image-original="assets/svd_method.png" data-image-title="Svd method" aria-label="Enlarge figure: svd method" style="--figure-width:3116px"><img src="../../assets/images/responsive/986c9421aa-1280.webp" class="img-responsive" width="3116" height="791" loading="lazy" decoding="async" srcset="../../assets/images/responsive/986c9421aa-640.webp 640w, ../../assets/images/responsive/986c9421aa-1280.webp 1280w, ../../assets/images/responsive/986c9421aa-1920.webp 1920w" sizes="(max-width: 1000px) calc(100vw - 60px), (max-width: 1440px) calc(100vw - 320px), 876px" alt="Svd method"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+                </p>
+            </div>
+        </div>
+            
+
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3 id="tucker-decomposition">Tucker Decomposition</h3>
+                <p class="text-justify">
+                    Once we have the factor matrices, we can get an 
+                    approximation of the core tensor by 
+                    <strong>Tucker Decomposition</strong>.
+                </p>
+                <p style="text-align:center;">
+                    <button type="button" class="figure-button" data-image-original="assets/tucker_methods.png" data-image-title="Tucker methods" aria-label="Enlarge figure: tucker methods" style="--figure-width:1806px"><img src="../../assets/images/responsive/0261a2791e-1280.webp" class="img-responsive" alt="Tucker methods" width="1806" height="730" loading="lazy" decoding="async" srcset="../../assets/images/responsive/0261a2791e-640.webp 640w, ../../assets/images/responsive/0261a2791e-1280.webp 1280w, ../../assets/images/responsive/0261a2791e-1806.webp 1806w" sizes="(max-width: 1000px) calc(100vw - 60px), (max-width: 1440px) calc(100vw - 320px), 876px"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+                </p>
+                <p class="text-justify">
+                    The resulting core tensor dimensions are given by the first 
+                    dimension of each factor matrix U and the patches 
+                    dimensions.                
+                </p>
+                <p style="text-align:center;">
+                    <button type="button" class="figure-button" data-image-original="assets/core_tensor_method.png" data-image-title="Core tensor method" aria-label="Enlarge figure: core tensor method" style="--figure-width:2470px"><img src="../../assets/images/responsive/9e31a82a19-1280.webp" class="img-responsive" alt="Core tensor method" width="2470" height="558" loading="lazy" decoding="async" srcset="../../assets/images/responsive/9e31a82a19-640.webp 640w, ../../assets/images/responsive/9e31a82a19-1280.webp 1280w, ../../assets/images/responsive/9e31a82a19-1920.webp 1920w" sizes="(max-width: 1000px) calc(100vw - 60px), (max-width: 1440px) calc(100vw - 320px), 876px"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+                </p>
+                <p>
+                    The core tensor encapsulates some relevant features of our 
+                    dataset. We propose rearranging these features into kernels 
+                    of size (patch height, patch width, channels) for 
+                    subsequently plugged into convolutional layers.
+                </p>
+                <p style="text-align:center;">
+                    <button type="button" class="figure-button" data-image-original="assets/rearranged_tensor.png" data-image-title="Rearranged tensor" aria-label="Enlarge figure: rearranged tensor" style="--figure-width:2974px"><img src="../../assets/images/responsive/3488effbe3-1280.webp" class="img-responsive" alt="Rearranged tensor" width="2974" height="650" loading="lazy" decoding="async" srcset="../../assets/images/responsive/3488effbe3-640.webp 640w, ../../assets/images/responsive/3488effbe3-1280.webp 1280w, ../../assets/images/responsive/3488effbe3-1920.webp 1920w" sizes="(max-width: 1000px) calc(100vw - 60px), (max-width: 1440px) calc(100vw - 320px), 876px"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+                </p>
+            </div>
+        </div>
+            
+
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3 id="results">Results</h3>
+                <p class="text-justify">
+                    We evaluated the discriminative and initializer 
+                    capabilities of the generated kernels. Among the results, 
+                    we noted different patterns by performing a visual sanity 
+                    check, a similarity check of the correlation between 
+                    kernels generated with different small subsets, 
+                    and a state-of-the-art comparison.                
+                </p>
+                <p style="text-align:center; align-items: center;">
+                    <button type="button" class="figure-button" data-image-original="assets/visual_sanity_check.PNG" data-image-title="Visual sanity check" aria-label="Enlarge figure: visual sanity check" style="--figure-width:774px"><img src="../../assets/images/responsive/7918e090fa-774.webp" class="img-responsive center" alt="Visual sanity check" width="774" height="543" loading="lazy" decoding="async" srcset="../../assets/images/responsive/7918e090fa-640.webp 640w, ../../assets/images/responsive/7918e090fa-774.webp 774w" sizes="(max-width: 1000px) calc(100vw - 60px), (max-width: 1440px) calc(100vw - 320px), 876px"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+                </p>
+                <p class="text-justify">
+                    We study the correlation between generated kernels (per 
+                    layer) using different sizes of training sub-datasets.             
+                </p>
+                <p style="text-align:center;">
+                    <button type="button" class="figure-button" data-image-original="assets/correlation_layer_0.png" data-image-title="Correlation layer 0" aria-label="Enlarge figure: correlation layer 0" style="--figure-width:640px"><img src="../../assets/images/responsive/e26a95a464-640.webp" class="img-responsive center" alt="Correlation layer 0" width="640" height="480" loading="lazy" decoding="async" srcset="../../assets/images/responsive/e26a95a464-640.webp 640w" sizes="(max-width: 1000px) calc(100vw - 60px), (max-width: 1440px) calc(100vw - 320px), 876px"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+                </p>
+                <p class="text-justify">
+                    We compare our model with state-of-the-art architectures on
+                    CIFAR 10, CIFAR 100 and MNIST.             
+                </p>                             
+                <p style="text-align:center;">
+                    <button type="button" class="figure-button" data-image-original="assets/state-of-the-art.PNG" data-image-title="State of the art" aria-label="Enlarge figure: state of the art" style="--figure-width:827px"><img src="../../assets/images/responsive/3acb193efb-827.webp" class="img-responsive center" alt="State of the art" width="827" height="653" loading="lazy" decoding="async" srcset="../../assets/images/responsive/3acb193efb-640.webp 640w, ../../assets/images/responsive/3acb193efb-827.webp 827w" sizes="(max-width: 1000px) calc(100vw - 60px), (max-width: 1440px) calc(100vw - 320px), 876px"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+                </p>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3 id="related-links">Related links</h3>
+                <p class="text-justify">
+                    - The book <a href="https://www.routledge.com/Multilinear-Subspace-Learning-Dimensionality-Reduction-of-Multidimensional/Lu-Plataniotis-Venetsanopoulos/p/book/9781439857243">Multilinear Subspace Learning Dimensionality Reduction of Multidimensional Data</a> 
+                    provides an excellent introduction to tensor operations: unfolding, n-mode product,
+                    n-mode cross-covariance (Covariance Tensor), and Tucker Decomposition.
+                </p>
+                <p class="text-justify">
+                    - To understand Tucker Decomposition with R, explore 
+                    <a href="https://www.alexejgossmann.com/tensor_decomposition_tucker/">Understanding the Tucker decomposition, and compressing tensor-valued data (with R code)</a>
+                </p>
+                <p class="text-justify">
+                    - To know more about the cascade style used in our work, check
+                    <a href="https://link.springer.com/chapter/10.1007/978-981-15-7205-0_7">PCA Based Kernel Initialization for Convolutional Neural Networks.</a>                
+                </p>
+
+            </div>
+        </div>
+        
+            
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3 id="citation">Citation</h3>
+                <section class="citation-block" aria-labelledby="bibtex-label">
+                    <div class="citation-toolbar">
+                        <strong id="bibtex-label">BibTeX</strong>
+                        <span class="citation-status" role="status" aria-live="polite"></span>
+                        <button type="button" class="citation-copy" data-copy-citation><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#copy"></use></svg><span data-copy-label>Copy BibTeX</span></button>
+                    </div>
+                    <pre class="citation-code" tabindex="0" aria-label="BibTeX citation"><code>@article{fonseca2021convolutional,
+  title = {Convolutional Neural Network Feature Extraction Using Covariance Tensor Decomposition},
+  author = {Fonseca, Ricardo and Guarnizo, Oscar and Suntaxi, Diego and Cadiz, Alfonso and Creixell, Werner},
+  journal = {IEEE Access},
+  volume = {9},
+  pages = {66646--66660},
+  year = {2021},
+  publisher = {IEEE}
+}</code></pre>
+                </section>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

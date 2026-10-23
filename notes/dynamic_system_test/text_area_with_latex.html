@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MathJax Text Editor</title>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({ tex2jax: { inlineMath: [['$', '$'], ['\\(', '\\)']] } });
+  </script>
+  <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f8f8f8;
+      margin: 0;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    #content {
+      width: 100%;
+      height: 100px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      resize: none;
+      font-size: 14px;
+    }
+
+    #render {
+      margin-top: 10px;
+    }
+
+  </style>
+</head>
+<body>
+  <textarea id="content"></textarea>
+
+  <div id="render"></div>
+
+  <script>
+    const input = document.getElementById("content");
+    const log = document.getElementById("render");
+    input.addEventListener("input", updateValue);
+
+    function updateValue(e) {
+      const inputText = e.target.value;
+      const formattedText = formatText(inputText);
+      log.innerHTML = formattedText;
+      // Adding to the queue for MathJax rendering
+      MathJax.Hub.Queue(["Typeset", MathJax.Hub, "render"]);
+    }
+
+    function formatText(text) {
+      // Replace **word** with <strong>word</strong>
+      text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+      // Replace *word* with <em>word</em>
+      text = text.replace(/\*(.*?)\*/g, '<em>$1</em>');
+      // Replace __word__ with <u>word</u>
+      text = text.replace(/__(.*?)__/g, '<u>$1</u>');
+      // Replace ~~word~~ with <s>word</s> for strikethrough
+      text = text.replace(/~~(.*?)~~/g, '<s>$1</s>');
+      // Replace ^word^ with <sup>word</sup> for superscript
+      text = text.replace(/\^(.*?)\^/g, '<sup>$1</sup>');
+      // Replace ~word~ with <sub>word</sub> for subscript
+      text = text.replace(/~(.*?)~/g, '<sub>$1</sub>');
+      // Replace ==word== with <span style="color: lightblue;">word</span> for highlighting
+      text = text.replace(/==(.*?)==/g, '<span style="color: lightblue;">$1</span>');
+      
+      return text;
+    }
+  </script>
+</body>
+</html>

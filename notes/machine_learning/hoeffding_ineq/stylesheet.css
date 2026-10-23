@@ -1,0 +1,127 @@
+body {
+    font-family: 'Courier New', monospace; /* Set the font to Courier New or another monospaced font */
+    font-size: large;
+    margin: 0;
+    box-sizing: border-box;
+    background-color: #293241; /* Set the background color to dark gray */
+    color: white; /* Set the default text color to white */
+}
+
+.center-container {
+    text-align: center;
+    padding: 10px;
+}
+
+
+
+h1 {
+    color: #F382B0; /* Set the title and topic color to pink */
+    margin-top: 80px;
+}
+
+.note-container {
+    display: flex;
+  }
+
+.topic {
+    margin: 10px;
+    flex: 0 0 10%;
+    margin: 0 10px 0 20px;
+    color: #ff66b2; /* Set the topic color to pink */
+    font-weight: bold;
+}
+
+.content {
+    flex: 1; /* Adjust the width of the comment as needed */
+    margin: 0 10px;
+}
+
+.callout {
+    padding: 10px;
+    border: 1px solid #ff66b2;
+    border-radius: 4px;
+}
+
+.comment {
+    flex: 0 0 20%; /* Adjust the width of the comment as needed */
+    margin: 0 20px 0 10px;
+    color: #F4B937; /* Set the comment column background color to yellow */
+}
+
+.img-container {
+    text-align: center;
+}
+
+.img-container img {
+    max-width: 85%;
+    height: auto;
+    margin-top: 5px;
+}
+
+.small-img-container {
+    text-align: center;
+}
+
+.small-img-container img {
+    max-width: 65%;
+    height: auto;
+    margin-top: 5px;
+}
+
+nav {
+    background-color: #3498db;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position : fixed; /* Make it stick, even on scroll */
+    width: 100%;
+    z-index: 100;
+}
+
+nav a {
+    color: #fff;
+    text-decoration: none;
+    padding: 10px;
+    margin: 0 5px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+nav a:hover {
+    background-color: #555;
+}
+
+.dropdown {
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #333;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    border-radius: 4px;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-content a {
+    color: #fff;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    border-bottom: 1px solid #555;
+    transition: background-color 0.3s ease;
+}
+
+.dropdown-content a:last-child {
+    border-bottom: none;
+}
+
+.dropdown-content a:hover {
+    background-color: #555;
+}

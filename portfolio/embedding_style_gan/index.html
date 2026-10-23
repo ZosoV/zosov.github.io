@@ -1,0 +1,454 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <script src="../../assets/js/theme.js"></script>
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title>Embedding StyleGAN</title>
+
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- <base href="/"> -->
+
+        <!--FACEBOOK-->
+    <!-- <meta property="og:image" content="assets/CovNet_teaser.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="682">
+    <meta property="og:image:height" content="682">
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://jonbarron.info/mipnerf/"/>
+    <meta property="og:title" content="mip-NeRF" />
+    <meta property="og:description" content="Project page for Mip-NeRF: A Multiscale Representation for Anti-Aliasing Neural Radiance Fields." /> -->
+
+        <!--TWITTER-->
+    <!-- <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="mip-NeRF" />
+    <meta name="twitter:description" content="Project page for Mip-NeRF: A Multiscale Representation for Anti-Aliasing Neural Radiance Fields." />
+    <meta name="twitter:image" content="https://jonbarron.info/mipnerf/img/rays_square.png" /> -->
+
+
+<!--     <link rel="apple-touch-icon" href="apple-touch-icon.png"> -->
+  <!-- <link rel="icon" type="image/png" href="img/seal_icon.png"> -->
+    <!-- Place favicon.ico in the root directory -->
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/app.css">
+	<link rel="icon" href="../../assets/icons/icon-192x192.png">
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <script src="js/app.js"></script>
+<link rel="stylesheet" href="../../assets/css/site.css">
+<script>
+      window.MathJax = {
+        tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], processEscapes: true },
+        options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'] }
+      };
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-chtml.js"></script>
+<script defer src="../../assets/js/navigation.js"></script>
+<script defer src="../../assets/js/media.js"></script>
+<script defer src="../../assets/js/citations.js"></script>
+</head>
+
+<body class="project-page">
+<nav class="contents-rail sidebar" aria-label="Project contents">
+  <details class="sidebar-shell" open>
+    <summary><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#menu"></use></svg><span>Navigation</span></summary>
+    <div class="sidebar-content">
+      <a class="sidebar-brand" href="../../index.html" title="Oscar Guarnizo — Home"><span class="brand-mark">OG</span><span class="sidebar-identity">Oscar Guarnizo<small>Project</small></span></a>
+      <div class="sidebar-scroll"><span class="rail-title">On this page</span>
+        <ul class="sidebar-menu"><li class="sidebar-group"><div class="sidebar-row"><a href="#abstract" data-section-link title="Abstract"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#overview"></use></svg><span class="sidebar-label">Abstract</span></a></div></li><li class="sidebar-group"><div class="sidebar-row"><a href="#image2stylegan-i2s" data-section-link title="Image2StyleGAN"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#workflow"></use></svg><span class="sidebar-label">Image2StyleGAN</span></a></div></li><li class="sidebar-group"><div class="sidebar-row"><a href="#improved-image2stylegan-ii2s" data-section-link title="Improved I2S"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#workflow"></use></svg><span class="sidebar-label">Improved I2S</span></a></div></li><li class="sidebar-group"><div class="sidebar-row"><a href="#results" data-section-link title="Results"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#chart"></use></svg><span class="sidebar-label">Results</span></a></div></li><li class="sidebar-group"><div class="sidebar-row"><a href="#related-links" data-section-link title="Related links"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#link"></use></svg><span class="sidebar-label">Related links</span></a></div></li><li class="sidebar-group"><div class="sidebar-row"><a href="#citation" data-section-link title="Citation"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#quote"></use></svg><span class="sidebar-label">Citation</span></a></div></li></ul>
+      <div class="sidebar-destinations"><span class="rail-title">Elsewhere</span><ul><li class="sidebar-group"><div class="sidebar-row"><a href="../../blog/index.html" title="Blog"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#blog"></use></svg><span class="sidebar-label">Blog</span></a></div></li><li class="sidebar-group"><div class="sidebar-row"><a href="../../resources/index.html" title="Resources"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#resources"></use></svg><span class="sidebar-label">Resources</span></a></div></li></ul></div></div>
+      <div class="sidebar-footer">
+        <button type="button" class="theme-toggle" data-theme-toggle aria-label="Switch to dark mode" aria-pressed="false" title="Switch to dark mode"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#moon"></use></svg><span class="sidebar-label" data-theme-label>Dark mode</span></button>
+        <button type="button" class="sidebar-collapse" aria-label="Collapse sidebar" aria-expanded="true" title="Collapse sidebar"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#panel"></use></svg><span class="sidebar-label">Collapse</span></button>
+      </div>
+    </div>
+  </details>
+</nav>
+    
+    <div class="container-fluid" id="main">
+        <div class="row header-project">
+            <h2 class="col-md-12 text-center">
+                <b>StyleGAN Embedding Algorithms</b>: Image2StyleGAN (I2S) <br>& ImprovedImage2StyleGAN (II2S) <br>
+                <small>
+                    EEML 2021 (Research Internship & Summer School)
+                </small>
+            </h2>
+        </div>
+        <div class="row header-project">
+            <div class="col-md-12 text-center">
+                <ul class="list-inline" >
+                    <li>
+                        <a href="../../index.html">
+                            Oscar Guarnizo
+                        </a>
+                        <br>Yachay Tech University
+                        <br>KAUST
+                    </li>
+                    <li>
+                        <a href="https://peterwonka.net/">
+                          Peter Wonka
+                        </a>
+                        <br>KAUST
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="row header-project">
+                <div class="col-md-4 col-md-offset-4 text-center">
+                    <ul class="nav nav-pills nav-justified">
+                        <li>
+                            <a title="Paper" aria-label="Paper" href="https://www.researchgate.net/publication/356491906_Reproduction_of_Image2StyleGAN_How_to_Embed_Images_Into_the_StyleGAN_Latent_Space">
+                            <span class="resource-icon resource-icon--paper" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h6"/></svg></span>
+                                <h4><strong>Article</strong></h4>
+                            </a>
+                        </li>                     
+                        <li>
+                            <a href="https://github.com/ZosoV/style-gan">
+                            <span class="resource-icon resource-icon--code" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m8 6-6 6 6 6M16 6l6 6-6 6M14 4l-4 16"/></svg></span>
+                                <h4><strong>Code</strong></h4>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://oscar-guarnizo.medium.com/review-image2stylegan-embedding-an-image-into-stylegan-c7989e345271">
+                            <span class="resource-icon resource-icon--blog" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M13 5H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="m16 3 5 5M10 14l-1 4 4-1 9-9a2 2 0 0 0-5-5zM7 8h3"/></svg></span>
+                                <h4><strong>Blog</strong></h4>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+        </div>
+
+
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3 id="abstract">Abstract</h3>
+                <button type="button" class="figure-button" data-image-original="assets/images/teaser_image.png" data-image-title="Project overview" aria-label="Enlarge figure: Project overview" style="--figure-width:1246px"><img src="../../assets/images/responsive/0f1e4b0b4f-1246.webp" class="img-responsive" alt="Project overview" width="1246" height="284" loading="eager" decoding="async" srcset="../../assets/images/responsive/0f1e4b0b4f-640.webp 640w, ../../assets/images/responsive/0f1e4b0b4f-1246.webp 1246w" sizes="(max-width: 1000px) calc(100vw - 60px), (max-width: 1440px) calc(100vw - 320px), 876px"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button><br>
+                <p class="text-justify">
+                    StyleGAN has demonstrated outstanding contributions due to 
+                    the high-quality generated images. As a result, it has 
+                    emerged a question, how to embed images into the StyleGAN 
+                    latent space? This work tries to answer this question by 
+                    studying and reproducing Image2StyleGAN (I2S) and 
+                    ImprovedImage2StyleGAN (II2S). These embedding algorithms 
+                    compute a latent code for a given input image by optimizing 
+                    the latent code that minimizes a loss function. This loss 
+                    function is based on perceptual metrics, which capture the 
+                    similarity between reference and generated images. Our 
+                    reproduction partially replaces the algorithm for further 
+                    experimentation of initializers and perceptual losses. 
+                    Additionally, we perform some post-image processing 
+                    operations such as inpainting, super-resolution, 
+                    colorization, morphing, style transfer, and expression 
+                    transfer. We verify the behavior of the studied components 
+                    and stand out particular concerns.           
+                </p>
+            </div>
+        </div>
+
+
+
+        <!-- <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Video
+                </h3>
+                <div class="text-center">
+                    <div style="position:relative;padding-top:56.25%;">
+                        <iframe src="https://www.youtube.com/embed/0vH1tGhuZbY" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3 id="image2stylegan-i2s">Image2StyleGAN (I2S)</h3>
+                <p class="text-justify">
+                    <a href="https://arxiv.org/abs/1904.03189">Image2StyleGAN by Rameen Abdal et al.</a> is an optimization algorithm that aims to 
+                    map a given image (<em>I</em>) into the latent space (<em>w+</em> encoding) of a pre-trained 
+                    StyleGAN . These mappings known as latent codes are helpful 
+                    to perform posterior image processing applications.
+                </p>
+                <p style="text-align:center;">
+                    <span class="equation" style="display:block">\[\mathrm{I2S}: I\longrightarrow W^+\]</span>
+                </p>
+                
+                <!-- <video id="video-1" width="100%" autoplay loop muted>
+                  <source src="img/pe_anim_horiz.mp4" type="video/mp4" />
+                </video> -->
+                <p class="text-justify">
+                    In order to get the \(w^+\) embedding, the authors proposed an <strong>optimization framework</strong> based on gradient descent. The steps are the following:
+                </p>
+                <figure class="algorithm" aria-labelledby="i2s-algorithm-title">
+                    <figcaption id="i2s-algorithm-title"><strong>Optimization</strong><span>Image2StyleGAN embedding</span></figcaption>
+                    <ol class="algorithm-steps">
+                        <li><div>Start with an initial latent code \(w^*\) (initial guess).</div></li>
+                        <li><div>Generate an image with the latent code \(w^*\).</div></li>
+                        <li><div>Compare the generated image \(I^*\) with the reference image \(I\), using a loss function.</div></li>
+                        <li><div>Based on the loss function (error), update the latent code \(w^*\) by gradient descent.</div></li>
+                        <li><div>Repeat this process by a given number of iterations.</div></li>
+                    </ol>
+                </figure>
+                <p style="text-align:center;">
+                    <button type="button" class="figure-button" data-image-original="assets/images/optimization_framework.png" data-image-title="Optimization framework" aria-label="Enlarge figure: optimization framework" style="--figure-width:1978px"><img src="../../assets/images/responsive/42fb6c59d1-1280.webp" class="img-responsive" width="1978" height="512" loading="lazy" decoding="async" srcset="../../assets/images/responsive/42fb6c59d1-640.webp 640w, ../../assets/images/responsive/42fb6c59d1-1280.webp 1280w, ../../assets/images/responsive/42fb6c59d1-1920.webp 1920w" sizes="(max-width: 1000px) calc(100vw - 60px), (max-width: 1440px) calc(100vw - 320px), 876px" alt="Optimization framework"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+                </p>
+                <p class="text-justify">
+                    The optimization process will proceed as follows:
+                </p>
+                <p style="text-align:center;">
+                    <button type="button" class="figure-button" data-image-original="assets/images/progression.png" data-image-title="Progression" aria-label="Enlarge figure: progression" style="--figure-width:1130px"><img src="../../assets/images/responsive/8fcd18d265-1130.webp" class="img-responsive" width="1130" height="222" loading="lazy" decoding="async" srcset="../../assets/images/responsive/8fcd18d265-640.webp 640w, ../../assets/images/responsive/8fcd18d265-1130.webp 1130w" sizes="(max-width: 1000px) calc(100vw - 60px), (max-width: 1440px) calc(100vw - 320px), 876px" alt="Progression"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+                </p>
+                <p class="text-justify">
+                    The <strong>loss function</strong> consists of two terms 
+                    a VGG-16 perceptual loss function and means square error (MSE).
+                </p>
+                <p style="text-align:center;">
+                    <span class="equation" style="display:block">\[w^*=\mathop{\mathrm{arg\,min}}_w\left[L_{\mathrm{percept}}(G(w),I)+\frac{\lambda_{\mathrm{mse}}}{N}\|G(w)-I\|_2^2\right]\]</span><span class="equation-note" style="display:block">The first term is the perceptual loss. The second term is the MSE loss; \(\lambda_{\mathrm{mse}}\) is the parameter controlling the MSE influence.</span>
+                </p>
+                <p class="text-justify">
+                    The <strong>MSE loss</strong> is a standard pixel-wise 
+                    error between the generated and reference images.
+                    <br> <br>
+                    The <strong>perceptual loss</strong> is based on a 
+                    pre-trained neural network (VGG-16 trained with ImageNet), 
+                    which helps to calculate a similarity between two images 
+                    in terms of hidden features. The idea to calculate this 
+                    similarity is to send both images through VGG-16 
+                    and capture its output feature maps (hidden features) from 
+                    different hidden layers.
+                </p>
+                <p style="text-align:center;">
+                    <span class="equation" style="display:block">\[L_{\mathrm{percept}}(I_1,I_2)=\sum_{j=1}^{4}\frac{\lambda_j}{N_j}\|F_j(I_1)-F_j(I_2)\|_2^2\]</span><span class="equation-note" style="display:block">\(I_1\) is the generated image and \(I_2\) is the reference image. \(\lambda_j\) is the weight per layer output. \(F_j(I_1)\) is feature map \(j\) from the generated image, and \(F_j(I_2)\) is feature map \(j\) from the reference image; \(N_j\) is the feature count.</span>
+                </p>
+            </div>
+        </div>
+            
+
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3 id="improved-image2stylegan-ii2s">Improved Image2StyleGAN (II2S)</h3>
+                <p class="text-justify">
+                    <a href="https://arxiv.org/abs/2012.09036">Improved Image2StyleGAN by Peihao Zhu et al.</a> 
+                    introduces an additionally normalized space 
+                    <em>P</em> to analyze the diversity and the quality 
+                    of the reconstructed latent codes. This space can help 
+                    answer the question of where good latent codes 
+                    are located in latent space. 
+                </p>
+                <p style="text-align:center;">
+                    <button type="button" class="figure-button" data-image-original="assets/images/II2S_scheme.PNG" data-image-title="II2S scheme" aria-label="Enlarge figure: II2S scheme" style="--figure-width:1028px"><img src="../../assets/images/responsive/5d6993d9ab-1028.webp" class="img-responsive center" alt="II2S scheme" width="1028" height="513" loading="lazy" decoding="async" srcset="../../assets/images/responsive/5d6993d9ab-640.webp 640w, ../../assets/images/responsive/5d6993d9ab-1028.webp 1028w" sizes="(max-width: 1000px) calc(100vw - 60px), (max-width: 1440px) calc(100vw - 320px), 876px"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+                    <figcaption style="text-align:right;">Zhu P. et. al (2021) Improved StyleGAN Embedding: Where are the Good Latents?</figcaption>
+                </p>
+                <p class="text-justify">
+                    Then, the normalized space is used together with a 
+                    PCA step to propose a <strong>regularization method</strong>, 
+                    which helps to trade off between the reconstruction and image editing
+                    capabilities of the algorithm.
+                </p>
+                <p style="text-align:center;">
+                    <span class="equation" style="display:block">\[\mathbf{w}^{+*}=\mathop{\mathrm{arg\,min}}_{\mathbf{w}^+}\left[L(I,G(\mathbf{w}^+))+\lambda\|\mathbf{v}\|^2\right]\]</span><span class="equation-note" style="display:block">The regularization term is \(\lambda\|\mathbf{v}\|^2\).</span>
+                </p>
+            </div>
+        </div>
+            
+
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3 id="results">Results</h3>
+                <p class="text-justify">
+                    Using Image2StyleGAN, we studied three semantic image 
+                    editing applications: morphing, expression transfer, and style transfer. 
+                    Each test can be done by simple latent code manipulation of vectors <em>w</em>.           
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <p class="text-justify">
+                    <strong>Morphing</strong>
+                </p>
+            </div>
+            <div class="col-md-2 col-md-offset-2">
+                <p style="text-align:center; align-items: center;">
+                    <button type="button" class="figure-button" data-image-original="assets/images/morphing_gif.png" data-image-title="Morphing gif" aria-label="Enlarge figure: morphing gif" style="--figure-width:256px"><img src="../../portfolio/embedding_style_gan/assets/images/morphing_gif.png" class="img-responsive" alt="Morphing gif" width="256" height="256" loading="lazy" decoding="async"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+                </p>
+            </div>
+            <div class="col-md-6">
+                <p style="text-align:center; align-items: center;">
+                <button type="button" class="figure-button" data-image-original="assets/images/teaser_image.png" data-image-title="Project overview" aria-label="Enlarge figure: Project overview" style="--figure-width:1246px"><img src="../../assets/images/responsive/0f1e4b0b4f-1246.webp" class="img-responsive" alt="Project overview" width="1246" height="284" loading="lazy" decoding="async" srcset="../../assets/images/responsive/0f1e4b0b4f-640.webp 640w, ../../assets/images/responsive/0f1e4b0b4f-1246.webp 1246w" sizes="(max-width: 1000px) calc(100vw - 60px), (max-width: 1440px) calc(100vw - 320px), 876px"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <p class="text-justify">
+                    <strong>Expression Transfer</strong>
+                </p>
+            </div>
+            <div class="col-md-2 col-md-offset-2">
+                <p style="text-align:center; align-items: center;">
+                    <button type="button" class="figure-button" data-image-original="assets/images/expression_transfer_gif.png" data-image-title="Expression transfer gif" aria-label="Enlarge figure: expression transfer gif" style="--figure-width:256px"><img src="../../portfolio/embedding_style_gan/assets/images/expression_transfer_gif.png" class="img-responsive" alt="Expression transfer gif" width="256" height="256" loading="lazy" decoding="async"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+                </p>
+            </div>
+            <div class="col-md-6">
+                <p style="text-align:center; align-items: center;">
+                <button type="button" class="figure-button" data-image-original="assets/images/expression_transfer_faces.png" data-image-title="Expression transfer faces" aria-label="Enlarge figure: expression transfer faces" style="--figure-width:970px"><img src="../../assets/images/responsive/b3c03b8887-970.webp" class="img-responsive" alt="Expression transfer faces" width="970" height="413" loading="lazy" decoding="async" srcset="../../assets/images/responsive/b3c03b8887-640.webp 640w, ../../assets/images/responsive/b3c03b8887-970.webp 970w" sizes="(max-width: 1000px) calc(100vw - 60px), (max-width: 1440px) calc(100vw - 320px), 876px"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+
+                <p class="text-justify">
+                <strong>Style Transfer</strong>            
+                </p>
+                <p style="text-align:center;">
+                    <button type="button" class="figure-button" data-image-original="assets/images/style_transfer.png" data-image-title="Style transfer" aria-label="Enlarge figure: style transfer" style="--figure-width:516px"><img src="../../assets/images/responsive/48cd2a7843-516.webp" class="img-responsive" alt="Style transfer" width="516" height="178" loading="lazy" decoding="async" srcset="../../assets/images/responsive/48cd2a7843-516.webp 516w" sizes="(max-width: 1000px) calc(100vw - 60px), (max-width: 1440px) calc(100vw - 320px), 876px"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <p class="text-justify">
+                    Using ImprovedImage2StyleGAN, we studied three editing operations: 
+                    colorization, inpainting, super-resolution, and style transfer.
+                </p>
+                                        
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <p class="text-justify">
+                    <strong>Colorization</strong>
+                </p>
+            </div>
+ 
+            <div class="col-md-4 col-md-offset-2">
+                <p style="text-align:center; align-items: center;">
+                    <button type="button" class="figure-button" data-image-original="assets/images/colorization_left.PNG" data-image-title="Colorization left" aria-label="Enlarge figure: colorization left" style="--figure-width:765px"><img src="../../assets/images/responsive/901f5b4894-765.webp" class="img-responsive" alt="Colorization left" width="765" height="503" loading="lazy" decoding="async" srcset="../../assets/images/responsive/901f5b4894-640.webp 640w, ../../assets/images/responsive/901f5b4894-765.webp 765w" sizes="(max-width: 1000px) calc(100vw - 60px), (max-width: 1440px) calc(100vw - 320px), 876px"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+                </p>
+            </div>
+            <div class="col-md-4 ">
+                <p style="text-align:center; align-items: center;">
+                <button type="button" class="figure-button" data-image-original="assets/images/colorization_right.PNG" data-image-title="Colorization right" aria-label="Enlarge figure: colorization right" style="--figure-width:764px"><img src="../../assets/images/responsive/1463d2fb0d-764.webp" class="img-responsive" alt="Colorization right" width="764" height="508" loading="lazy" decoding="async" srcset="../../assets/images/responsive/1463d2fb0d-640.webp 640w, ../../assets/images/responsive/1463d2fb0d-764.webp 764w" sizes="(max-width: 1000px) calc(100vw - 60px), (max-width: 1440px) calc(100vw - 320px), 876px"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+                </p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <p class="text-justify">
+                    <strong>Inpainting</strong>
+                </p>
+            </div>
+ 
+            <div class="col-md-4 col-md-offset-2">
+                <p style="text-align:center; align-items: center;">
+                    <button type="button" class="figure-button" data-image-original="assets/images/inpainting_left.png" data-image-title="Inpainting left" aria-label="Enlarge figure: inpainting left" style="--figure-width:1594px"><img src="../../assets/images/responsive/ceb648b35f-1280.webp" class="img-responsive" alt="Inpainting left" width="1594" height="1048" loading="lazy" decoding="async" srcset="../../assets/images/responsive/ceb648b35f-640.webp 640w, ../../assets/images/responsive/ceb648b35f-1280.webp 1280w, ../../assets/images/responsive/ceb648b35f-1594.webp 1594w" sizes="(max-width: 1000px) calc(100vw - 60px), (max-width: 1440px) calc(100vw - 320px), 876px"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+                </p>
+            </div>
+            <div class="col-md-4 ">
+                <p style="text-align:center; align-items: center;">
+                <button type="button" class="figure-button" data-image-original="assets/images/inpainting_right.PNG" data-image-title="Inpainting right" aria-label="Enlarge figure: inpainting right" style="--figure-width:765px"><img src="../../assets/images/responsive/6b73f9ac04-765.webp" class="img-responsive" alt="Inpainting right" width="765" height="507" loading="lazy" decoding="async" srcset="../../assets/images/responsive/6b73f9ac04-640.webp 640w, ../../assets/images/responsive/6b73f9ac04-765.webp 765w" sizes="(max-width: 1000px) calc(100vw - 60px), (max-width: 1440px) calc(100vw - 320px), 876px"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+                </p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <p class="text-justify">
+                    <strong>Super-Resolution</strong>
+                </p>
+            </div>
+ 
+            <div class="col-md-4 col-md-offset-2">
+                <p style="text-align:center; align-items: center;">
+                    <button type="button" class="figure-button" data-image-original="assets/images/super_resolution_left.png" data-image-title="Super resolution left" aria-label="Enlarge figure: super resolution left" style="--figure-width:1624px"><img src="../../assets/images/responsive/fe5f19e8c0-1280.webp" class="img-responsive" alt="Super resolution left" width="1624" height="1078" loading="lazy" decoding="async" srcset="../../assets/images/responsive/fe5f19e8c0-640.webp 640w, ../../assets/images/responsive/fe5f19e8c0-1280.webp 1280w, ../../assets/images/responsive/fe5f19e8c0-1624.webp 1624w" sizes="(max-width: 1000px) calc(100vw - 60px), (max-width: 1440px) calc(100vw - 320px), 876px"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+                </p>
+            </div>
+            <div class="col-md-4 ">
+                <p style="text-align:center; align-items: center;">
+                <button type="button" class="figure-button" data-image-original="assets/images/super_resolution_right.PNG" data-image-title="Super resolution right" aria-label="Enlarge figure: super resolution right" style="--figure-width:759px"><img src="../../assets/images/responsive/9e4da12885-759.webp" class="img-responsive" alt="Super resolution right" width="759" height="507" loading="lazy" decoding="async" srcset="../../assets/images/responsive/9e4da12885-640.webp 640w, ../../assets/images/responsive/9e4da12885-759.webp 759w" sizes="(max-width: 1000px) calc(100vw - 60px), (max-width: 1440px) calc(100vw - 320px), 876px"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+                </p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <p class="text-justify">
+                    <strong>Style Transfer</strong>
+                </p>
+            </div>
+ 
+            <div class="col-md-4 col-md-offset-2">
+                <p style="text-align:center; align-items: center;">
+                    <button type="button" class="figure-button" data-image-original="assets/images/colorization_left.PNG" data-image-title="Colorization left" aria-label="Enlarge figure: colorization left" style="--figure-width:765px"><img src="../../assets/images/responsive/901f5b4894-765.webp" class="img-responsive" alt="Colorization left" width="765" height="503" loading="lazy" decoding="async" srcset="../../assets/images/responsive/901f5b4894-640.webp 640w, ../../assets/images/responsive/901f5b4894-765.webp 765w" sizes="(max-width: 1000px) calc(100vw - 60px), (max-width: 1440px) calc(100vw - 320px), 876px"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+                </p>
+            </div>
+            <div class="col-md-4 ">
+                <p style="text-align:center; align-items: center;">
+                <button type="button" class="figure-button" data-image-original="assets/images/style_transfer_right.PNG" data-image-title="Style transfer right" aria-label="Enlarge figure: style transfer right" style="--figure-width:754px"><img src="../../assets/images/responsive/41a4af786a-754.webp" class="img-responsive" alt="Style transfer right" width="754" height="501" loading="lazy" decoding="async" srcset="../../assets/images/responsive/41a4af786a-640.webp 640w, ../../assets/images/responsive/41a4af786a-754.webp 754w" sizes="(max-width: 1000px) calc(100vw - 60px), (max-width: 1440px) calc(100vw - 320px), 876px"><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3 id="related-links">Related links</h3>
+                <p class="text-justify">
+                    Image2StyleGAN is an exciting algorithm with a variety 
+                    of uses beyond those described here. Bellow, I show some 
+                    resources that you find valuable. 
+                    <br> <br>
+                    - StyleGAN 1: <a href="https://arxiv.org/abs/1812.04948">A Style-Based Generator Architecture for Generative Adversarial Networks</a>.
+                    <br> <br>
+                    - StyleGAN 2: <a href="https://arxiv.org/abs/1912.04958">Analyzing and Improving the Image Quality of StyleGAN</a>.                    
+                    <br> <br>
+                    - StyleGAN 2 — Reduced Data: <a href="https://arxiv.org/abs/2006.06676">Training Generative Adversarial Networks with Limited Data</a>.
+                    <br> <br>
+                    - LPIPS (state-of-the-art Perceptual Metric): <a href="https://richzhang.github.io/PerceptualSimilarity/">The Unreasonable Effectiveness of Deep Features as a Perceptual Metric</a>.
+                    <br> <br>
+                    - <a href="https://arxiv.org/abs/1911.11544">Image2StyleGAN++: How to Edit the Embedded Images?</a>
+                </p>
+            </div>
+        </div>
+        
+            
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3 id="citation">Citation</h3>
+                <section class="citation-block" aria-labelledby="bibtex-label">
+                    <div class="citation-toolbar">
+                        <strong id="bibtex-label">BibTeX</strong>
+                        <span class="citation-status" role="status" aria-live="polite"></span>
+                        <button type="button" class="citation-copy" data-copy-citation><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#copy"></use></svg><span data-copy-label>Copy BibTeX</span></button>
+                    </div>
+                    <pre class="citation-code" tabindex="0" aria-label="BibTeX citation"><code>@article{guarnizoreproduction,
+  title = {Reproduction of Image2StyleGAN: How to Embed Images Into the StyleGAN Latent Space?},
+  author = {Guarnizo, Oscar}
+}</code></pre>
+                </section>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
