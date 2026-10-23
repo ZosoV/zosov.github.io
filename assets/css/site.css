@@ -139,6 +139,7 @@ section, h3[id] { scroll-margin-top: 0; }
 .home-page .profile-links .profile-publications { margin-top: 10px; }
 .home-page .profile-links a { display: inline-flex; align-items: center; justify-content: center; border: 1px solid var(--line); background: var(--surface); text-decoration: none; }
 .home-page .profile-social a { width: 44px; height: 44px; border-radius: 50%; }
+.home-page .profile-social .social-icon { display: block; width: 20px; height: 20px; }
 .home-page .profile-publications a { min-height: 36px; padding: 5px 10px; border-radius: 6px; font-size: 15px; }
 .home-page .profile-links a:hover { background: var(--surface-hover); border-color: var(--accent); }
 

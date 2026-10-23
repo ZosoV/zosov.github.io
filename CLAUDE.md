@@ -45,3 +45,7 @@ These rules apply to the resource links in every project page header under `port
 - Keep Minimal RL in Resources under Tutorials and study material, marked WIP. Do not restore its home-page card or home-section sidebar shortcut.
 
 - Do not reintroduce the removed “Powered by” template-credit footer on any page.
+
+- Keep the personal email link off the home page. Use an X icon and label for the X profile instead of the old Twitter bird.
+
+- Show the three Medium articles as blog cards with their original publication dates, topic tags, and a Medium label. Card titles link to Medium; do not create local copies of those articles.
