@@ -174,7 +174,7 @@ section, h3[id] { scroll-margin-top: 0; }
 .project-page .header-project .list-inline a { color: #72dcf4; text-decoration: none; }
 .project-page .header-project .list-inline a:is(:hover, :focus-visible) { color: #c0f2ff; text-decoration: none; }
 
-.project-page .header-project .col-md-4 { width: 100%; margin-left: 0; float: none; }
+.project-page .header-project .col-md-4 { width: 100%; margin-left: 0; float: none; padding-inline: 15px; }
 .project-page .header-project .nav-pills { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px 14px; padding-block: 12px 20px; }
 .project-page .header-project .nav-pills > li { flex: 0 1 auto; float: none; width: auto; margin: 0; }
 .project-page .header-project .nav-pills > li > a {

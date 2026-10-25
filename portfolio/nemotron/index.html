@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="../../assets/js/theme.js"></script>
+<title>Teaching Nemotron to reason about symbolic equations · Oscar Guarnizo</title>
+<meta name="description" content="A research exploration of backward-generated reasoning traces, curriculum supervised fine-tuning, and proposed verifiable rewards for Nemotron symbolic equation puzzles.">
+<link rel="canonical" href="https://zosov.github.io/portfolio/nemotron/">
+<meta property="og:title" content="Teaching Nemotron to reason about symbolic equations">
+<meta property="og:description" content="From a brute-force solver to synthetic teaching trajectories, curriculum SFT, and a proposal for process-aware reinforcement learning.">
+<meta property="og:image" content="https://zosov.github.io/portfolio/nemotron/assets/preview.svg">
+<link rel="icon" href="../../assets/icons/icon-192x192.png">
+<link rel="stylesheet" href="../../assets/css/site.css">
+<link rel="stylesheet" href="assets/demo.css">
+<script defer src="../../assets/js/navigation.js"></script>
+<script defer src="../../assets/js/media.js"></script>
+<script defer src="assets/demo.js"></script>
+</head><body class="project-page nemotron-page"><nav class="contents-rail sidebar" aria-label="Project contents">
+  <details class="sidebar-shell" open>
+    <summary><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#menu"></use></svg><span>Navigation</span></summary>
+    <div class="sidebar-content">
+      <a class="sidebar-brand" href="../../index.html" title="Oscar Guarnizo — Home"><span class="brand-mark">OG</span><span class="sidebar-identity">Oscar Guarnizo<small>Project</small></span></a>
+      <div class="sidebar-scroll"><span class="rail-title">On this page</span>
+        <ul class="sidebar-menu"><li class="sidebar-group"><div class="sidebar-row"><a href="#overview" data-section-link title="Overview"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#overview"></use></svg><span class="sidebar-label">Overview</span></a></div></li><li class="sidebar-group"><div class="sidebar-row"><a href="#problem" data-section-link title="The puzzle"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#grid"></use></svg><span class="sidebar-label">The puzzle</span></a></div></li><li class="sidebar-group"><div class="sidebar-row"><a href="#approach" data-section-link title="Two phases"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#workflow"></use></svg><span class="sidebar-label">Two phases</span></a></div></li><li class="sidebar-group"><div class="sidebar-row"><a href="#solver" data-section-link title="Symbolic solver"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#chip"></use></svg><span class="sidebar-label">Symbolic solver</span></a></div></li><li class="sidebar-group"><div class="sidebar-row"><a href="#trajectories" data-section-link title="Synthetic traces"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#workflow"></use></svg><span class="sidebar-label">Synthetic traces</span></a></div></li><li class="sidebar-group"><div class="sidebar-row"><a href="#curriculum" data-section-link title="Curriculum SFT"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#chart"></use></svg><span class="sidebar-label">Curriculum SFT</span></a></div></li><li class="sidebar-group"><div class="sidebar-row"><a href="#reinforcement" data-section-link title="Proposed RL"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#research"></use></svg><span class="sidebar-label">Proposed RL</span></a></div></li><li class="sidebar-group"><div class="sidebar-row"><a href="#outcome" data-section-link title="Lessons & next steps"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#overview"></use></svg><span class="sidebar-label">Lessons & next steps</span></a></div></li><li class="sidebar-group"><div class="sidebar-row"><a href="#references" data-section-link title="References"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#link"></use></svg><span class="sidebar-label">References</span></a></div></li></ul>
+      <div class="sidebar-destinations"><span class="rail-title">Elsewhere</span><ul><li class="sidebar-group"><div class="sidebar-row"><a href="../../blog/index.html" title="Blog"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#blog"></use></svg><span class="sidebar-label">Blog</span></a></div></li><li class="sidebar-group"><div class="sidebar-row"><a href="../../resources/index.html" title="Resources"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#resources"></use></svg><span class="sidebar-label">Resources</span></a></div></li></ul></div></div>
+      <div class="sidebar-footer">
+        <button type="button" class="theme-toggle" data-theme-toggle aria-label="Switch to dark mode" aria-pressed="false" title="Switch to dark mode"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#moon"></use></svg><span class="sidebar-label" data-theme-label>Dark mode</span></button>
+        <button type="button" class="sidebar-collapse" aria-label="Collapse sidebar" aria-expanded="true" title="Collapse sidebar"><svg class="sidebar-icon" aria-hidden="true"><use href="../../assets/icons/navigation.svg#panel"></use></svg><span class="sidebar-label">Collapse</span></button>
+      </div>
+    </div>
+  </details>
+</nav>
+<main id="main">
+<header class="header-project demo-header">
+<p class="project-kicker">NVIDIA Nemotron Model Reasoning Challenge · 2026</p>
+<h1>Teaching a language model<br>to reason about symbolic equations</h1>
+<p class="hero-subtitle">Synthetic reasoning trajectories, curriculum SFT,<br>and a proposal for verifiable process rewards.</p>
+<p class="byline"><a href="../../index.html">Oscar Guarnizo</a> · Research exploration</p>
+<div class="col-md-4 text-center">
+<ul class="nav nav-pills">
+<li><a href="https://github.com/ZosoV/nemotron-symbolic-reasoning" title="Source code, training notebooks and original method specifications" aria-label="Code: Nemotron symbolic reasoning research"><span class="resource-icon resource-icon--code" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m8 6-6 6 6 6M16 6l6 6-6 6M14 4l-4 16"/></svg></span><h4>Code</h4></a></li>
+<li><a href="https://www.kaggle.com/competitions/nvidia-nemotron-model-reasoning-challenge" title="NVIDIA Nemotron competition overview and evaluation" aria-label="Source: NVIDIA Nemotron competition"><span class="resource-icon resource-icon--thesis" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h13a1 1 0 0 1 1 1v17H6a3 3 0 0 1-3-3V6a3 3 0 0 1 2-3Z M3 18a3 3 0 0 1 3-3h13M8 7h7M8 10h5"/></svg></span><h4>Source</h4></a></li>
+</ul>
+</div>
+</header>
+<article class="demo-article">
+<section id="overview">
+<p class="section-kicker">The research question</p>
+<h2>Can a solver teach a model a useful way to search?</h2>
+<p>A symbolic solver can find an answer by exploring thousands of possibilities. A language model has to produce a useful explanation and an answer within a small token budget. My idea was to bridge that gap: use a solver to obtain a feasible destination, construct a short trajectory leading to it, and teach that trajectory before asking the model to improve through reinforcement learning.</p>
+<p>This page explains the design choices, the obstacles behind them, and how I would extend the approach. The solver, synthetic trace generator and curriculum training pipeline were implemented. <strong>Semantic rewards extracted from the traces were the proposed next phase.</strong> The experiments did not demonstrate a successful symbolic reasoning model.</p>
+<div class="idea-strip"><span>Find a feasible solution</span><b aria-hidden="true">→</b><span>Build a teaching trajectory</span><b aria-hidden="true">→</b><span>Learn, then refine</span></div>
+</section>
+<section id="problem">
+<p class="section-kicker">01 · Find the bottleneck</p>
+<h2>A familiar equation with unfamiliar rules</h2>
+<p>The competition used a shared Nemotron-3-Nano-30B model and evaluated a submitted LoRA adapter on answer accuracy. Its published evaluation allowed an 8,192-token context and up to 7,680 generated tokens. The model had to end with a boxed answer. <a href="https://www.kaggle.com/competitions/nvidia-nemotron-model-reasoning-challenge">Competition overview and metric ↗</a></p>
+<p>The data covered numeral conversion, unit conversion, gravity, ciphers, bit manipulation, numeric equations and symbolic equations. In our competition work, the other categories had become much more reliable. Symbolic equations remained the bottleneck, so we focused our effort there.</p>
+<div class="puzzle-panel">
+<div><span class="mini-label">Shown equations</span><div class="puzzle-lines">AB + CD = DF<br>AC + BE = CH<br>BD + CE = EI</div></div>
+<div><span class="mini-label">New left-hand side</span><div class="puzzle-lines">AB + CE = <span class="unknown">?</span></div><p>Infer the hidden rules, then encode the result.</p></div>
+</div>
+<p class="caption">Invented example for this explanation. Even “+” is just an operator glyph in the real task: it need not mean addition. Extra examples used in the interactive trajectory below constrain more symbols.</p>
+<p>A candidate solution is a small program: a symbol-to-digit mapping, an operator-to-function mapping, and an encoding convention. With A=1, B=2, C=3, D=4, E=5, F=6, G=7, H=8, I=9 and ordinary addition, AB + CE becomes 12 + 35 = 47, encoded as DG. This is <em>one feasible interpretation</em>; a few examples may leave several interpretations possible.</p>
+<aside class="research-note"><strong>The first obstacle: sparse feedback.</strong> Starting directly with RL was slow. When nearly every long attempt fails, an answer-only reward gives little guidance about which part of the attempt was useful. I wanted both a warm-up strategy and a denser, checkable reward signal.</aside>
+</section>
+<section id="approach">
+<p class="section-kicker">02 · Design the learning pipeline</p>
+<h2>Two phases: teach a procedure, then reward useful progress</h2>
+<figure class="flow-figure">
+<div class="pipeline-prep"><span class="stage-number">Preparation</span><strong>Symbolic solver → feasible programs → synthetic trajectories</strong><p>Known solutions provide supervised targets. Short, structured explanations provide a procedure to imitate.</p></div>
+<div class="flow-arrow" aria-hidden="true">↓</div>
+<div class="phase-grid">
+<div class="phase phase-sft"><span class="status-tag">Implemented pipeline</span><h3>1. Curriculum SFT</h3><p>Start with fewer equations. Train on attempts, checks, repairs and the answer. Unlock larger problems while retaining replay.</p><div class="phase-output">Output: a warmed-up LoRA policy</div></div>
+<div class="phase-bridge" aria-hidden="true">→</div>
+<div class="phase phase-rl"><span class="status-tag proposed">Proposed semantic rewards</span><h3>2. Reinforcement learning</h3><p>Sample the model’s own tagged trajectories. Verify the claims. Reward correct answers and valid progress; penalize false checks and repetition.</p><div class="phase-output">Goal: improve beyond imitation</div></div>
+</div>
+<figcaption>The intended end-to-end method. Generic GRPO code exists in the repository; the richer trace-aware reward system shown here was not completed or validated.</figcaption>
+</figure>
+<p>SFT is the warm-up: it gives the model examples of how to organize a candidate, test it and revise it. RL would then expose the model to its own mistakes and optimize the behaviors that an external checker can verify. Neither stage guarantees that the model learns general reasoning; that has to be measured on unseen puzzles.</p>
+</section>
+<section id="solver">
+<p class="section-kicker">03 · Obtain supervision</p>
+<h2>First, build something that can find a solution</h2>
+<p>We initially lacked reliable teaching solutions ourselves. Through trial and error, the approach became a constrained symbolic search, with a Python driver and a Rust search core. Instead of allowing arbitrary mathematics, we defined a manageable set of operation families, including addition, multiplication, differences, division, remainders, gcd, lcm and concatenation. Small offsets cover variations such as a × b + 1.</p>
+<div class="encoding-grid">
+<div><span class="mini-label">Standard encoding</span><p class="formula">decode(AB) = b·d(A) + d(B)</p><p>Base 10, A=1, B=2 → <strong>12</strong></p></div>
+<div><span class="mini-label">Little-endian encoding</span><p class="formula">decode(AB) = d(A) + b·d(B)</p><p>Base 10, A=1, B=2 → <strong>21</strong></p></div>
+</div>
+<p class="caption">Here b is the numeral base and d maps a symbol to its digit. The research explored base choices; later configurations fixed base 10 for simplicity.</p>
+<ol class="method-steps">
+<li><strong>Check simple structure.</strong> A demonstrated forward or reverse concatenation pattern can avoid arithmetic search entirely.</li>
+<li><strong>Narrow the operation candidates.</strong> Inspect signs, repeated operands, result widths and symbol patterns. Operator-glyph statistics suggest a search order, while logical impossibility checks can eliminate candidates.</li>
+<li><strong>Assign digits and prune.</strong> Enforce distinct digits for distinct symbols. As assignments become available, check constraints and abandon branches that cannot satisfy them. Backtrack and try another candidate or encoding.</li>
+<li><strong>Collect feasible programs.</strong> Keep solutions consistent with the constraints, optionally collecting several. During data construction the known target answer can be included as a constraint; this makes the solver a supervision oracle, not an unbiased measure of test-time accuracy.</li>
+</ol>
+<p><strong>Why not teach the brute-force log?</strong> Exhaustive search is lengthy, contains many unhelpful dead ends and easily overwhelms the competition’s token budget. A successful search log also does not automatically provide a concise, learnable explanation. I wanted to retain the valid destination while controlling the teaching path.</p>
+</section>
+<section id="trajectories">
+<p class="section-kicker">04 · Work backward to teach forward</p>
+<h2>Synthetic trajectories from a fixed feasible solution</h2>
+<p>Choose one feasible target program. Starting from its digit mapping, make a small change—swap two assignments or reassign a symbol to an unused digit. Repeat for up to N perturbations. Then reverse the sequence: the teaching trajectory begins with a flawed hypothesis and reaches the fixed target through one repair at a time.</p>
+<figure class="backward-figure">
+<div class="direction-label">Construction · known target first</div>
+<div class="mapping-path backward"><div><strong>M*</strong><small>Feasible target</small></div><b aria-hidden="true">→</b><div><strong>M₂</strong><small>One perturbation</small></div><b aria-hidden="true">→</b><div><strong>M₁</strong><small>Two perturbations</small></div><b aria-hidden="true">→</b><div><strong>M₀</strong><small>Three perturbations</small></div></div>
+<div class="reverse-label">Reverse the order; describe checks and candidate repairs.</div>
+<div class="direction-label">Teaching · read as forward attempts</div>
+<div class="mapping-path forward"><div><strong>M₀</strong><small>Try &amp; check</small></div><b aria-hidden="true">→</b><div><strong>M₁</strong><small>Repair &amp; check</small></div><b aria-hidden="true">→</b><div><strong>M₂</strong><small>Repair &amp; check</small></div><b aria-hidden="true">→</b><div><strong>M*</strong><small>Verify &amp; answer</small></div></div>
+<figcaption>Three perturbations are an example, not a requirement. The generator can produce fewer depending on puzzle structure and the text budget.</figcaption>
+</figure>
+<p>The intermediate hypotheses deliberately fail; what must be sound is the arithmetic used to check them and the final solution. The generator uses a forward check to describe a mismatch, then frames a repair as a hypothesis to test. Several trajectories can lead to the same target. These are constructed teaching explanations, not a claim about the actual search history or a model’s internal reasoning.</p>
+<div class="interactive" id="trajectory-demo">
+<div class="interactive-heading"><div><span class="mini-label">Interactive illustration · no model inference</span><h3>Follow a synthetic repair trajectory</h3></div><span class="demo-badge">3 repairs</span></div>
+<p>For this toy example, addition and standard base-10 encoding are fixed. Move from the perturbed mapping toward the selected target.</p>
+<label for="trace-step">Forward attempt: <output id="trace-position" for="trace-step">1 of 4</output></label>
+<input id="trace-step" type="range" min="0" max="3" value="0" step="1">
+<div class="range-endpoints"><span>M₀ · perturbed</span><span>M* · selected target</span></div>
+<div id="mapping-chips" class="mapping-chips" aria-label="Current symbol mapping"></div>
+<div class="check-table" role="region" aria-label="Computed example checks" tabindex="0"><table><thead><tr><th>Example</th><th>Decoded check</th><th>Result</th></tr></thead><tbody id="trace-checks"></tbody></table></div>
+<p id="trace-explanation" class="sim-feedback" role="status" aria-live="polite"></p>
+<div class="query-result"><span>Query AB + CE</span><strong id="trace-query"></strong></div>
+<details><summary>What changes between attempts?</summary><p>The target assigns A… I to 1…9. Construct backward by swapping A/B, then C/D, then E/F. Read forward, undo E/F, C/D, then A/B. The example equations are independently recomputed at each attempt. A repair may fix one equation and disturb another; only the final mapping must pass every check. The selected endpoint is known during construction.</p></details>
+<noscript><p>Enable JavaScript to move through the checks. The final mapping A=1 through I=9 satisfies all five examples and yields AB + CE = DG.</p></noscript>
+</div>
+<p><strong>Keep the text useful and short.</strong> Describe the mismatch rather than every searched branch. Reuse a concise operation vocabulary, skip unchanged checks where appropriate, and cap the number of repair attempts. The implementation estimates text length and reduces perturbations; exact tokenizer checks would be needed to guarantee the final response fits.</p>
+<p><strong>Do not disguise privileged information as deduction.</strong> The known endpoint helps construct the path, but a narrated claim should be justified by the visible examples. “Try this swap” is a proposal; “this digit must be 4” needs evidence. The project’s later revisions addressed this distinction and visibility of symbols absent from the prompt.</p>
+</section>
+<section id="curriculum">
+<p class="section-kicker">05 · Make the learning task progressive</p>
+<h2>Start small, retain useful experience, increase complexity</h2>
+<p>Long systems require more candidate checks, more cross-equation consistency and longer explanations. My curriculum starts with <strong>one shown equation plus one query—two equations in total</strong>—and progresses toward problems with three, four or five shown equations. Earlier examples remain in the mix while harder buckets are introduced.</p>
+<aside class="research-note"><strong>“Easier” refers to the teaching task.</strong> Fewer equations mean fewer constraints to reconcile in a trace, but also more ambiguity about the hidden rule. More equations can make the underlying inference better determined. The curriculum is a hypothesis about learning a procedure, not a theorem that smaller systems are always easier to solve.</aside>
+<div class="curriculum-ladder"><span>1 example<br><small>+ query</small></span><b aria-hidden="true">→</b><span>2 examples<br><small>+ query</small></span><b aria-hidden="true">→</b><span>3 examples<br><small>+ query</small></span><b aria-hidden="true">→</b><span>4–5 examples<br><small>+ query</small></span></div>
+<p>The implemented scheduler adapts <a href="https://aclanthology.org/N19-1119/">competence-based curriculum learning</a>. A square-root schedule unlocks buckets according to their cumulative dataset share. Before full difficulty, the sampler balances the unlocked buckets. The last phase focuses on the three–five-example distribution. A separate replay stream from the other puzzle categories stays active throughout.</p>
+<figure class="chart-figure">
+<button type="button" class="figure-button" data-image-original="assets/curriculum.svg" data-image-title="Illustrative curriculum schedule, not training performance" aria-label="Enlarge curriculum schedule" style="--figure-width:1100px"><img src="assets/curriculum.svg" width="1100" height="480" loading="lazy" decoding="async" alt="Stacked schedule: 25 percent other-category replay throughout, with symbolic example buckets unlocking progressively and a final focus on three to five examples."><span class="figure-hint"><svg aria-hidden="true"><use href="../../assets/icons/navigation.svg#expand"></use></svg>Expand</span></button>
+<figcaption>Illustration of the recorded schedule configuration: 250 updates, full competence at update 175, 25% replay. Band widths are expected sampling proportions, not measured learning progress.</figcaption>
+</figure>
+<div class="interactive" id="curriculum-demo">
+<span class="mini-label">Explore the sampling rule</span>
+<h3>What goes into a training batch?</h3>
+<label for="curriculum-step">Optimizer step: <output id="curriculum-position" for="curriculum-step">0 / 250</output></label>
+<input id="curriculum-step" type="range" min="0" max="250" value="0">
+<div class="range-endpoints"><span>Start small</span><span>Target distribution</span></div>
+<div id="batch-bars" class="batch-bars" aria-label="Expected batch composition"></div>
+<p id="curriculum-description" class="sim-feedback" role="status" aria-live="polite"></p>
+<p class="caption">Batch size 32: 8 replay slots and 24 symbolic slots. Shares are expected values; actual samples use seeded shuffled cycling. At step 175, one- and two-example buckets drop out of the symbolic mix.</p>
+</div>
+<p>The loss teaches the assistant’s trajectory and final answer while masking the prompt. To test the curriculum fairly, I would compare it with flat sampling under the same token budget, starting adapter and puzzle-level split. Augmentations of the same original puzzle must stay in the same split.</p>
+</section>
+<section id="reinforcement">
+<p class="section-kicker">06 · Proposed next phase</p>
+<h2>Make reasoning steps inspectable—and reward what can be checked</h2>
+<p>After SFT, the model would generate its own trajectories in the learned format. Tags give a fixed reward function places to look: the proposed digit mapping, the equations checked, the detected failure, the suggested repair and the conclusion. The important step is <strong>independent verification</strong>, rather than trusting a model’s claim that it passed a check.</p>
+<figure class="flow-figure rl-figure">
+<ol class="rl-loop"><li><span>1</span><strong>Sample a group</strong><p>Warmed-up policy generates several tagged attempts for one puzzle.</p></li><li><span>2</span><strong>Parse &amp; verify</strong><p>Recompute equations and compare states using a deterministic checker.</p></li><li><span>3</span><strong>Assign rewards</strong><p>Combine answer accuracy, valid progress and bounded penalties.</p></li><li><span>4</span><strong>Update the policy</strong><p>Use group-relative advantages in GRPO; sample again.</p></li></ol>
+<div class="loop-return">↶ Repeat with the updated policy and fresh trajectories</div>
+<figcaption>Proposed RL loop. A scalar reward can aggregate checked process signals. Assigning different rewards directly to individual tokens would require additional training logic.</figcaption>
+</figure>
+<div class="table-wrap"><table class="explain-table"><caption>Tags as a contract between the model and a verifier</caption><thead><tr><th>Trace field</th><th>What to extract or verify</th><th>Status</th></tr></thead><tbody>
+<tr><td><code>&lt;digit_mapping_N&gt;</code></td><td>A candidate assignment. Check valid digits and one-to-one symbol mapping.</td><td>Existing tag</td></tr>
+<tr><td><code>&lt;digit_mapping_analysis_N&gt;</code></td><td>Decoded operands, chosen operations and example checks. Recompute them.</td><td>Existing tag</td></tr>
+<tr><td><code>&lt;digit_mapping_analysis_follow_up_N&gt;</code></td><td>A repair hypothesis. Compare the before/after mappings and checks.</td><td>Existing tag</td></tr>
+<tr><td><code>&lt;conclusion&gt;</code></td><td>Final encoded answer and consistency with the selected program.</td><td>Existing tag</td></tr>
+<tr><td><code>&lt;check eq="2"&gt;</code><br><code>&lt;repair&gt;</code></td><td>Machine-readable operands, computed result, expected result and changed assignments.</td><td>Proposed extension</td></tr>
+<tr><td><code>&lt;reject reason="…"&gt;</code><br><code>&lt;assumption&gt;</code></td><td>A verifiable reason to discard a candidate; an explicit choice when the examples do not determine a unique rule.</td><td>Proposed extension</td></tr>
+</tbody></table></div>
+<pre class="code-example"><code>&lt;check eq="1"&gt;
+  mapping: A=2, B=1, C=3, D=4, F=6
+  operation: add; encoding: standard
+  computed: 21 + 34 = 55; expected: 46
+  verdict: fail
+&lt;/check&gt;
+&lt;repair&gt;
+  hypothesis: swap A and B, then recheck all examples
+&lt;/repair&gt;</code></pre>
+<p class="caption">Proposed structured extension, illustrated on the toy equation AB + CD = DF. The arithmetic is checkable; the verifier must still test whether the proposed swap improves the full constraint set.</p>
+<div class="table-wrap"><table class="explain-table"><caption>Candidate reward components—not implemented or tuned</caption><thead><tr><th>Signal</th><th>Reward or penalty</th><th>How to avoid a shortcut</th></tr></thead><tbody>
+<tr><td>Final answer</td><td>Reward matching the reference answer.</td><td>Keep this separate from merely finding a program consistent with the demonstrations.</td></tr>
+<tr><td>Constraint consistency</td><td>Reward the fraction of all shown equations satisfied by a valid candidate.</td><td>Use one shared mapping and operation choice across checks; recompute every equation.</td></tr>
+<tr><td>Useful repair</td><td>Reward net improvement in verified constraints.</td><td>Count novel states, cap the bonus and do not reward undo/redo cycles.</td></tr>
+<tr><td>False verification</td><td>Penalize claiming that an incorrect computation passed.</td><td>A failed hypothesis honestly reported is allowed; fabricated success is not.</td></tr>
+<tr><td>Repeated states &amp; excess length</td><td>Penalize unproductive loops and budget overruns.</td><td>Do not pay for the number of tags; retain enough space for useful exploration and the answer.</td></tr>
+</tbody></table></div>
+<div class="interactive reward-demo">
+<span class="mini-label">Illustrative reward design · untrained coefficients</span><h3>Credit an honest partial attempt</h3>
+<label for="reward-case">Compare a generated trajectory</label>
+<select id="reward-case"><option value="solved">Correct answer with verified checks</option><option value="partial">Wrong answer, but honest progress</option><option value="false">Wrong answer with invented “passed” checks</option><option value="loop">Wrong answer with repeated states</option></select>
+<p class="reward-formula">R = answer + 0.2·consistency + 0.1·progress − 0.2·false-check − 0.1·loop − 0.05·overrun</p>
+<div class="reward-summary"><strong id="reward-value">+1.30</strong><p id="reward-description" role="status" aria-live="polite"></p></div>
+<p class="caption">A design sketch: all components are bounded and recomputed by a verifier. It illustrates how two wrong answers can receive different feedback. These weights are not experimental results or a recommended optimum.</p>
+</div>
+<p>Even dense rewards can be uninformative if every rollout earns the same score. I would mix problem difficulty to keep both successes and failures in the group, keep a small SFT/replay stream during refinement, and monitor final-answer accuracy separately from process scores. A higher process reward is useful only if it transfers to better answers on unseen problems.</p>
+</section>
+<section id="outcome">
+<p class="section-kicker">What I learned</p>
+<h2>A useful research direction, an unsuccessful model so far</h2>
+<p>The central lesson was that <strong>finding a feasible solution and teaching a language model to find one are different problems</strong>. A symbolic oracle supplied targets. Synthetic trajectories made them shorter and structured. A curriculum made the training distribution controllable. None of that was enough to demonstrate strong symbolic performance in the saved runs.</p>
+<div class="outcome-box"><strong>29 / 823 <span>3.52%</span></strong><p>Best saved symbolic-equation diagnostic. These are public training puzzles, not a held-out benchmark. The saved evaluations predate the last generator revision; there is no verified final score for that revision or the proposed semantic RL phase.</p></div>
+<details class="results-details"><summary>View the saved diagnostic results and their limits</summary>
+<div class="table-wrap"><table><thead><tr><th>Saved run label</th><th>Correct / 823</th><th>Accuracy</th></tr></thead><tbody>
+<tr><td>Zero-example · unmasked basic</td><td>3</td><td>0.36%</td></tr><tr><td>Zero-example · masked analysis</td><td>3</td><td>0.36%</td></tr><tr><td>Zero-example · masked basic</td><td>7</td><td>0.85%</td></tr><tr><td>Merged · unspecified configuration</td><td>5</td><td>0.61%</td></tr><tr><td>Merged · mask-prefix · 250 steps</td><td>1</td><td>0.12%</td></tr><tr><td>Merged · mask-prefix-initial · 400 steps</td><td>29</td><td>3.52%</td></tr></tbody></table></div>
+<p>Labels summarize saved filenames, not controlled comparisons. The best run included boxed answers in only 81 of 823 outputs, pointing to completion/format problems; missing token counts and finish reasons prevent assigning a single cause. The ~86% starting competition adapter documented in the repo is a different result and is not the outcome of this method.</p>
+<p><a href="https://github.com/ZosoV/nemotron-symbolic-reasoning/blob/main/docs/EXPERIMENT_EVIDENCE.md">Evidence and methodology</a> · <a href="https://github.com/ZosoV/nemotron-symbolic-reasoning/blob/main/docs/results.json">Aggregate results with source hashes</a></p>
+</details>
+<h3>How I would continue</h3>
+<ol class="method-steps"><li><strong>Improve the SFT foundation.</strong> Audit each claim for visible evidence, preserve honest uncertainty, measure exact token lengths and train until the model reliably completes a checkable trajectory.</li><li><strong>Test transfer, not memorization.</strong> Hold out whole source puzzles and novel symbol mappings. Compare curriculum with flat sampling, and compare short synthetic repairs with answer-only or direct explanations under the same budget.</li><li><strong>Implement the process verifier.</strong> Start with mapping validity and arithmetic checks; add repair progress only after testing against false claims, repeated states and reward manipulation.</li><li><strong>Spend more effort on RL after a usable warm-up.</strong> Compare answer-only and process-aware rewards, track each category to detect forgetting, and retain changes only if final-answer generalization improves.</li></ol>
+<p>My hypothesis is that stronger SFT followed by carefully verified RL feedback could make better use of these trajectories. That remains an experiment to run. I am sharing the design because the route from a difficult problem to a testable training strategy is worth documenting, including where it failed.</p>
+</section>
+<section id="references">
+<h2>Code &amp; references</h2>
+<ul class="reference-list"><li><a href="https://github.com/ZosoV/nemotron-symbolic-reasoning">Public research repository</a> — solver, latest generator, training notebooks, original specifications and experiment evidence.</li><li><a href="https://www.kaggle.com/competitions/nvidia-nemotron-model-reasoning-challenge">NVIDIA Nemotron Model Reasoning Challenge</a> — task, model and evaluation constraints.</li><li><a href="https://github.com/lkevincc0/kaggle-nemotron-equation-symbolic">Equation Symbolic Solver by lkevincc0</a> — the public solver starting point that this work built on.</li><li><a href="https://aclanthology.org/N19-1119/">Platanios et al. (2019), Competence-based Curriculum Learning for Neural Machine Translation</a> — the schedule adapted for this experiment.</li></ul>
+<p class="caption">Research developed during the 2026 competition. This explainer presents the method and proposed extensions; simulations are illustrative and run locally in your browser.</p>
+<p><a href="../../index.html#nemotron">← Back to Demos</a></p>
+</section>
+</article></main></body></html>
