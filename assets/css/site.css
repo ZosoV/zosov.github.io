@@ -167,7 +167,6 @@ html[data-theme='dark'] .home-page .about-belief { color: #aaa; }
 .home-page .right-card { padding: 20px 0; vertical-align: middle; }
 .home-page { --thumbnail-size: clamp(144px, 14vw, 180px); }
 .home-page .one { width: var(--thumbnail-size); max-width: 100%; height: auto; aspect-ratio: 1; padding: 0; margin-inline: auto; background: #fff; border: 0; border-radius: 12px; overflow: hidden; }
-.home-page #nemotron .one { aspect-ratio: 2 / 1; }
 .home-page .two { inset: 0; width: auto; height: auto; }
 .home-page .one :is(img, video) { display: block; width: 100%; height: 100%; object-fit: contain; }
 /* These four preview assets contain a blue frame. Crop only their outer edge,
