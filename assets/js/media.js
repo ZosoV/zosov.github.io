@@ -39,6 +39,8 @@
     }
     event.preventDefault();
     trigger = element;
+    if (element.dataset.imageSurface === 'dark') dialog.dataset.imageSurface = 'dark';
+    else delete dialog.dataset.imageSurface;
     resetZoom();
     const label = element.dataset.imageTitle || element.querySelector('img')?.alt || 'Image';
     title.textContent = label;

@@ -127,6 +127,7 @@ section, h3[id] { scroll-margin-top: 0; }
 
 .home-page main { max-width: 960px; margin: 0 auto; }
 .home-page main > section { margin-bottom: 28px; }
+.home-page main > section + section { margin-top: 44px; padding-top: 28px; border-top: 1px solid var(--line); }
 .home-page table { max-width: 100%; }
 .home-page td { overflow-wrap: anywhere; }
 .home-page .about td:first-child { width: 68% !important; padding: 12px 24px 16px 0 !important; }
@@ -134,6 +135,25 @@ section, h3[id] { scroll-margin-top: 0; }
 .home-page .about td:last-child img { margin-top: 26px; }
 .home-page .about td:first-child > p:first-child { text-align: left !important; }
 .home-page .about .fa { font-family: FontAwesome; font-size: 21px; width: auto; }
+.home-page .about p.about-belief { max-width: 60ch; margin-top: 26px; color: #666; font-size: 14px; font-style: italic; font-weight: 400; line-height: 1.65; }
+html[data-theme='dark'] .home-page .about-belief { color: #aaa; }
+.home-page .skills-overview { margin-top: 24px; }
+.home-page :is(.skills-overview, .education-training) h2 { margin: 0 0 20px; color: var(--heading); font-size: 25px; }
+.home-page .skill-group { padding-block: 16px; }
+.home-page :is(.skill-group, .spoken-languages) h3 { margin: 0 0 10px; font-size: 18px; }
+.home-page .skill-group p, .home-page .spoken-languages p { margin: 0; font-size: 16px; }
+.home-page .spoken-languages { padding-block: 16px 4px; }
+.home-page .language-certificates { display: inline-block; margin-left: 14px; font-size: 15px; }
+.home-page .training-intro { color: var(--muted); }
+.home-page .training-item { min-width: 0; padding: 22px 0; overflow-wrap: anywhere; }
+.home-page .training-heading { margin-bottom: 12px; }
+.home-page .training-item h3 { margin: 0 0 8px; font-size: 19px; line-height: 1.4; }
+.home-page .training-item p { margin-bottom: 12px; font-size: 16px; }
+.home-page .training-item .training-provider { margin: 0; color: var(--muted); font-size: 14px; }
+.home-page .training-item p:last-child { margin-bottom: 0; }
+@media (max-width: 600px) {
+  .home-page .language-certificates { display: block; margin: 6px 0 0; }
+}
 .home-page .profile-links { margin: 18px auto 0; text-align: center; }
 .home-page .profile-links ul { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; padding: 0; margin: 0; list-style: none; }
 .home-page .profile-links .profile-publications { margin-top: 10px; }
@@ -147,6 +167,7 @@ section, h3[id] { scroll-margin-top: 0; }
 .home-page .right-card { padding: 20px 0; vertical-align: middle; }
 .home-page { --thumbnail-size: clamp(144px, 14vw, 180px); }
 .home-page .one { width: var(--thumbnail-size); max-width: 100%; height: auto; aspect-ratio: 1; padding: 0; margin-inline: auto; background: #fff; border: 0; border-radius: 12px; overflow: hidden; }
+.home-page #nemotron .one { aspect-ratio: 2 / 1; }
 .home-page .two { inset: 0; width: auto; height: auto; }
 .home-page .one :is(img, video) { display: block; width: 100%; height: 100%; object-fit: contain; }
 /* These four preview assets contain a blue frame. Crop only their outer edge,
@@ -155,7 +176,7 @@ section, h3[id] { scroll-margin-top: 0; }
 .home-page :is(#bper, #neural-model) .two { z-index: 1; }
 .home-page .left-card > img { display: block; width: 100%; max-width: 180px; height: auto; margin-inline: auto; padding: 0; border: 0; border-radius: 12px; background: #fff; }
 .home-page .skills-grid td { padding: 14px 20px 14px 0 !important; }
-.home-page section > table:first-child:not(.about):not(.skills-grid) > tbody > tr > td:only-child { padding: 20px 0 8px !important; }
+.home-page section > table:first-child:not(.about):not(.skills-grid) > tbody > tr > td:only-child { padding: 0 0 8px !important; }
 /* Keep the projects' existing centered paper layout and media order. */
 .project-page #main { padding: 0; }
 .project-page .row { margin-inline: 0; }

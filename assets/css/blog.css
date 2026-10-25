@@ -46,6 +46,9 @@ html[data-theme='dark'] body:is(.blog-page, .blog-post, .resources-page) { --pos
 /* Let the original image meet the rounded frame without an added white mat. */
 .blog-post .figure-button img { padding: 0; }
 .blog-post .dialog-viewport { padding: 0; }
+/* These original equation PNGs contain white ink on a transparent background. */
+.blog-post .figure-button[data-image-surface='dark'] img,
+.blog-post .image-dialog[data-image-surface='dark'] .dialog-viewport { background: #17232f; }
 .article-row mjx-container[display='true'] { font-size: 100% !important; }
 .post-pagination { display: flex; justify-content: space-between; gap: 24px; margin: 48px 0 20px; padding-top: 24px; border-top: 1px solid var(--line); font-size: 15px; }
 .post-pagination > * { max-width: 48%; }
